@@ -1,0 +1,72 @@
+# TRC Onboard — stack per sviluppo su macOS (Docker Desktop)
+# Uso: docker compose -f docker-compose.mac.yml --env-file docker/mac.env up --build -d
+
+name: trc-onboard-mac
+
+services:
+  mirror-logger:
+    build:
+      context: .
+      dockerfile: docker/mirror_logger.Dockerfile
+    image: trc-onboard/mirror-logger:mac
+    container_name: trc-mirror-logger
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
+    environment:
+      MIRROR_LOGGER_TOKEN: ${MIRROR_LOGGER_TOKEN:-dev-mirror-mac}
+      MIRROR_FAKE: ${MIRROR_FAKE:-1}
+      MIRROR_LOGGER_WATCHDOG: ${MIRROR_LOGGER_WATCHDOG:-1}
+      # Per regolare chunk/flush, editare mirror_logger/config/user.json
+      # (montato come volume sotto).
+    volumes:
+      - mirror-logs:/app/logs
+      - ./mirror_logger/config/default.json:/app/config/default.json:ro
+      - ./mirror_logger/config/user.json:/app/config/user.json
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5050/api/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  kvbm:
+    build:
+      context: .
+      dockerfile: docker/kvbm.Dockerfile
+    image: trc-onboard/kvbm:mac
+    container_name: trc-kvbm
+    restart: unless-stopped
+    ports:
+      - "${KVBM_HOST_PORT:-5001}:5000"
+    environment:
+      KBSM_AUTOSTART: ${KBSM_AUTOSTART:-1}
+      KBSM_AUTO_START_LOGGING: ${KBSM_AUTO_START_LOGGING:-1}
+      KBSM_VEHICLE_MODE: ${KBSM_VEHICLE_MODE:-0}
+      KBSM_RESTORE_ARMED: ${KBSM_RESTORE_ARMED:-0}
+      KBSM_HOST: 0.0.0.0
+      KBSM_PORT: "5000"
+      MF4_FLUSH_INTERVAL_MB: ${MF4_FLUSH_INTERVAL_MB:-5}
+      MF4_CHUNK_INTERVAL_S: ${MF4_CHUNK_INTERVAL_S:-15}
+      MF4_MERGE_ON_STOP: ${MF4_MERGE_ON_STOP:-0}
+      MF4_INCREMENTAL_MERGE: ${MF4_INCREMENTAL_MERGE:-0}
+      LOG_FLUSH_INTERVAL_S: ${LOG_FLUSH_INTERVAL_S:-1}
+      LOG_FSYNC: ${LOG_FSYNC:-1}
+      KBSM_MIN_FREE_DISK_MB: ${KBSM_MIN_FREE_DISK_MB:-256}
+      KBSM_RX_QUEUE_MAX: ${KBSM_RX_QUEUE_MAX:-131072}
+      COPILOT_PROVIDER: none
+    volumes:
+      - kvbm-logs:/app/kvaser_bus_manager/logs
+      - ./docker/app_config.docker.json:/app/kvaser_bus_manager/config/app_config.json:ro
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
+    profiles:
+      - full
+
+volumes:
+  mirror-logs:
+  kvbm-logs:

@@ -1,0 +1,14 @@
+# Dipendenze KVBM per Docker Mac (senza ultralytics/torch, senza canlib obbligatorio)
+Flask==3.0.0
+Flask-SocketIO==5.3.6
+python-engineio==4.8.0
+python-socketio==5.10.0
+simple-websocket==1.1.0
+websocket-client==1.9.0
+python-can==4.3.1
+cantools==39.4.3
+can-isotp==2.0.7
+opencv-python-headless==4.12.0.88
+scapy==2.6.1
+numpy==2.2.6
+asammdf==8.7.2

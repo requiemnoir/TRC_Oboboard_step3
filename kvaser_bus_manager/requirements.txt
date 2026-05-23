@@ -1,0 +1,24 @@
+Flask==3.0.0
+Flask-SocketIO==5.3.6
+python-engineio==4.8.0
+python-socketio==5.10.0
+# Enable WebSocket transport for Socket.IO (server + client)
+simple-websocket==1.1.0
+websocket-client==1.9.0
+canlib==1.31.107
+python-can==4.3.1
+cantools==39.4.3
+can-isotp==2.0.7
+
+# Webcam (MJPEG streaming)
+opencv-python-headless==4.12.0.88
+
+# Optional (required for Ethernet PCAP sniffing)
+scapy==2.6.1
+
+# Optional (required for MF4 logging)
+numpy==2.2.6
+asammdf==8.7.2
+
+# Optional (required only if you enable YOLO trigger via CAM_YOLO_TRIGGER=1)
+ultralytics==8.3.240

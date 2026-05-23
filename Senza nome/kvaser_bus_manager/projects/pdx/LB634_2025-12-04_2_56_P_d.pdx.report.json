@@ -1,0 +1,3554 @@
+{
+  "elapsed_ms": 488,
+  "extracted": {
+    "comm": {
+      "VALUE": [
+        "150000",
+        "Enabled",
+        "200000",
+        "5150000",
+        "400000",
+        "60000000",
+        "Continue until RC21 timeout",
+        "100000000",
+        "Continue until RC78 timeout",
+        "2",
+        "0",
+        "15",
+        "TX_DL = 64, CANFD",
+        "2000000",
+        "70",
+        "normal segmented 29-bit transmit with FC",
+        "474022400",
+        "402457088",
+        "TX_DL = 8, CANFD",
+        "normal segmented 11-bit transmit with FC",
+        "1792",
+        "474021888",
+        "1892",
+        "1998",
+        "16484",
+        "1879",
+        "1985",
+        "16471"
+      ]
+    },
+    "comparams": [
+      {
+        "ref": "ISO_15765_3.CP_CanTransmissionTime",
+        "value": "150000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_ModifyTiming",
+        "value": "Enabled"
+      },
+      {
+        "ref": "ISO_15765_3.CP_P2Max",
+        "value": "200000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_P2Star",
+        "value": "5150000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_P3Func",
+        "value": "400000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_P3Phys",
+        "value": "400000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_RC21CompletionTimeout",
+        "value": "60000000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_RC21Handling",
+        "value": "Continue until RC21 timeout"
+      },
+      {
+        "ref": "ISO_15765_3.CP_RC78CompletionTimeout",
+        "value": "100000000"
+      },
+      {
+        "ref": "ISO_15765_3.CP_RC78Handling",
+        "value": "Continue until RC78 timeout"
+      },
+      {
+        "ref": "ISO_15765_3.CP_RepeatReqCountApp",
+        "value": "2"
+      },
+      {
+        "ref": "ISO_15765_2.CP_Br",
+        "value": "0"
+      },
+      {
+        "ref": "ISO_15765_2.CP_Br_Ecu",
+        "value": "0"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanMaxNumWaitFrames",
+        "value": "15"
+      },
+      {
+        "ref": "ISO_15765_2.CP_Cs",
+        "value": "0"
+      },
+      {
+        "ref": "ISO_15765_2.CP_Cs_Ecu",
+        "value": "0"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CANFDTxMaxDataLength",
+        "value": "TX_DL = 64, CANFD"
+      },
+      {
+        "ref": "ISO_11898_2_DWCAN.CP_CANFDBaudrate",
+        "value": "2000000"
+      },
+      {
+        "ref": "ISO_11898_2_DWCAN.CP_CANFDBitSamplePoint",
+        "value": "70"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanFuncReqFormat",
+        "value": "normal segmented 29-bit transmit with FC"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanFuncReqId",
+        "value": "474022400"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanFuncReqId",
+        "value": "402457088"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CANFDTxMaxDataLength",
+        "value": "TX_DL = 8, CANFD"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanFuncReqFormat",
+        "value": "normal segmented 11-bit transmit with FC"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanFuncReqId",
+        "value": "1792"
+      },
+      {
+        "ref": "ISO_15765_2.CP_CanFuncReqId",
+        "value": "474021888"
+      }
+    ],
+    "diag_layers": [
+      {
+        "id": "DLC_ES_LIBDoIPV32",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_PR_UDSOnCANFDOBDC",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_PR_UDSOnCANOBDC",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_PR_UDSOnCANFDECUCL",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_PR_UDSOnCANFDECU",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_EV_ACCBOSCHAU65X_002",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_EV_AirbaVW31SMEAU65x_003",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_EV_AirbaVW31SMEAU65x_004",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_EV_AMPLambo_001",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_BV_ActuaForExterNoiseUDS",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "DLC_BV_AdaptCruisContrUDS",
+        "long_name": null,
+        "short_name": null
+      }
+    ],
+    "dtcs": [
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_AIRBAG_05"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_EPB_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_03"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_05"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_07"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_10"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_15"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_21"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_32"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ESP_33"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_FAS_VK_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_GETRIEBE_11"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_GRA_ACC_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_HAL_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_KLR_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_LH_EPS_04"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_LWI_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_MOTOR_14"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_SARA_06"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_STP_03"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_TSK_06"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_TSG_FT_02"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALV_ZFAS_WZO"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_AIRBAG_05"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_EPB_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_LH_EPS_04"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_03"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_05"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_07"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_10"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_15"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_21"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_32"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ESP_33"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_FAS_VK_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_GRA_ACC_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_GETRIEBE_11"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_HAL_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_KLR_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_LWI_01"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_MOTOR_14"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_SARA_06"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_STP_03"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_TSK_06"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_TSG_FT_02"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CHK_ZFAS_WZO"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_AIRBAG_05"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ANHAENGER_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_APS_03"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_APS_MASTER"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_APS2_MASTER"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_APS2_03"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_DIAGNOSE_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_EPB_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_03"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_05"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_07"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_10"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_15"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_21"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_32"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ESP_33"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_FAS_VK_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_GETRIEBE_11"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_GRA_ACC_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_HAL_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_IPA_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_KLEMMEN_STATUS_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_KLIMA_SENSOR_02"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_KLR_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_KOMBI_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_LH_EPS_04"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_LICHT_HINTEN_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_LWI_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_Mem_FS_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_MFL_Tasten_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_MOTOR_14"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_PACC_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_PSD_04"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_ TIMEOUT_RDK_02_2"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_SARA_06"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_SDF2_POS_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_STP_03"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_SWA_HEADER"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_SYSTEMINFO_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_TA_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_TSG_FT_02"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_TSG_BT_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_TSK_06"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_VZE_01"
+      },
+      {
+        "code": "U112100",
+        "text": "FAULT_TIMEOUT_ZFAS_WZO"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_TRAILOR_LIGHT_DEFECTIVE"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_APS_RELEVANT_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_APS_VS"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_APS_HS"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_APS_SEND_MODE_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_APS_REAR_FREE_PATH_ERROR"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_APS_SEND_MODE_ERROR_SWITCH_MODE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_APS_SEND_MODE_ERROR_BLINDNESS_CHECK"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_APS_SEND_MODE_ERROR_NOT_DEFINED_VALUE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_APS_REAR_SEND_MODE_ERROR_NOT_DEFINED_VALUE"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EPB_SWITCH_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_INIT_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ESS_HANDSHAKE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ESS_COM_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ESS_REQ_NOT_POSSIBLE_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ESS_REQ_DISCARD_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ESS_UNDEF"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ESS_REQ_REJECTED"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_SUPPORTPOWER_INIT_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EPS_SUPPORTPOWER_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EPS_ZAHNSTANGENPOSITION_INIT"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EPS_ZAHNSTANGENPOSITION_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_LRR1_EPS_ZAHNSTANGENPOSITION_INIT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_HMS_STATE_INIT"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_HMS_STATE_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_HMS_CONS_ACC"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_HMS_FAILURESTATE_SPECIAL_OPMODE"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_HMS_FAILURESTATE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_HMS_FAILURESTATE_NOT_DEFINED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_CONS_ACC"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_AWV_CONSISTENCY_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ESC_ESS_ Consistency"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_BPRESSURE_FAIL"
+      },
+      {
+        "code": "B106FF0",
+        "text": "FAULT_BRKOVHT_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_STATUS_SYSTEM"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_LRR1_ESP_STATUS_SYSTEM"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_HL_RADGESCHWINDIGKEIT_LOWVOLT_OR_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_HR_RADGESCHWINDIGKEIT_LOWVOLT_OR_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_VL_RADGESCHWINDIGKEIT_LOWVOLT_OR_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_VR_RADGESCHWINDIGKEIT_LOWVOLT_OR_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_V_SIGNAL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_V_SIGNAL_ERROR"
+      },
+      {
+        "code": "C10C200",
+        "text": "FAULT_ESP_HL_HR_VL_VR_RADGESCHWINDIGKEIT_LOWVOLT_OR_ERROR"
+      },
+      {
+        "code": "C10C200",
+        "text": "FAULT_ESP_HL_HR_VL_VR_RADGESCHWINDIGKEIT_INIT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ESP_WEGIMPULS_HL_INIT_PERMANENT"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_WEGIMPULS_HL_ERROR"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ESP_WEGIMPULS_HL_NOT_DEFINED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ESP_WEGIMPULS_HL_LOWVOLTAGE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ESP_ASIL_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_BRAKINGLIGHT_IMPLAUSIBLE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ESP_FAHRTRICHTUNGEN_INIT_PERMANENT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CORNERRADAR_FL_DATA_TRANSFER"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_CORNERRADAR_FL_ERROR"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_CORNERRADAR_FR_DATA_TRANSFER"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_CORNERRADAR_FR_ERROR"
+      },
+      {
+        "code": "C110BF3",
+        "text": "FAULT_PACC02_SYSTEMSTATUS_ENDA_FAILURE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_MAXIMAL_ACCELERATION_POSSIBLE_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_GEARINFO_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_GEARINFO_INIT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_GEARINFO_NOT_DEFINED"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_HAL_RADWINKEL_NOT_CALIBRATED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_KLR_TOUCH_ERROR"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_VDIS_UNDEF"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_DIS_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_DIS_SYSTEM_STATE"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_QDISACC_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_LIDAR_DATA_TRANSFER"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_LIDAR_ERROR"
+      },
+      {
+        "code": "C12EBF3",
+        "text": "FAULT_LASER_NOT_AVAILABLE"
+      },
+      {
+        "code": "C12EBF3",
+        "text": "FAULT_LASER_BLIND"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_GP_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_BRAKE_CONSISTENCY"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_GEAR_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_RPM_TARGET_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_TSK_INIT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_TSK_ACC_INIT_PLAUS"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_TSK_IRREV_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_MAINSWITCH_INIT"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_MAINSWITCH_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_TSK_ROAD_SLOPE_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_TSK_CODING_IN_PLAUS_PHASE_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ALP_STEERINGWHEEL_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALP_STEERINGWHEEL_INIT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALP_STEERINGWHEEL_UNDEF"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_ALP_DT_STEERING_WHEEL_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALP_DT_STEERING_WHEEL_INIT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_ALP_DT_STEERING_WHEEL_UNDEF"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_OP_FAIL"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_GRA_CODE"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_GRA_INIT"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_INDICATOR_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_BRAKINGLIGHT_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_SEATBELT_FAIL"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_SEATBELT_NOT_EQUIPPED"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_AIRBAG_CRASH_INTENSITY"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_LAENGSBESCHLEUNIGUNG_SENSOR_DEFECT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EGO_FZG_GUETE_LAENGSBESCHLEUNIGUNG_INIT_PERMANENT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EGO_FZG_GUETE_LAENGSBESCHLEUNIGUNG_NOT_DEFINED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_LAENGSBESCHLEUNIGUNG_NOT_CALIBRATED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_LAENGSBESCHLEUNIGUNG_NOT_EQUIPPED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_LAENGSBESCHLEUNIGUNG_TEMP_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_GIERRATE_SENSOR_DEFECT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EGO_FZG_GUETE_GIERRATE_INIT_PERMANENT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_LRR1_EGO_FZG_GUETE_GIERRATE_INIT_PERMANENT"
+      },
+      {
+        "code": "U112200",
+        "text": "FAULT_EGO_FZG_GUETE_GIERRATE_NOT_DEFINED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_GIERRATE_NOT_CALIBRATED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_GIERRATE_NOT_EQUIPPED"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_EGO_FZG_GUETE_GIERRATE_TEMP_ERROR"
+      },
+      {
+        "code": "U112300",
+        "text": "FAULT_LRR1_EGO_FZG_GUETE_GIERRATE_TEMP_ERROR"
+      }
+    ],
+    "protocols": [
+      {
+        "id": "PR_UDSOnCANFDOBDC",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "PR_UDSOnCANOBDC",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "PR_UDSOnCANFDECUCL",
+        "long_name": null,
+        "short_name": null
+      },
+      {
+        "id": "PR_UDSOnCANFDECU",
+        "long_name": null,
+        "short_name": null
+      }
+    ],
+    "uds_services": []
+  },
+  "notes": [
+    "This is a minimal, heuristic parser. Many PDX/ODX variants store protocol and DTC data in different sections.",
+    "Use the top_tags inventory to decide which ODX sections to implement next (DoIP params, UDS services, DTC dictionary, etc.)."
+  ],
+  "odx_files": [
+    {
+      "name": "ISO_14229_5_on_ISO_13400_2_002011.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 286,
+          "tag": "p"
+        },
+        {
+          "count": 200,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 200,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 148,
+          "tag": "DESC"
+        },
+        {
+          "count": 108,
+          "tag": "COMPARAM"
+        },
+        {
+          "count": 108,
+          "tag": "PHYSICAL-DEFAULT-VALUE"
+        },
+        {
+          "count": 108,
+          "tag": "DATA-OBJECT-PROP-REF"
+        },
+        {
+          "count": 106,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 58,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 58,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 58,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 58,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 58,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 56,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 54,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 50,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 50,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 50,
+          "tag": "VT"
+        },
+        {
+          "count": 48,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 28,
+          "tag": "STATE"
+        },
+        {
+          "count": 28,
+          "tag": "DATE"
+        },
+        {
+          "count": 26,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 26,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 26,
+          "tag": "REASON"
+        },
+        {
+          "count": 24,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 24,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 24,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 24,
+          "tag": "TOOL"
+        },
+        {
+          "count": 24,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 22,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 22,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 16,
+          "tag": "TEAM-MEMBER"
+        },
+        {
+          "count": 14,
+          "tag": "ROLES"
+        },
+        {
+          "count": 14,
+          "tag": "ROLE"
+        },
+        {
+          "count": 14,
+          "tag": "UNIT-REF"
+        },
+        {
+          "count": 10,
+          "tag": "COMPANY-DATA"
+        },
+        {
+          "count": 10,
+          "tag": "TEAM-MEMBERS"
+        },
+        {
+          "count": 10,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 8,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 4,
+          "tag": "RELATED-DOC"
+        },
+        {
+          "count": 4,
+          "tag": "XDOC"
+        },
+        {
+          "count": 4,
+          "tag": "NUMBER"
+        },
+        {
+          "count": 4,
+          "tag": "PUBLISHER"
+        },
+        {
+          "count": 4,
+          "tag": "MAX-LENGTH"
+        },
+        {
+          "count": 4,
+          "tag": "MIN-LENGTH"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-SPEC"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPANY-DATAS"
+        },
+        {
+          "count": 2,
+          "tag": "ADDRESS"
+        },
+        {
+          "count": 2,
+          "tag": "ZIP"
+        },
+        {
+          "count": 2,
+          "tag": "CITY"
+        },
+        {
+          "count": 2,
+          "tag": "PHONE"
+        },
+        {
+          "count": 2,
+          "tag": "FAX"
+        },
+        {
+          "count": 2,
+          "tag": "EMAIL"
+        },
+        {
+          "count": 2,
+          "tag": "COMPANY-SPECIFIC-INFO"
+        },
+        {
+          "count": 2,
+          "tag": "RELATED-DOCS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAMS"
+        },
+        {
+          "count": 2,
+          "tag": "DATA-OBJECT-PROPS"
+        }
+      ]
+    },
+    {
+      "name": "ES_LIBDoIPV32_004001.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 64,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 64,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 26,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 22,
+          "tag": "PARAM"
+        },
+        {
+          "count": 22,
+          "tag": "BIT-POSITION"
+        },
+        {
+          "count": 20,
+          "tag": "DOP-REF"
+        },
+        {
+          "count": 18,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 14,
+          "tag": "DESC"
+        },
+        {
+          "count": 14,
+          "tag": "p"
+        },
+        {
+          "count": 14,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 12,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 12,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 12,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 12,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 12,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 12,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 10,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 10,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 10,
+          "tag": "VT"
+        },
+        {
+          "count": 10,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 8,
+          "tag": "TEAM-MEMBER"
+        },
+        {
+          "count": 8,
+          "tag": "ROLES"
+        },
+        {
+          "count": 8,
+          "tag": "ROLE"
+        },
+        {
+          "count": 6,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 6,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 6,
+          "tag": "STRUCTURE"
+        },
+        {
+          "count": 6,
+          "tag": "PARAMS"
+        },
+        {
+          "count": 4,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 4,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 4,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 4,
+          "tag": "STATE"
+        },
+        {
+          "count": 4,
+          "tag": "DATE"
+        },
+        {
+          "count": 4,
+          "tag": "TOOL"
+        },
+        {
+          "count": 4,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 4,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 4,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 4,
+          "tag": "REASON"
+        },
+        {
+          "count": 4,
+          "tag": "COMPANY-DATA"
+        },
+        {
+          "count": 4,
+          "tag": "TEAM-MEMBERS"
+        },
+        {
+          "count": 4,
+          "tag": "BIT-MASK"
+        },
+        {
+          "count": 4,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 4,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 4,
+          "tag": "DYNAMIC-LENGTH-FIELD"
+        },
+        {
+          "count": 4,
+          "tag": "BASIC-STRUCTURE-REF"
+        },
+        {
+          "count": 4,
+          "tag": "OFFSET"
+        },
+        {
+          "count": 4,
+          "tag": "DETERMINE-NUMBER-OF-ITEMS"
+        },
+        {
+          "count": 4,
+          "tag": "DATA-OBJECT-PROP-REF"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-LAYER-CONTAINER"
+        },
+        {
+          "count": 2,
+          "tag": "ECU-SHARED-DATAS"
+        },
+        {
+          "count": 2,
+          "tag": "ECU-SHARED-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPANY-DATAS"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-DATA-DICTIONARY-SPEC"
+        },
+        {
+          "count": 2,
+          "tag": "DATA-OBJECT-PROPS"
+        },
+        {
+          "count": 2,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 2,
+          "tag": "STRUCTURES"
+        },
+        {
+          "count": 2,
+          "tag": "BYTE-SIZE"
+        },
+        {
+          "count": 2,
+          "tag": "DYNAMIC-LENGTH-FIELDS"
+        }
+      ]
+    },
+    {
+      "name": "PR_UDSOnCANFDOBDC_001005.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 42,
+          "tag": "COMPARAM-REF"
+        },
+        {
+          "count": 42,
+          "tag": "VALUE"
+        },
+        {
+          "count": 4,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 4,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 4,
+          "tag": "REASON"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-LAYER-CONTAINER"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOLS"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOL"
+        },
+        {
+          "count": 2,
+          "tag": "DESC"
+        },
+        {
+          "count": 2,
+          "tag": "p"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 2,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 2,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 2,
+          "tag": "STATE"
+        },
+        {
+          "count": 2,
+          "tag": "DATE"
+        },
+        {
+          "count": 2,
+          "tag": "TOOL"
+        },
+        {
+          "count": 2,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REF"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-SPEC-REF"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REF"
+        }
+      ]
+    },
+    {
+      "name": "PR_UDSOnCANOBDC_003009.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 36,
+          "tag": "COMPARAM-REF"
+        },
+        {
+          "count": 36,
+          "tag": "VALUE"
+        },
+        {
+          "count": 4,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 4,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 4,
+          "tag": "REASON"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-LAYER-CONTAINER"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOLS"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOL"
+        },
+        {
+          "count": 2,
+          "tag": "DESC"
+        },
+        {
+          "count": 2,
+          "tag": "p"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 2,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 2,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 2,
+          "tag": "STATE"
+        },
+        {
+          "count": 2,
+          "tag": "DATE"
+        },
+        {
+          "count": 2,
+          "tag": "TOOL"
+        },
+        {
+          "count": 2,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REF"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-SPEC-REF"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REF"
+        }
+      ]
+    },
+    {
+      "name": "PR_UDSOnCANFDECUCL_001001.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 42,
+          "tag": "COMPARAM-REF"
+        },
+        {
+          "count": 42,
+          "tag": "VALUE"
+        },
+        {
+          "count": 4,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 4,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 4,
+          "tag": "REASON"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-LAYER-CONTAINER"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOLS"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOL"
+        },
+        {
+          "count": 2,
+          "tag": "DESC"
+        },
+        {
+          "count": 2,
+          "tag": "p"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 2,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 2,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 2,
+          "tag": "STATE"
+        },
+        {
+          "count": 2,
+          "tag": "DATE"
+        },
+        {
+          "count": 2,
+          "tag": "TOOL"
+        },
+        {
+          "count": 2,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REF"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-SPEC-REF"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REF"
+        }
+      ]
+    },
+    {
+      "name": "PR_UDSOnCANFDECU_001005.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 42,
+          "tag": "COMPARAM-REF"
+        },
+        {
+          "count": 42,
+          "tag": "VALUE"
+        },
+        {
+          "count": 4,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 4,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-LAYER-CONTAINER"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOLS"
+        },
+        {
+          "count": 2,
+          "tag": "PROTOCOL"
+        },
+        {
+          "count": 2,
+          "tag": "DESC"
+        },
+        {
+          "count": 2,
+          "tag": "p"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 2,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 2,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 2,
+          "tag": "STATE"
+        },
+        {
+          "count": 2,
+          "tag": "DATE"
+        },
+        {
+          "count": 2,
+          "tag": "TOOL"
+        },
+        {
+          "count": 2,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 2,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 2,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 2,
+          "tag": "REASON"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "IMPORT-REF"
+        },
+        {
+          "count": 2,
+          "tag": "COMPARAM-SPEC-REF"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REFS"
+        },
+        {
+          "count": 2,
+          "tag": "PARENT-REF"
+        }
+      ]
+    },
+    {
+      "name": "EV_ACCBOSCHAU65X_002040_d.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 13840,
+          "tag": "SD"
+        },
+        {
+          "count": 2668,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 2440,
+          "tag": "SDG"
+        },
+        {
+          "count": 2314,
+          "tag": "p"
+        },
+        {
+          "count": 2308,
+          "tag": "DESC"
+        },
+        {
+          "count": 1856,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 1640,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 1556,
+          "tag": "VT"
+        },
+        {
+          "count": 1244,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 1202,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 812,
+          "tag": "DTC"
+        },
+        {
+          "count": 812,
+          "tag": "TROUBLE-CODE"
+        },
+        {
+          "count": 812,
+          "tag": "DISPLAY-TROUBLE-CODE"
+        },
+        {
+          "count": 812,
+          "tag": "TEXT"
+        },
+        {
+          "count": 812,
+          "tag": "LEVEL"
+        },
+        {
+          "count": 812,
+          "tag": "SDGS"
+        },
+        {
+          "count": 764,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 748,
+          "tag": "PARAM"
+        },
+        {
+          "count": 702,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 628,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 576,
+          "tag": "DOP-REF"
+        },
+        {
+          "count": 528,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 528,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 528,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 526,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 438,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 412,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 374,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 374,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 354,
+          "tag": "COMPU-DEFAULT-VALUE"
+        },
+        {
+          "count": 336,
+          "tag": "BIT-MASK"
+        },
+        {
+          "count": 302,
+          "tag": "BIT-POSITION"
+        },
+        {
+          "count": 270,
+          "tag": "PARAMS"
+        },
+        {
+          "count": 242,
+          "tag": "STRUCTURE"
+        },
+        {
+          "count": 238,
+          "tag": "STRUCTURE-REF"
+        },
+        {
+          "count": 228,
+          "tag": "PHYSICAL-DEFAULT-VALUE"
+        },
+        {
+          "count": 222,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 208,
+          "tag": "TABLE-ROW"
+        },
+        {
+          "count": 208,
+          "tag": "KEY"
+        },
+        {
+          "count": 194,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 190,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 190,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 128,
+          "tag": "TABLE-ROW-REF"
+        },
+        {
+          "count": 126,
+          "tag": "V"
+        },
+        {
+          "count": 100,
+          "tag": "CODED-VALUE"
+        },
+        {
+          "count": 88,
+          "tag": "RELATED-DIAG-COMM-REF"
+        },
+        {
+          "count": 88,
+          "tag": "RELATION-TYPE"
+        },
+        {
+          "count": 64,
+          "tag": "UNIT-REF"
+        },
+        {
+          "count": 56,
+          "tag": "REASON"
+        },
+        {
+          "count": 42,
+          "tag": "COMPU-RATIONAL-COEFFS"
+        },
+        {
+          "count": 42,
+          "tag": "COMPU-NUMERATOR"
+        },
+        {
+          "count": 42,
+          "tag": "COMPU-DENOMINATOR"
+        },
+        {
+          "count": 40,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 40,
+          "tag": "PRECISION"
+        },
+        {
+          "count": 26,
+          "tag": "TABLE-REF"
+        },
+        {
+          "count": 26,
+          "tag": "TABLE-KEY-REF"
+        },
+        {
+          "count": 24,
+          "tag": "TABLE"
+        },
+        {
+          "count": 24,
+          "tag": "KEY-DOP-REF"
+        },
+        {
+          "count": 24,
+          "tag": "DIAG-SERVICE"
+        },
+        {
+          "count": 24,
+          "tag": "FUNCT-CLASS-REFS"
+        }
+      ]
+    },
+    {
+      "name": "EV_AirbaVW31SMEAU65x_003004_d.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 24398,
+          "tag": "SD"
+        },
+        {
+          "count": 4568,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 2858,
+          "tag": "p"
+        },
+        {
+          "count": 2616,
+          "tag": "DESC"
+        },
+        {
+          "count": 2384,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 2350,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 2254,
+          "tag": "SDG"
+        },
+        {
+          "count": 2218,
+          "tag": "DTC"
+        },
+        {
+          "count": 2218,
+          "tag": "TROUBLE-CODE"
+        },
+        {
+          "count": 2218,
+          "tag": "DISPLAY-TROUBLE-CODE"
+        },
+        {
+          "count": 2218,
+          "tag": "TEXT"
+        },
+        {
+          "count": 2218,
+          "tag": "LEVEL"
+        },
+        {
+          "count": 2218,
+          "tag": "SDGS"
+        },
+        {
+          "count": 1732,
+          "tag": "VT"
+        },
+        {
+          "count": 1568,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 1534,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 1338,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 1206,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 1180,
+          "tag": "PARAM"
+        },
+        {
+          "count": 1180,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 1000,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 866,
+          "tag": "DOP-REF"
+        },
+        {
+          "count": 752,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 752,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 752,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 750,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 690,
+          "tag": "V"
+        },
+        {
+          "count": 588,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 576,
+          "tag": "TABLE-ROW-REF"
+        },
+        {
+          "count": 536,
+          "tag": "BIT-POSITION"
+        },
+        {
+          "count": 502,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 470,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 466,
+          "tag": "BIT-MASK"
+        },
+        {
+          "count": 418,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 418,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 394,
+          "tag": "COMPU-DEFAULT-VALUE"
+        },
+        {
+          "count": 248,
+          "tag": "CODED-VALUE"
+        },
+        {
+          "count": 244,
+          "tag": "UNIT-REF"
+        },
+        {
+          "count": 230,
+          "tag": "COMPU-RATIONAL-COEFFS"
+        },
+        {
+          "count": 230,
+          "tag": "COMPU-NUMERATOR"
+        },
+        {
+          "count": 230,
+          "tag": "COMPU-DENOMINATOR"
+        },
+        {
+          "count": 224,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 204,
+          "tag": "PRECISION"
+        },
+        {
+          "count": 176,
+          "tag": "TABLE-ROW"
+        },
+        {
+          "count": 176,
+          "tag": "KEY"
+        },
+        {
+          "count": 176,
+          "tag": "STRUCTURE-REF"
+        },
+        {
+          "count": 166,
+          "tag": "RELATED-DIAG-COMM-REF"
+        },
+        {
+          "count": 166,
+          "tag": "RELATION-TYPE"
+        },
+        {
+          "count": 142,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 142,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 140,
+          "tag": "REASON"
+        },
+        {
+          "count": 116,
+          "tag": "PARAMS"
+        },
+        {
+          "count": 74,
+          "tag": "STRUCTURE"
+        },
+        {
+          "count": 66,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 66,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 66,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 66,
+          "tag": "STATE"
+        },
+        {
+          "count": 66,
+          "tag": "DATE"
+        },
+        {
+          "count": 66,
+          "tag": "TOOL"
+        },
+        {
+          "count": 66,
+          "tag": "MODIFICATIONS"
+        }
+      ]
+    },
+    {
+      "name": "EV_AirbaVW31SMEAU65x_004001_d.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 24398,
+          "tag": "SD"
+        },
+        {
+          "count": 4568,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 2858,
+          "tag": "p"
+        },
+        {
+          "count": 2616,
+          "tag": "DESC"
+        },
+        {
+          "count": 2384,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 2350,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 2254,
+          "tag": "SDG"
+        },
+        {
+          "count": 2218,
+          "tag": "DTC"
+        },
+        {
+          "count": 2218,
+          "tag": "TROUBLE-CODE"
+        },
+        {
+          "count": 2218,
+          "tag": "DISPLAY-TROUBLE-CODE"
+        },
+        {
+          "count": 2218,
+          "tag": "TEXT"
+        },
+        {
+          "count": 2218,
+          "tag": "LEVEL"
+        },
+        {
+          "count": 2218,
+          "tag": "SDGS"
+        },
+        {
+          "count": 1732,
+          "tag": "VT"
+        },
+        {
+          "count": 1568,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 1534,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 1338,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 1206,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 1180,
+          "tag": "PARAM"
+        },
+        {
+          "count": 1180,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 1000,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 866,
+          "tag": "DOP-REF"
+        },
+        {
+          "count": 752,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 752,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 752,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 750,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 690,
+          "tag": "V"
+        },
+        {
+          "count": 588,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 576,
+          "tag": "TABLE-ROW-REF"
+        },
+        {
+          "count": 536,
+          "tag": "BIT-POSITION"
+        },
+        {
+          "count": 502,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 470,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 466,
+          "tag": "BIT-MASK"
+        },
+        {
+          "count": 418,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 418,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 394,
+          "tag": "COMPU-DEFAULT-VALUE"
+        },
+        {
+          "count": 248,
+          "tag": "CODED-VALUE"
+        },
+        {
+          "count": 244,
+          "tag": "UNIT-REF"
+        },
+        {
+          "count": 230,
+          "tag": "COMPU-RATIONAL-COEFFS"
+        },
+        {
+          "count": 230,
+          "tag": "COMPU-NUMERATOR"
+        },
+        {
+          "count": 230,
+          "tag": "COMPU-DENOMINATOR"
+        },
+        {
+          "count": 224,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 204,
+          "tag": "PRECISION"
+        },
+        {
+          "count": 176,
+          "tag": "TABLE-ROW"
+        },
+        {
+          "count": 176,
+          "tag": "KEY"
+        },
+        {
+          "count": 176,
+          "tag": "STRUCTURE-REF"
+        },
+        {
+          "count": 166,
+          "tag": "RELATED-DIAG-COMM-REF"
+        },
+        {
+          "count": 166,
+          "tag": "RELATION-TYPE"
+        },
+        {
+          "count": 144,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 144,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 142,
+          "tag": "REASON"
+        },
+        {
+          "count": 116,
+          "tag": "PARAMS"
+        },
+        {
+          "count": 74,
+          "tag": "STRUCTURE"
+        },
+        {
+          "count": 68,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 68,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 68,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 68,
+          "tag": "STATE"
+        },
+        {
+          "count": 68,
+          "tag": "DATE"
+        },
+        {
+          "count": 68,
+          "tag": "TOOL"
+        },
+        {
+          "count": 68,
+          "tag": "MODIFICATIONS"
+        }
+      ]
+    },
+    {
+      "name": "EV_AMPLambo_001001_d.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 1170,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 920,
+          "tag": "VT"
+        },
+        {
+          "count": 868,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 868,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 798,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 782,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 782,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 668,
+          "tag": "DTC-REF"
+        },
+        {
+          "count": 510,
+          "tag": "p"
+        },
+        {
+          "count": 498,
+          "tag": "DESC"
+        },
+        {
+          "count": 396,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 388,
+          "tag": "PARAM"
+        },
+        {
+          "count": 372,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 220,
+          "tag": "DOP-REF"
+        },
+        {
+          "count": 206,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 178,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 166,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 148,
+          "tag": "BIT-POSITION"
+        },
+        {
+          "count": 126,
+          "tag": "STRUCTURE-REF"
+        },
+        {
+          "count": 114,
+          "tag": "TABLE-ROW-REF"
+        },
+        {
+          "count": 110,
+          "tag": "RELATED-DIAG-COMM-REF"
+        },
+        {
+          "count": 110,
+          "tag": "RELATION-TYPE"
+        },
+        {
+          "count": 102,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 102,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 102,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 100,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 96,
+          "tag": "PHYSICAL-DEFAULT-VALUE"
+        },
+        {
+          "count": 96,
+          "tag": "CASE"
+        },
+        {
+          "count": 90,
+          "tag": "PARAMS"
+        },
+        {
+          "count": 80,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 80,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 76,
+          "tag": "CODED-VALUE"
+        },
+        {
+          "count": 64,
+          "tag": "BIT-MASK"
+        },
+        {
+          "count": 58,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 58,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 58,
+          "tag": "REASON"
+        },
+        {
+          "count": 52,
+          "tag": "COMPU-DEFAULT-VALUE"
+        },
+        {
+          "count": 48,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 42,
+          "tag": "STRUCTURE"
+        },
+        {
+          "count": 40,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 32,
+          "tag": "TABLE-REF"
+        },
+        {
+          "count": 32,
+          "tag": "TABLE-KEY-REF"
+        },
+        {
+          "count": 30,
+          "tag": "DIAG-SERVICE"
+        },
+        {
+          "count": 30,
+          "tag": "FUNCT-CLASS-REFS"
+        },
+        {
+          "count": 30,
+          "tag": "FUNCT-CLASS-REF"
+        },
+        {
+          "count": 30,
+          "tag": "AUDIENCE"
+        },
+        {
+          "count": 30,
+          "tag": "RELATED-DIAG-COMM-REFS"
+        },
+        {
+          "count": 30,
+          "tag": "REQUEST-REF"
+        },
+        {
+          "count": 30,
+          "tag": "POS-RESPONSE-REFS"
+        },
+        {
+          "count": 30,
+          "tag": "POS-RESPONSE-REF"
+        },
+        {
+          "count": 30,
+          "tag": "NEG-RESPONSE-REFS"
+        },
+        {
+          "count": 30,
+          "tag": "NEG-RESPONSE-REF"
+        },
+        {
+          "count": 28,
+          "tag": "REQUEST"
+        },
+        {
+          "count": 26,
+          "tag": "TABLE"
+        },
+        {
+          "count": 26,
+          "tag": "KEY-DOP-REF"
+        },
+        {
+          "count": 26,
+          "tag": "TABLE-ROW"
+        },
+        {
+          "count": 26,
+          "tag": "KEY"
+        },
+        {
+          "count": 24,
+          "tag": "REQUEST-BYTE-POS"
+        },
+        {
+          "count": 24,
+          "tag": "BYTE-LENGTH"
+        },
+        {
+          "count": 20,
+          "tag": "POS-RESPONSE"
+        }
+      ]
+    },
+    {
+      "name": "BV_ActuaForExterNoiseUDS_002001_d.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 136,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 130,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 78,
+          "tag": "VT"
+        },
+        {
+          "count": 76,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 76,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 72,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 54,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 44,
+          "tag": "p"
+        },
+        {
+          "count": 36,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 36,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 36,
+          "tag": "REASON"
+        },
+        {
+          "count": 30,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 30,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 28,
+          "tag": "NOT-INHERITED-DIAG-COMM"
+        },
+        {
+          "count": 28,
+          "tag": "DIAG-COMM-SNREF"
+        },
+        {
+          "count": 20,
+          "tag": "TABLE-ROW-REF"
+        },
+        {
+          "count": 18,
+          "tag": "DIAG-COMM-REF"
+        },
+        {
+          "count": 12,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 12,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 12,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 12,
+          "tag": "STATE"
+        },
+        {
+          "count": 12,
+          "tag": "DATE"
+        },
+        {
+          "count": 12,
+          "tag": "TOOL"
+        },
+        {
+          "count": 12,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 12,
+          "tag": "IMPORT-REF"
+        },
+        {
+          "count": 10,
+          "tag": "DESC"
+        },
+        {
+          "count": 10,
+          "tag": "RELATED-DIAG-COMM-REF"
+        },
+        {
+          "count": 10,
+          "tag": "RELATION-TYPE"
+        },
+        {
+          "count": 8,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 8,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 8,
+          "tag": "PARAM"
+        },
+        {
+          "count": 8,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 6,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 6,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 6,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 6,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 6,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 6,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 6,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 6,
+          "tag": "COMPARAM-REF"
+        },
+        {
+          "count": 6,
+          "tag": "VALUE"
+        },
+        {
+          "count": 4,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 4,
+          "tag": "PROTOCOL-SNREF"
+        },
+        {
+          "count": 2,
+          "tag": "ODX"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-LAYER-CONTAINER"
+        },
+        {
+          "count": 2,
+          "tag": "BASE-VARIANTS"
+        },
+        {
+          "count": 2,
+          "tag": "BASE-VARIANT"
+        },
+        {
+          "count": 2,
+          "tag": "ADMIN-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "LANGUAGE"
+        },
+        {
+          "count": 2,
+          "tag": "DOC-REVISIONS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPANY-DATAS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPANY-DATA"
+        },
+        {
+          "count": 2,
+          "tag": "TEAM-MEMBERS"
+        },
+        {
+          "count": 2,
+          "tag": "TEAM-MEMBER"
+        },
+        {
+          "count": 2,
+          "tag": "ROLES"
+        },
+        {
+          "count": 2,
+          "tag": "ROLE"
+        },
+        {
+          "count": 2,
+          "tag": "DIAG-DATA-DICTIONARY-SPEC"
+        },
+        {
+          "count": 2,
+          "tag": "DATA-OBJECT-PROPS"
+        },
+        {
+          "count": 2,
+          "tag": "COMPU-DEFAULT-VALUE"
+        },
+        {
+          "count": 2,
+          "tag": "END-OF-PDU-FIELDS"
+        }
+      ]
+    },
+    {
+      "name": "BV_AdaptCruisContrUDS_005002_d.odx",
+      "namespace": null,
+      "root_tag": "ODX",
+      "top_tags": [
+        {
+          "count": 180,
+          "tag": "LOWER-LIMIT"
+        },
+        {
+          "count": 170,
+          "tag": "SHORT-LABEL"
+        },
+        {
+          "count": 128,
+          "tag": "UPPER-LIMIT"
+        },
+        {
+          "count": 106,
+          "tag": "VT"
+        },
+        {
+          "count": 104,
+          "tag": "COMPU-SCALE"
+        },
+        {
+          "count": 104,
+          "tag": "COMPU-CONST"
+        },
+        {
+          "count": 66,
+          "tag": "SCALE-CONSTR"
+        },
+        {
+          "count": 64,
+          "tag": "SHORT-NAME"
+        },
+        {
+          "count": 64,
+          "tag": "LONG-NAME"
+        },
+        {
+          "count": 54,
+          "tag": "p"
+        },
+        {
+          "count": 52,
+          "tag": "MODIFICATION"
+        },
+        {
+          "count": 52,
+          "tag": "CHANGE"
+        },
+        {
+          "count": 52,
+          "tag": "REASON"
+        },
+        {
+          "count": 50,
+          "tag": "TABLE-ROW-REF"
+        },
+        {
+          "count": 24,
+          "tag": "NOT-INHERITED-DIAG-COMM"
+        },
+        {
+          "count": 24,
+          "tag": "DIAG-COMM-SNREF"
+        },
+        {
+          "count": 20,
+          "tag": "DIAG-COMM-REF"
+        },
+        {
+          "count": 20,
+          "tag": "RELATED-DIAG-COMM-REF"
+        },
+        {
+          "count": 20,
+          "tag": "RELATION-TYPE"
+        },
+        {
+          "count": 18,
+          "tag": "DESC"
+        },
+        {
+          "count": 16,
+          "tag": "TEAM-MEMBER"
+        },
+        {
+          "count": 16,
+          "tag": "ROLES"
+        },
+        {
+          "count": 16,
+          "tag": "ROLE"
+        },
+        {
+          "count": 16,
+          "tag": "PARAM"
+        },
+        {
+          "count": 16,
+          "tag": "BYTE-POSITION"
+        },
+        {
+          "count": 14,
+          "tag": "DOC-REVISION"
+        },
+        {
+          "count": 14,
+          "tag": "TEAM-MEMBER-REF"
+        },
+        {
+          "count": 14,
+          "tag": "REVISION-LABEL"
+        },
+        {
+          "count": 14,
+          "tag": "STATE"
+        },
+        {
+          "count": 14,
+          "tag": "DATE"
+        },
+        {
+          "count": 14,
+          "tag": "TOOL"
+        },
+        {
+          "count": 14,
+          "tag": "MODIFICATIONS"
+        },
+        {
+          "count": 14,
+          "tag": "DIAG-CODED-TYPE"
+        },
+        {
+          "count": 14,
+          "tag": "BIT-LENGTH"
+        },
+        {
+          "count": 12,
+          "tag": "IMPORT-REF"
+        },
+        {
+          "count": 10,
+          "tag": "DEPARTMENT"
+        },
+        {
+          "count": 10,
+          "tag": "DATA-OBJECT-PROP"
+        },
+        {
+          "count": 10,
+          "tag": "COMPU-METHOD"
+        },
+        {
+          "count": 10,
+          "tag": "CATEGORY"
+        },
+        {
+          "count": 10,
+          "tag": "COMPU-INTERNAL-TO-PHYS"
+        },
+        {
+          "count": 10,
+          "tag": "COMPU-SCALES"
+        },
+        {
+          "count": 10,
+          "tag": "PHYSICAL-TYPE"
+        },
+        {
+          "count": 10,
+          "tag": "INTERNAL-CONSTR"
+        },
+        {
+          "count": 8,
+          "tag": "SCALE-CONSTRS"
+        },
+        {
+          "count": 6,
+          "tag": "COMPANY-DATA"
+        },
+        {
+          "count": 6,
+          "tag": "TEAM-MEMBERS"
+        },
+        {
+          "count": 6,
+          "tag": "COMPARAM-REF"
+        },
+        {
+          "count": 6,
+          "tag": "VALUE"
+        },
+        {
+          "count": 4,
+          "tag": "TABLE"
+        },
+        {
+          "count": 4,
+          "tag": "KEY-DOP-REF"
+        },
+        {
+          "count": 4,
+          "tag": "DIAG-SERVICE"
+        },
+        {
+          "count": 4,
+          "tag": "FUNCT-CLASS-REFS"
+        },
+        {
+          "count": 4,
+          "tag": "FUNCT-CLASS-REF"
+        },
+        {
+          "count": 4,
+          "tag": "AUDIENCE"
+        },
+        {
+          "count": 4,
+          "tag": "RELATED-DIAG-COMM-REFS"
+        },
+        {
+          "count": 4,
+          "tag": "REQUEST-REF"
+        },
+        {
+          "count": 4,
+          "tag": "POS-RESPONSE-REFS"
+        },
+        {
+          "count": 4,
+          "tag": "POS-RESPONSE-REF"
+        },
+        {
+          "count": 4,
+          "tag": "NEG-RESPONSE-REFS"
+        },
+        {
+          "count": 4,
+          "tag": "NEG-RESPONSE-REF"
+        }
+      ]
+    }
+  ],
+  "ok": true,
+  "pdx_filename": "LB634_2025-12-04_2_56_P_d.pdx",
+  "pdx_path": "/home/boss/TRC_OnBoard/kvaser_bus_manager/projects/pdx/LB634_2025-12-04_2_56_P_d.pdx",
+  "pdx_size_bytes": 33046964,
+  "warnings": [],
+  "zip": {
+    "entries": 319,
+    "total_uncompressed_bytes": 485620459
+  },
+  "zip_inventory": {
+    "extensions": [
+      {
+        "count": 312,
+        "ext": ".odx"
+      },
+      {
+        "count": 4,
+        "ext": ".jar"
+      },
+      {
+        "count": 3,
+        "ext": ".xml"
+      }
+    ],
+    "prefixes": [
+      {
+        "count": 123,
+        "prefix": "ES"
+      },
+      {
+        "count": 95,
+        "prefix": "EV"
+      },
+      {
+        "count": 51,
+        "prefix": "BV"
+      },
+      {
+        "count": 19,
+        "prefix": "PR"
+      },
+      {
+        "count": 16,
+        "prefix": "BL"
+      },
+      {
+        "count": 4,
+        "prefix": "FG"
+      },
+      {
+        "count": 3,
+        "prefix": "ISO"
+      },
+      {
+        "count": 2,
+        "prefix": "VWAudi"
+      },
+      {
+        "count": 1,
+        "prefix": "3SOFT"
+      },
+      {
+        "count": 1,
+        "prefix": "in2soft"
+      },
+      {
+        "count": 1,
+        "prefix": "VI"
+      }
+    ]
+  }
+}

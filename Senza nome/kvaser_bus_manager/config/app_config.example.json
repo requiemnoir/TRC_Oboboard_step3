@@ -1,0 +1,102 @@
+{
+  "system_mode": "real",
+  "formats_default": [
+    "mf4"
+  ],
+  "logger_channels": [],
+  "log_decoded_mode": "none",
+  "mf4_include_decoded": false,
+  "mf4_chunk_size_mb": 100,
+  "video_recording_enabled": true,
+  "eth_settings": {
+    "interface": "eth0",
+    "target_ip": "",
+    "pcap_enabled": false,
+    "doip_enabled": false,
+    "doip_tester_logical_address": "0x0E00",
+    "doip_live_tester_logical_address": "0x0E01",
+    "someip_enabled": false,
+    "xcp_enabled": false,
+    "xcp_port": 5555
+  },
+  "data_sources": [
+    {
+      "id": "src_sim_can",
+      "name": "Simulation CAN",
+      "type": "CAN",
+      "enabled": false,
+      "dbc_name": "simulation.dbc",
+      "fibex_name": "",
+      "config": {"channel_id": 0},
+      "created_at_ms": 0,
+      "updated_at_ms": 0
+    }
+  ],
+  "trigger_rules": {
+    "enabled": false,
+    "mode": "any",
+    "sources": [
+      "yolo"
+    ],
+    "window_s": 2.0,
+    "cooldown_s": 2.0,
+    "formats": [
+      "mf4"
+    ],
+    "video_preroll_s": 0.0,
+    "auto_stop_enabled": false,
+    "auto_stop_s": 0.0
+  },
+  "yolo": {
+    "armed": false,
+    "classes": [
+      "person"
+    ],
+    "conf": 0.5,
+    "cooldown_s": 2.0,
+    "formats": [
+      "mf4"
+    ],
+    "fps": 1.0,
+    "imgsz": 320,
+    "model": "yolov8n.pt"
+  },
+  "custom": {
+    "armed": false,
+    "cooldown_s": 2.0,
+    "formats": [
+      "mf4"
+    ],
+    "fps": 1.0,
+    "objects": [],
+    "threshold": 20
+  },
+  "can_trigger": {
+    "armed": false,
+    "channel_id": 0,
+    "dbc_name": "",
+    "formats": [
+      "mf4"
+    ],
+    "message": "",
+    "signal": "",
+    "start_op": "eq",
+    "start_value": "1",
+    "stop_op": "eq",
+    "stop_value": "0"
+  },
+  "gateway_mirror": {
+    "enabled": false,
+    "auto_discover_ip": true,
+    "autostart": false,
+    "gateway_ip": "",
+    "dest_ip": "",
+    "dest_port": 0,
+    "target_bus": "ethernet",
+    "target_addr": "",
+    "tester_logical_address": "0x0E00",
+    "can": [],
+    "flexray": [],
+    "lin": []
+  }
+}

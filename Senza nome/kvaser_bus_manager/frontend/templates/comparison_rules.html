@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV-Q Onboard Manager — Rules</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+{% include '_navbar.html' %}
+
+<div class="container-fluid mt-4" style="max-width: 1300px;">
+  <div class="row g-3">
+
+    <div class="col-12">
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>How to use</span>
+          <small class="text-muted">Rules evaluate on decoded CAN/FlexRay frames in real-time.</small>
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li>Pick <span class="text-warning">Signal A</span> from a source + DBC/FIBEX message/signal.</li>
+            <li>Compare vs <span class="text-warning">Constant</span> or <span class="text-warning">Signal B</span>.</li>
+            <li>Operators: <span class="text-warning">delta_abs</span>, <span class="text-warning">delta_pct</span>, <span class="text-warning">lt/gt/le/ge/eq/ne</span>, <span class="text-warning">missing</span>.</li>
+            <li>Violations are stored (SQLite) and pushed live over websocket.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>AI anomaly rule</span>
+          <div class="d-flex gap-2 align-items-center">
+            <small class="text-muted">Uses AI model from <a href="/ai" class="link-warning">AI</a></small>
+            <button id="ai-rule-refresh" class="btn btn-sm btn-outline-secondary">Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="small text-muted mb-2">If enabled, each AI anomaly creates a row in <a href="/violations" class="link-warning">Violations</a>.</div>
+          <div class="row g-2 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label">Enabled</label>
+              <div class="form-check form-switch mt-2">
+                <input id="ai-rule-enabled" class="form-check-input" type="checkbox" />
+                <label class="form-check-label" for="ai-rule-enabled">Create violation</label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Severity</label>
+              <select id="ai-rule-sev" class="form-select">
+                <option value="info">info</option>
+                <option value="warning" selected>warning</option>
+                <option value="critical">critical</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Debounce (s)</label>
+              <input id="ai-rule-debounce" type="number" step="0.1" min="0" max="60" class="form-control" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Rule ID</label>
+              <input id="ai-rule-id" class="form-control" placeholder="ai_anomaly" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Rule name</label>
+              <input id="ai-rule-name" class="form-control" placeholder="AI anomaly" />
+            </div>
+            <div class="col-md-6 d-flex gap-2 align-items-center">
+              <button id="ai-rule-save" class="btn btn-sm btn-warning text-dark">Save AI rule</button>
+              <span id="ai-rule-msg" class="small text-muted"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>Rules</span>
+          <div class="d-flex gap-2">
+            <button id="btn-refresh" class="btn btn-sm btn-outline-secondary">Refresh</button>
+            <button id="btn-add" class="btn btn-sm btn-warning text-dark">+ Add Rule</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="msg" class="small text-muted mb-2"></div>
+          <div class="table-responsive">
+            <table class="table table-dark table-striped align-middle">
+              <thead>
+                <tr>
+                  <th style="width:80px;">On</th>
+                  <th>Name</th>
+                  <th>Severity</th>
+                  <th>Signal A</th>
+                  <th>Op</th>
+                  <th>Compare</th>
+                  <th>Threshold</th>
+                  <th>Debounce</th>
+                  <th style="width:160px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rules-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Rule Modal -->
+<div class="modal fade" id="ruleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content bg-dark border-secondary">
+      <div class="modal-header border-secondary">
+        <h5 class="modal-title text-warning">Rule</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input id="rule-id" type="hidden" />
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input id="rule-name" class="form-control" placeholder="e.g. EngineSpeed vs WheelSpeed" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Severity</label>
+            <select id="rule-severity" class="form-select">
+              <option value="info">info</option>
+              <option value="warning" selected>warning</option>
+              <option value="critical">critical</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Enabled</label>
+            <div class="form-check form-switch mt-2">
+              <input id="rule-enabled" class="form-check-input" type="checkbox" checked />
+              <label class="form-check-label" for="rule-enabled">On</label>
+            </div>
+          </div>
+
+          <div class="col-12"><hr class="border-secondary"/></div>
+
+          <div class="col-12">
+            <div class="card border-secondary">
+              <div class="card-header bg-dark text-warning border-secondary">Signal A (required)</div>
+              <div class="card-body">
+                <div class="row g-2">
+                  <div class="col-md-3">
+                    <label class="form-label">Source</label>
+                    <select id="a-source" class="form-select"></select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">DB</label>
+                    <select id="a-dbc" class="form-select"></select>
+                    <div class="form-text">Taken from the selected source (DBC/FIBEX).</div>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Message</label>
+                    <input id="a-msg-filter" class="form-control form-control-sm mb-1" placeholder="Search message (signal query here will auto-switch)…" />
+                    <select id="a-msg" class="form-select"></select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Signal</label>
+                    <input id="a-sig-filter" class="form-control form-control-sm mb-1" placeholder="Search signal (supports * wildcard)…" />
+                    <input id="a-sig-global" class="form-control form-control-sm mb-1" placeholder="Search signal (auto message)…" />
+                    <select id="a-sig-global-results" class="form-select form-select-sm mb-1" size="6" style="display:none;"></select>
+                    <div id="a-sig-global-hint" class="small text-muted" style="display:none;"></div>
+                    <select id="a-sig" class="form-select"></select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="row g-2">
+              <div class="col-md-3">
+                <label class="form-label">Operator</label>
+                <select id="rule-op" class="form-select">
+                  <option value="delta_abs" selected>delta_abs</option>
+                  <option value="delta_pct">delta_pct</option>
+                  <option value="lt">lt</option>
+                  <option value="gt">gt</option>
+                  <option value="le">le</option>
+                  <option value="ge">ge</option>
+                  <option value="eq">eq</option>
+                  <option value="ne">ne</option>
+                  <option value="missing">missing</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Threshold</label>
+                <input id="rule-threshold" type="number" step="0.001" class="form-control" value="0" />
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Debounce (s)</label>
+                <input id="rule-debounce" type="number" step="0.1" class="form-control" value="2.0" />
+              </div>
+              <div class="col-md-3" id="missing-wrap" style="display:none;">
+                <label class="form-label">Missing timeout (s)</label>
+                <input id="rule-missing-timeout" type="number" step="0.1" class="form-control" value="0.5" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card border-secondary">
+              <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+                <span>Compare Target</span>
+                <div class="d-flex gap-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="b-kind" id="b-const" value="const" checked>
+                    <label class="form-check-label" for="b-const">Constant</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="b-kind" id="b-signal" value="signal">
+                    <label class="form-check-label" for="b-signal">Signal B</label>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row g-2">
+                  <div class="col-md-3" id="b-const-wrap">
+                    <label class="form-label">Constant value</label>
+                    <input id="b-const-val" type="number" step="0.001" class="form-control" value="0" />
+                  </div>
+
+                  <div class="col-md-9" id="b-signal-wrap" style="display:none;">
+                    <div class="row g-2">
+                      <div class="col-md-3">
+                        <label class="form-label">Source</label>
+                        <select id="b-source" class="form-select"></select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">DB</label>
+                        <select id="b-dbc" class="form-select"></select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Message</label>
+                        <input id="b-msg-filter" class="form-control form-control-sm mb-1" placeholder="Search message (signal query here will auto-switch)…" />
+                        <select id="b-msg" class="form-select"></select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Signal</label>
+                        <input id="b-sig-filter" class="form-control form-control-sm mb-1" placeholder="Search signal (supports * wildcard)…" />
+                        <input id="b-sig-global" class="form-control form-control-sm mb-1" placeholder="Search signal (auto message)…" />
+                        <select id="b-sig-global-results" class="form-select form-select-sm mb-1" size="6" style="display:none;"></select>
+                        <div id="b-sig-global-hint" class="small text-muted" style="display:none;"></div>
+                        <select id="b-sig" class="form-select"></select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card border-secondary">
+              <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+                <span>Conditions (optional)</span>
+                <span class="small text-muted">Gate the rule using other signals (AND/OR)</span>
+              </div>
+              <div class="card-body">
+                <div class="row g-2">
+                  <div class="col-md-3">
+                    <label class="form-label">Mode</label>
+                    <select id="cond-mode" class="form-select">
+                      <option value="and" selected>AND (all true)</option>
+                      <option value="or">OR (any true)</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <div class="small text-muted">Add one or more conditions. The rule triggers only when conditions are satisfied.</div>
+                      <div class="d-flex gap-2">
+                        <button id="cond-clear" type="button" class="btn btn-sm btn-outline-secondary">Clear</button>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table table-dark table-striped table-sm align-middle mb-2">
+                        <thead>
+                          <tr>
+                            <th style="min-width:280px;">A (signal)</th>
+                            <th style="width:120px;">Op</th>
+                            <th style="min-width:260px;">B / Const</th>
+                            <th style="width:120px;">Thr</th>
+                            <th style="width:140px;">Max age (s)</th>
+                            <th style="width:120px;"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="cond-tbody"></tbody>
+                      </table>
+                    </div>
+
+                    <div class="card border-secondary">
+                      <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+                        <span id="cond-form-title">Add condition</span>
+                        <span class="small text-muted">Pick message/signal, operator, and target (like above)</span>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-2">
+                          <div class="col-md-3">
+                            <label class="form-label">A Source</label>
+                            <select id="cond-a-source" class="form-select"></select>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">A DB</label>
+                            <select id="cond-a-dbc" class="form-select" disabled></select>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">A Message</label>
+                                        <input id="cond-a-msg-filter" class="form-control form-control-sm mb-1" placeholder="Search message (signal query here will auto-switch)…" />
+                            <select id="cond-a-msg" class="form-select"></select>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">A Signal</label>
+                            <input id="cond-a-sig-filter" class="form-control form-control-sm mb-1" placeholder="Search signal (* wildcard)…" />
+                            <input id="cond-a-sig-global" class="form-control form-control-sm mb-1" placeholder="Search signal (auto message)…" />
+                            <select id="cond-a-sig-global-results" class="form-select form-select-sm mb-1" size="6" style="display:none;"></select>
+                            <div id="cond-a-sig-global-hint" class="small text-muted" style="display:none;"></div>
+                            <select id="cond-a-sig" class="form-select"></select>
+                          </div>
+
+                          <div class="col-md-3">
+                            <label class="form-label">Operator</label>
+                            <select id="cond-op" class="form-select">
+                              <option value="delta_abs">delta_abs</option>
+                              <option value="delta_pct">delta_pct</option>
+                              <option value="lt">lt</option>
+                              <option value="gt">gt</option>
+                              <option value="le">le</option>
+                              <option value="ge">ge</option>
+                              <option value="eq" selected>eq</option>
+                              <option value="ne">ne</option>
+                              <option value="missing">missing</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3" id="cond-missing-wrap" style="display:none;">
+                            <label class="form-label">Missing timeout (s)</label>
+                            <input id="cond-missing-timeout" type="number" step="0.1" min="0" class="form-control" value="0.5" />
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">Threshold</label>
+                            <input id="cond-threshold" type="number" step="0.001" class="form-control" placeholder="0" />
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">Max age (s)</label>
+                            <input id="cond-max-age" type="number" step="0.1" min="0" class="form-control" placeholder="(optional)" />
+                          </div>
+
+                          <div class="col-12" id="cond-target-wrap">
+                            <div class="card border-secondary">
+                              <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+                                <span>Compare Target</span>
+                                <div class="d-flex gap-2">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cond-b-kind" id="cond-b-const" value="const" checked>
+                                    <label class="form-check-label" for="cond-b-const">Constant</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cond-b-kind" id="cond-b-signal" value="signal">
+                                    <label class="form-check-label" for="cond-b-signal">Signal</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card-body">
+                                <div class="row g-2">
+                                  <div class="col-md-3" id="cond-b-const-wrap">
+                                    <label class="form-label">Constant value</label>
+                                    <input id="cond-b-const-val" type="number" step="0.001" class="form-control" value="0" />
+                                  </div>
+                                  <div class="col-md-9" id="cond-b-signal-wrap" style="display:none;">
+                                    <div class="row g-2">
+                                      <div class="col-md-3">
+                                        <label class="form-label">B Source</label>
+                                        <select id="cond-b-source" class="form-select"></select>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <label class="form-label">B DB</label>
+                                        <select id="cond-b-dbc" class="form-select" disabled></select>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <label class="form-label">B Message</label>
+                                        <input id="cond-b-msg-filter" class="form-control form-control-sm mb-1" placeholder="Search message (signal query here will auto-switch)…" />
+                                        <select id="cond-b-msg" class="form-select"></select>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <label class="form-label">B Signal</label>
+                                        <input id="cond-b-sig-filter" class="form-control form-control-sm mb-1" placeholder="Search signal (* wildcard)…" />
+                                        <input id="cond-b-sig-global" class="form-control form-control-sm mb-1" placeholder="Search signal (auto message)…" />
+                                        <select id="cond-b-sig-global-results" class="form-select form-select-sm mb-1" size="6" style="display:none;"></select>
+                                        <div id="cond-b-sig-global-hint" class="small text-muted" style="display:none;"></div>
+                                        <select id="cond-b-sig" class="form-select"></select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12 d-flex gap-2 align-items-center">
+                            <button id="cond-add" type="button" class="btn btn-sm btn-outline-warning">Add</button>
+                            <button id="cond-update" type="button" class="btn btn-sm btn-warning text-dark" style="display:none;">Update</button>
+                            <button id="cond-cancel" type="button" class="btn btn-sm btn-outline-secondary" style="display:none;">Cancel</button>
+                            <span id="cond-msg" class="small text-muted"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer border-secondary">
+        <span id="modal-msg" class="small text-muted me-auto"></span>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" id="btn-save" class="btn btn-warning text-dark">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const el = (id) => document.getElementById(id);
+  const msg = (t) => { el('msg').textContent = t || ''; };
+  const modalMsg = (t) => { el('modal-msg').textContent = t || ''; };
+
+  let sources = [];
+  let rules = [];
+  const describeCache = new Map(); // key -> describe
+  const signalIndexCache = new Map(); // key -> Array<{msg,sig,msgC,sigC,msgL,sigL,msgCL,sigCL}>
+  const globalSigSearchTimers = new Map(); // inputId -> timeoutId
+
+  let aiCfg = null;
+
+  let condState = { mode: 'and', conditions: [] };
+  let condEditIndex = null;
+
+  const ruleModal = new bootstrap.Modal(el('ruleModal'));
+
+  async function api(url, opts) {
+    const r = await fetch(url, opts || {});
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || j.message || ('HTTP ' + r.status));
+    return j;
+  }
+
+  function isSupportedSourceType(t) {
+    return t === 'CAN' || t === 'FlexRay';
+  }
+
+  function firstSupportedSourceId() {
+    return sources.find(s => isSupportedSourceType(s.type))?.id || sources[0]?.id || '';
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function wildcardMatch(text, pattern) {
+    const s = String(text || '').toLowerCase();
+    const p = String(pattern || '').trim().toLowerCase();
+    if (!p) return true;
+    if (!p.includes('*')) return s.includes(p);
+    const parts = p.split('*').filter(x => x.length);
+    if (!parts.length) return true;
+    let pos = 0;
+    for (const part of parts) {
+      const idx = s.indexOf(part, pos);
+      if (idx < 0) return false;
+      pos = idx + part.length;
+    }
+    return true;
+  }
+
+  function renderRules() {
+    const tb = el('rules-tbody');
+    tb.innerHTML = '';
+    for (const r of rules) {
+      const a = r.a || {};
+      const b = r.b_kind === 'signal' ? (r.b || {}) : { kind:'const', value:r.b_const };
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input class="form-check-input" type="checkbox" ${r.enabled ? 'checked' : ''} data-act="toggle" data-id="${r.id}"></td>
+        <td><span class="fw-semibold">${escapeHtml(r.name || r.id)}</span><div class="small text-muted">${r.id}</div></td>
+        <td><span class="badge text-bg-secondary">${escapeHtml(r.severity)}</span></td>
+        <td>${escapeHtml(a.source_id || '')}<div class="small text-muted">${escapeHtml((a.message||'') + '.' + (a.signal||''))}</div></td>
+        <td><span class="badge text-bg-secondary">${escapeHtml(r.op)}</span></td>
+        <td>${r.b_kind==='const' ? ('const ' + escapeHtml(r.b_const)) : escapeHtml((b.message||'') + '.' + (b.signal||''))}</td>
+        <td>${escapeHtml(r.threshold)}</td>
+        <td>${escapeHtml(r.debounce_s)}</td>
+        <td>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-sm btn-outline-warning" data-act="edit" data-id="${r.id}">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" data-act="del" data-id="${r.id}">Delete</button>
+          </div>
+        </td>
+      `;
+      tb.appendChild(tr);
+    }
+  }
+
+  async function refreshAll() {
+    msg('Loading…');
+    const s = await api('/api/sources');
+    sources = s.sources || [];
+    await refreshAiRule();
+    const j = await api('/api/comparison/rules');
+    rules = j.rules || [];
+    renderRules();
+    msg('');
+  }
+
+  async function refreshAiRule() {
+    try {
+      const j = await api('/api/ai/config');
+      aiCfg = j.config || {};
+      el('ai-rule-enabled').checked = !!aiCfg.violation_enabled;
+      el('ai-rule-sev').value = String(aiCfg.violation_severity || 'warning');
+      el('ai-rule-debounce').value = (aiCfg.violation_debounce_s ?? 2.0);
+      el('ai-rule-id').value = String(aiCfg.violation_rule_id || 'ai_anomaly');
+      el('ai-rule-name').value = String(aiCfg.violation_rule_name || 'AI anomaly');
+      el('ai-rule-msg').textContent = '';
+    } catch (e) {
+      el('ai-rule-msg').textContent = String(e.message || e);
+    }
+  }
+
+  async function saveAiRule() {
+    el('ai-rule-msg').textContent = 'Saving…';
+    const patch = {
+      violation_enabled: !!el('ai-rule-enabled').checked,
+      violation_severity: String(el('ai-rule-sev').value || 'warning'),
+      violation_debounce_s: Number(el('ai-rule-debounce').value || 2.0),
+      violation_rule_id: String(el('ai-rule-id').value || 'ai_anomaly'),
+      violation_rule_name: String(el('ai-rule-name').value || 'AI anomaly'),
+    };
+    const j = await api('/api/ai/config', { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(patch) });
+    aiCfg = j.config || {};
+    el('ai-rule-msg').textContent = 'Saved.';
+    setTimeout(() => { try { el('ai-rule-msg').textContent = ''; } catch {} }, 1000);
+    await refreshAiRule();
+  }
+
+  function fillSourceOptions(selectEl, selectedId) {
+    selectEl.innerHTML = '';
+    for (const s of sources) {
+      const o = document.createElement('option');
+      o.value = s.id;
+      o.textContent = `${s.name || s.id} (${s.type})`;
+      if (!isSupportedSourceType(s.type)) o.disabled = true;
+      if (s.id === selectedId) o.selected = true;
+      selectEl.appendChild(o);
+    }
+  }
+
+  function getSourceById(id) {
+    return sources.find(x => x.id === id);
+  }
+
+  async function getDescribe(kind, dbName) {
+    if (!dbName) return null;
+    const k = String(kind || '') + ':' + String(dbName || '');
+    if (describeCache.has(k)) return describeCache.get(k);
+
+    let d = null;
+    if (kind === 'dbc') {
+      d = await api('/api/dbc/describe?dbc_name=' + encodeURIComponent(dbName) + '&include_comments=1');
+    } else if (kind === 'fibex') {
+      d = await api('/api/fibex/describe?fibex_name=' + encodeURIComponent(dbName));
+    }
+    describeCache.set(k, d);
+    return d;
+  }
+
+  function getKindAndDbForSourceId(sourceId) {
+    const s = getSourceById(sourceId);
+    if (!s || !isSupportedSourceType(s.type)) return { kind: null, dbName: '' };
+    const kind = (s.type === 'FlexRay') ? 'fibex' : 'dbc';
+    const dbName = (kind === 'fibex') ? (s.fibex_name || '') : (s.dbc_name || '');
+    return { kind, dbName };
+  }
+
+  function buildSignalIndexFromDescribe(d) {
+    const out = [];
+    const msgs = (d && Array.isArray(d.messages)) ? d.messages : [];
+    for (const m of msgs) {
+      const msg = String(m?.name || '');
+      const msgC = String(m?.comment || '');
+      const sigs = Array.isArray(m?.signals) ? m.signals : [];
+      for (const s of sigs) {
+        const sig = String(s?.name || '');
+        if (!sig) continue;
+        const sigC = String(s?.comment || '');
+        out.push({
+          msg,
+          sig,
+          msgC,
+          sigC,
+          msgL: msg.toLowerCase(),
+          sigL: sig.toLowerCase(),
+          msgCL: msgC.toLowerCase(),
+          sigCL: sigC.toLowerCase(),
+        });
+      }
+    }
+    return out;
+  }
+
+  async function getSignalIndex(kind, dbName) {
+    if (!kind || !dbName) return [];
+    const k = String(kind || '') + ':' + String(dbName || '');
+    if (signalIndexCache.has(k)) return signalIndexCache.get(k) || [];
+    const d = await getDescribe(kind, dbName);
+    const idx = buildSignalIndexFromDescribe(d);
+    signalIndexCache.set(k, idx);
+    return idx;
+  }
+
+  function splitMsgSigQuery(q) {
+    const t = String(q || '').trim();
+    const dot = t.indexOf('.');
+    if (dot < 0) return { msgQ: '', sigQ: t };
+    const left = t.slice(0, dot).trim();
+    const right = t.slice(dot + 1).trim();
+    if (left && right) return { msgQ: left, sigQ: right };
+    return { msgQ: '', sigQ: t };
+  }
+
+  function formatGlobalHit(h) {
+    const sc = h.sigC ? (' — ' + shortCmt(h.sigC, 55)) : '';
+    return `${h.sig}${sc} — ${h.msg}`;
+  }
+
+  function renderGlobalSignalResults(resultsSel, hintEl, hits, totalScanned, limit) {
+    resultsSel.innerHTML = '';
+    if (!hits.length) {
+      resultsSel.style.display = 'none';
+      if (hintEl) {
+        hintEl.textContent = 'No matches.';
+        hintEl.style.display = '';
+      }
+      return;
+    }
+    for (const h of hits) {
+      const o = document.createElement('option');
+      o.value = `${h.msg}|||${h.sig}`;
+      o.textContent = formatGlobalHit(h);
+      const tip = (h.sigC || h.msgC || '').trim();
+      if (tip) o.title = tip;
+      resultsSel.appendChild(o);
+    }
+    resultsSel.style.display = '';
+    if (hintEl) {
+      const extra = (hits.length >= limit) ? ` (showing first ${limit})` : '';
+      hintEl.textContent = `${hits.length} match(es)${extra}`;
+      hintEl.style.display = '';
+    }
+  }
+
+  async function applyGlobalSignalPick(cfg, msgName, sigName) {
+    if (cfg.msgFilterEl) cfg.msgFilterEl.value = '';
+    if (cfg.sigFilterEl) cfg.sigFilterEl.value = '';
+    await fillMsgSigForSource(cfg.sourceEl.value, cfg.dbEl, cfg.msgEl, cfg.sigEl, msgName, sigName, '', '');
+    if (cfg.hintEl) {
+      cfg.hintEl.textContent = `Selected: ${sigName} — ${msgName}`;
+      cfg.hintEl.style.display = '';
+    }
+    cfg.resultsEl.style.display = 'none';
+  }
+
+  function setupGlobalSignalSearch(cfg) {
+    if (!cfg?.inputEl || !cfg?.resultsEl || !cfg?.sourceEl || !cfg?.dbEl || !cfg?.msgEl || !cfg?.sigEl) return;
+
+    const schedule = () => {
+      const id = cfg.inputEl.id || String(Math.random());
+      const old = globalSigSearchTimers.get(id);
+      if (old) clearTimeout(old);
+      globalSigSearchTimers.set(id, setTimeout(() => run().catch(() => {}), 180));
+    };
+
+    const clearUI = () => {
+      cfg.resultsEl.innerHTML = '';
+      cfg.resultsEl.style.display = 'none';
+      if (cfg.hintEl) {
+        cfg.hintEl.textContent = '';
+        cfg.hintEl.style.display = 'none';
+      }
+    };
+
+    const run = async () => {
+      const qRaw = String(cfg.inputEl.value || '').trim();
+      if (qRaw.length < 2) {
+        clearUI();
+        return;
+      }
+
+      const { kind } = getKindAndDbForSourceId(cfg.sourceEl.value);
+      const dbName = String(cfg.dbEl.value || '').trim();
+      if (!kind || !dbName) {
+        clearUI();
+        if (cfg.hintEl) {
+          cfg.hintEl.textContent = 'Select a source with DBC/FIBEX first.';
+          cfg.hintEl.style.display = '';
+        }
+        return;
+      }
+
+      const limit = 200;
+      const idx = await getSignalIndex(kind, dbName);
+      const { msgQ, sigQ } = splitMsgSigQuery(qRaw);
+      const mq = String(msgQ || '').trim();
+      const sq = String(sigQ || '').trim();
+
+      const hits = [];
+      const mqLower = mq.toLowerCase();
+      const sqLower = sq.toLowerCase();
+      const mqHasStar = mq.includes('*');
+      const sqHasStar = sq.includes('*');
+
+      for (const h of idx) {
+        let okMsg = true;
+        if (mqLower) {
+          okMsg = mqHasStar
+            ? (wildcardMatch(h.msg, mqLower) || wildcardMatch(h.msgC, mqLower))
+            : (h.msgL.includes(mqLower) || h.msgCL.includes(mqLower));
+        }
+        if (!okMsg) continue;
+
+        const okSig = sqHasStar
+          ? (wildcardMatch(h.sig, sqLower) || wildcardMatch(h.sigC, sqLower))
+          : (h.sigL.includes(sqLower) || h.sigCL.includes(sqLower));
+
+        if (!okSig) continue;
+
+        hits.push(h);
+        if (hits.length >= limit) break;
+      }
+
+      renderGlobalSignalResults(cfg.resultsEl, cfg.hintEl, hits, idx.length, limit);
+    };
+
+    cfg.inputEl.addEventListener('input', schedule);
+    cfg.sourceEl.addEventListener('change', () => {
+      clearUI();
+      cfg.inputEl.value = '';
+    });
+    cfg.dbEl.addEventListener('change', () => {
+      clearUI();
+      cfg.inputEl.value = '';
+    });
+    cfg.resultsEl.addEventListener('change', async () => {
+      const v = String(cfg.resultsEl.value || '');
+      const parts = v.split('|||');
+      if (parts.length !== 2) return;
+      await applyGlobalSignalPick(cfg, parts[0], parts[1]);
+    });
+    cfg.resultsEl.addEventListener('dblclick', async () => {
+      const v = String(cfg.resultsEl.value || '');
+      const parts = v.split('|||');
+      if (parts.length !== 2) return;
+      await applyGlobalSignalPick(cfg, parts[0], parts[1]);
+    });
+  }
+
+  function autoSwitchMsgFilterToGlobalSignalSearch(msgFilterEl, msgSelEl, globalSigInputEl, globalSigHintEl) {
+    try {
+      if (!msgFilterEl || !msgSelEl || !globalSigInputEl) return false;
+      const q = String(msgFilterEl.value || '').trim();
+      if (q.length < 2) return false;
+      if (String(globalSigInputEl.value || '').trim()) return false;
+      if ((msgSelEl.options?.length || 0) > 0) return false;
+
+      msgFilterEl.value = '';
+      globalSigInputEl.value = q;
+      if (globalSigHintEl) {
+        globalSigHintEl.textContent = `Searching signals for: ${q}`;
+        globalSigHintEl.style.display = '';
+      }
+      globalSigInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+      globalSigInputEl.focus();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function shortCmt(s, maxLen=70) {
+    const t = String(s ?? '').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    return (t.length > maxLen) ? (t.slice(0, maxLen - 1) + '…') : t;
+  }
+
+  async function fillMsgSig(kind, dbName, msgSel, sigSel, selectedMsg, selectedSig, msgFilterText, sigFilterText) {
+    msgSel.innerHTML = '';
+    sigSel.innerHTML = '';
+    if (!dbName) return;
+    const d = await getDescribe(kind, dbName);
+
+    const maxOptions = 500;
+    const allMsgs = (d && d.messages) ? d.messages : [];
+    const mq = String(msgFilterText || '').trim();
+    const msgs = mq
+      ? allMsgs.filter(m => {
+          try {
+            const name = String(m?.name || '');
+            const cmt = String(m?.comment || '');
+            const fid = String(m?.frame_id ?? '');
+            return wildcardMatch(name, mq) || wildcardMatch(cmt, mq) || wildcardMatch(fid, mq);
+          } catch {
+            return false;
+          }
+        })
+      : allMsgs;
+
+    if (msgs.length > maxOptions) {
+      const o = document.createElement('option');
+      o.value = '';
+      o.textContent = `(showing first ${maxOptions} of ${msgs.length}; refine search)`;
+      o.disabled = true;
+      msgSel.appendChild(o);
+    }
+
+    for (const m of msgs.slice(0, maxOptions)) {
+      const o = document.createElement('option');
+      o.value = m.name;
+      const mc = m.comment ? (' — ' + shortCmt(m.comment)) : '';
+      o.textContent = `${m.name}${mc} (${m.signals?.length||0} signals)`;
+      if (m.comment) o.title = String(m.comment);
+      if (m.name === selectedMsg) o.selected = true;
+      msgSel.appendChild(o);
+    }
+
+    const chosenMsg = msgs.find(x => x.name === (selectedMsg || msgSel.value));
+    const allSigs = chosenMsg?.signals || [];
+    const sq = String(sigFilterText || '').trim();
+    const sigs = sq
+      ? allSigs.filter(s => {
+          try {
+            const name = String(s?.name || '');
+            const cmt = String(s?.comment || '');
+            return wildcardMatch(name, sq) || wildcardMatch(cmt, sq);
+          } catch {
+            return false;
+          }
+        })
+      : allSigs;
+
+    if (sigs.length > maxOptions) {
+      const o = document.createElement('option');
+      o.value = '';
+      o.textContent = `(showing first ${maxOptions} of ${sigs.length}; refine search)`;
+      o.disabled = true;
+      sigSel.appendChild(o);
+    }
+
+    for (const s of sigs.slice(0, maxOptions)) {
+      const o = document.createElement('option');
+      o.value = s.name;
+      const sc = s.comment ? (' — ' + shortCmt(s.comment)) : '';
+      o.textContent = `${s.name}${sc}`;
+      if (s.comment) o.title = String(s.comment);
+      if (s.name === selectedSig) o.selected = true;
+      sigSel.appendChild(o);
+    }
+  }
+
+  function setBk(kind) {
+    const isSignal = kind === 'signal';
+    el('b-signal-wrap').style.display = isSignal ? '' : 'none';
+    el('b-const-wrap').style.display = isSignal ? 'none' : '';
+  }
+
+  function setMissingUI(op) {
+    el('missing-wrap').style.display = (op === 'missing') ? '' : 'none';
+  }
+
+  function setCondBk(kind) {
+    const isSignal = kind === 'signal';
+    el('cond-b-signal-wrap').style.display = isSignal ? '' : 'none';
+    el('cond-b-const-wrap').style.display = isSignal ? 'none' : '';
+  }
+
+  function setCondMissingUI(op) {
+    el('cond-missing-wrap').style.display = (op === 'missing') ? '' : 'none';
+    el('cond-target-wrap').style.display = (op === 'missing') ? 'none' : '';
+  }
+
+  function condMsg(t) {
+    try { el('cond-msg').textContent = t || ''; } catch {}
+  }
+
+  async function fillMsgSigForSource(sourceId, dbcEl, msgEl, sigEl, selectedMsg, selectedSig, msgFilterText, sigFilterText) {
+    const s = getSourceById(sourceId);
+    if (!s || !isSupportedSourceType(s.type)) {
+      dbcEl.innerHTML = '<option value="">(unsupported source)</option>';
+      msgEl.innerHTML = '';
+      sigEl.innerHTML = '';
+      return;
+    }
+
+    const kind = (s.type === 'FlexRay') ? 'fibex' : 'dbc';
+    const label = (kind === 'fibex') ? 'FIBEX' : 'DBC';
+
+    const prevSel = String(dbcEl.value || '').trim();
+    let dbChoices = [];
+    if (kind === 'fibex') {
+      const fx = String(s.fibex_name || '').trim();
+      if (fx) dbChoices = [fx];
+    } else {
+      if (Array.isArray(s.dbc_names) && s.dbc_names.length) {
+        dbChoices = s.dbc_names.map(x => String(x || '').trim()).filter(Boolean);
+      } else {
+        const dn = String(s.dbc_name || '').trim();
+        if (dn) dbChoices = [dn];
+      }
+    }
+    // De-dup while preserving order
+    const seen = new Set();
+    dbChoices = dbChoices.filter(n => {
+      const k = String(n || '');
+      if (!k || seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+
+    if (!dbChoices.length) {
+      dbcEl.innerHTML = `<option value="">(no ${label})</option>`;
+      msgEl.innerHTML = '';
+      sigEl.innerHTML = '';
+      return;
+    }
+
+    dbcEl.innerHTML = '';
+    for (const n of dbChoices) {
+      const o = document.createElement('option');
+      o.value = n;
+      o.textContent = n;
+      dbcEl.appendChild(o);
+    }
+    const keep = dbChoices.includes(prevSel) ? prevSel : dbChoices[0];
+    dbcEl.value = keep;
+    await fillMsgSig(kind, keep, msgEl, sigEl, selectedMsg, selectedSig, msgFilterText, sigFilterText);
+  }
+
+  function normalizeCond(raw, fallbackSourceId) {
+    if (!raw || typeof raw !== 'object') return null;
+    const a0 = (raw.a && typeof raw.a === 'object') ? raw.a : raw;
+    const a = {
+      source_id: String(a0.source_id || fallbackSourceId || '').trim(),
+      message: String(a0.message || '').trim(),
+      signal: String(a0.signal || '').trim(),
+    };
+    const op = String(raw.op || 'eq').trim().toLowerCase();
+    const out = { a, op };
+    if (raw.threshold !== undefined && raw.threshold !== null && raw.threshold !== '') out.threshold = Number(raw.threshold);
+    if (raw.max_age_s !== undefined && raw.max_age_s !== null && raw.max_age_s !== '') out.max_age_s = Number(raw.max_age_s);
+    if (op === 'missing') {
+      if (raw.missing_timeout_s !== undefined && raw.missing_timeout_s !== null && raw.missing_timeout_s !== '') {
+        out.missing_timeout_s = Number(raw.missing_timeout_s);
+      }
+      return out;
+    }
+    const bKind = String(raw.b_kind || 'const').trim().toLowerCase();
+    out.b_kind = (bKind === 'signal') ? 'signal' : 'const';
+    if (out.b_kind === 'signal') {
+      const b0 = (raw.b && typeof raw.b === 'object') ? raw.b : {};
+      out.b = {
+        source_id: String(b0.source_id || a.source_id || '').trim(),
+        message: String(b0.message || '').trim(),
+        signal: String(b0.signal || '').trim(),
+      };
+    } else {
+      out.b_const = Number(raw.b_const ?? raw.value ?? 0);
+    }
+    return out;
+  }
+
+  function condRowSummaryA(c) {
+    const a = c.a || {};
+    return `${a.source_id || ''} — ${(a.message || '')}.${(a.signal || '')}`;
+  }
+
+  function condRowSummaryB(c) {
+    if ((c.op || '') === 'missing') return `missing timeout ${(c.missing_timeout_s ?? '')}`;
+    if ((c.b_kind || 'const') === 'signal') {
+      const b = c.b || {};
+      return `${b.source_id || ''} — ${(b.message || '')}.${(b.signal || '')}`;
+    }
+    return `const ${c.b_const ?? 0}`;
+  }
+
+  function renderCondTable() {
+    el('cond-mode').value = (condState.mode === 'or') ? 'or' : 'and';
+    const tb = el('cond-tbody');
+    tb.innerHTML = '';
+    const conds = Array.isArray(condState.conditions) ? condState.conditions : [];
+    if (!conds.length) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td colspan="6" class="text-muted small">No conditions.</td>`;
+      tb.appendChild(tr);
+      return;
+    }
+    for (let i = 0; i < conds.length; i++) {
+      const c = conds[i] || {};
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(condRowSummaryA(c))}</td>
+        <td><span class="badge text-bg-secondary">${escapeHtml(c.op || '')}</span></td>
+        <td>${escapeHtml(condRowSummaryB(c))}</td>
+        <td>${escapeHtml(c.threshold ?? '')}</td>
+        <td>${escapeHtml(c.max_age_s ?? '')}</td>
+        <td>
+          <div class="d-flex gap-2 justify-content-end">
+            <button class="btn btn-sm btn-outline-warning" data-cond-act="edit" data-cond-idx="${i}">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" data-cond-act="del" data-cond-idx="${i}">Del</button>
+          </div>
+        </td>
+      `;
+      tb.appendChild(tr);
+    }
+  }
+
+  async function resetCondFormDefaults() {
+    condEditIndex = null;
+    el('cond-form-title').textContent = 'Add condition';
+    el('cond-add').style.display = '';
+    el('cond-update').style.display = 'none';
+    el('cond-cancel').style.display = 'none';
+    condMsg('');
+
+    const aSid = el('a-source').value || firstSupportedSourceId();
+    fillSourceOptions(el('cond-a-source'), aSid);
+    fillSourceOptions(el('cond-b-source'), aSid);
+
+    await fillMsgSigForSource(el('cond-a-source').value, el('cond-a-dbc'), el('cond-a-msg'), el('cond-a-sig'), undefined, undefined, el('cond-a-msg-filter').value, el('cond-a-sig-filter').value);
+    await fillMsgSigForSource(el('cond-b-source').value, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), undefined, undefined, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value);
+
+    el('cond-op').value = 'eq';
+    setCondMissingUI(el('cond-op').value);
+    el('cond-threshold').value = '';
+    el('cond-max-age').value = '';
+    el('cond-missing-timeout').value = 0.5;
+    el('cond-b-const').checked = true;
+    setCondBk('const');
+    el('cond-b-const-val').value = 0;
+  }
+
+  async function loadCondIntoForm(idx) {
+    const c = (condState.conditions || [])[idx];
+    if (!c) return;
+    condEditIndex = idx;
+    el('cond-form-title').textContent = `Edit condition #${idx + 1}`;
+    el('cond-add').style.display = 'none';
+    el('cond-update').style.display = '';
+    el('cond-cancel').style.display = '';
+    condMsg('');
+
+    const a = c.a || {};
+    const aSid = String(a.source_id || el('a-source').value || firstSupportedSourceId()).trim();
+    fillSourceOptions(el('cond-a-source'), aSid);
+    await fillMsgSigForSource(aSid, el('cond-a-dbc'), el('cond-a-msg'), el('cond-a-sig'), a.message, a.signal, el('cond-a-msg-filter').value, el('cond-a-sig-filter').value);
+
+    el('cond-op').value = String(c.op || 'eq');
+    setCondMissingUI(el('cond-op').value);
+
+    el('cond-threshold').value = (c.threshold ?? '') === '' ? '' : Number(c.threshold);
+    el('cond-max-age').value = (c.max_age_s ?? '') === '' ? '' : Number(c.max_age_s);
+    el('cond-missing-timeout').value = Number(c.missing_timeout_s ?? 0.5);
+
+    if (String(c.op || '') === 'missing') {
+      return;
+    }
+
+    const bk = (String(c.b_kind || 'const') === 'signal') ? 'signal' : 'const';
+    if (bk === 'signal') {
+      el('cond-b-signal').checked = true;
+      setCondBk('signal');
+      const b = c.b || {};
+      const bSid = String(b.source_id || aSid).trim();
+      fillSourceOptions(el('cond-b-source'), bSid);
+      await fillMsgSigForSource(bSid, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), b.message, b.signal, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value);
+    } else {
+      el('cond-b-const').checked = true;
+      setCondBk('const');
+      el('cond-b-const-val').value = Number(c.b_const ?? 0);
+      fillSourceOptions(el('cond-b-source'), aSid);
+      await fillMsgSigForSource(aSid, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), undefined, undefined, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value);
+    }
+  }
+
+  function readCondFormOrThrow() {
+    const a = {
+      source_id: String(el('cond-a-source').value || '').trim(),
+      message: String(el('cond-a-msg').value || '').trim(),
+      signal: String(el('cond-a-sig').value || '').trim(),
+    };
+    if (!a.source_id || !a.message || !a.signal) {
+      throw new Error('Condition A is incomplete');
+    }
+
+    const op = String(el('cond-op').value || 'eq').trim().toLowerCase();
+    const allowed = new Set(['lt','gt','eq','le','ge','ne','delta_abs','delta_pct','missing']);
+    if (!allowed.has(op)) throw new Error('Invalid operator');
+
+    const out = { a, op };
+
+    const thrTxt = String(el('cond-threshold').value || '').trim();
+    if (thrTxt !== '') {
+      const thr = Number(thrTxt);
+      if (!Number.isFinite(thr)) throw new Error('Threshold must be a number');
+      out.threshold = thr;
+    }
+
+    const ageTxt = String(el('cond-max-age').value || '').trim();
+    if (ageTxt !== '') {
+      const ma = Number(ageTxt);
+      if (!Number.isFinite(ma) || ma < 0) throw new Error('Max age must be a non-negative number');
+      out.max_age_s = ma;
+    }
+
+    if (op === 'missing') {
+      const mt = Number(el('cond-missing-timeout').value ?? 0.5);
+      if (!Number.isFinite(mt) || mt < 0) throw new Error('Missing timeout must be a non-negative number');
+      out.missing_timeout_s = mt;
+      return out;
+    }
+
+    const bKind = document.querySelector('input[name="cond-b-kind"]:checked')?.value || 'const';
+    out.b_kind = (bKind === 'signal') ? 'signal' : 'const';
+    if (out.b_kind === 'signal') {
+      const b = {
+        source_id: String(el('cond-b-source').value || a.source_id).trim(),
+        message: String(el('cond-b-msg').value || '').trim(),
+        signal: String(el('cond-b-sig').value || '').trim(),
+      };
+      if (!b.source_id || !b.message || !b.signal) throw new Error('Condition B is incomplete');
+      out.b = b;
+    } else {
+      const v = Number(el('cond-b-const-val').value);
+      if (!Number.isFinite(v)) throw new Error('Constant value must be a number');
+      out.b_const = v;
+    }
+    return out;
+  }
+
+  async function openAdd() {
+    el('rule-id').value = '';
+    el('rule-name').value = '';
+    el('rule-severity').value = 'warning';
+    el('rule-enabled').checked = true;
+    el('rule-op').value = 'delta_abs';
+    el('rule-threshold').value = 0;
+    el('rule-debounce').value = 2.0;
+    el('rule-missing-timeout').value = 0.5;
+    el('cond-mode').value = 'and';
+    condState = { mode: 'and', conditions: [] };
+
+    const sid = firstSupportedSourceId();
+    fillSourceOptions(el('a-source'), sid);
+    fillSourceOptions(el('b-source'), sid);
+
+    await onASourceChanged();
+    await onBSourceChanged();
+
+    el('b-const').checked = true;
+    setBk('const');
+    setMissingUI(el('rule-op').value);
+    await resetCondFormDefaults();
+    renderCondTable();
+    modalMsg('');
+    ruleModal.show();
+  }
+
+  async function openEdit(id) {
+    const r = rules.find(x => x.id === id);
+    if (!r) return;
+    el('rule-id').value = r.id;
+    el('rule-name').value = r.name || r.id;
+    el('rule-severity').value = r.severity || 'warning';
+    el('rule-enabled').checked = !!r.enabled;
+    el('rule-op').value = r.op || 'delta_abs';
+    el('rule-threshold').value = r.threshold ?? 0;
+    el('rule-debounce').value = r.debounce_s ?? 2.0;
+    el('rule-missing-timeout').value = r.missing_timeout_s ?? 0.5;
+    el('cond-mode').value = (r.conditions_mode === 'or') ? 'or' : 'and';
+    const fallbackSid = r.a?.source_id;
+    const rawConds = Array.isArray(r.conditions) ? r.conditions : [];
+    const norm = [];
+    for (const c of rawConds) {
+      const n = normalizeCond(c, fallbackSid);
+      if (n) norm.push(n);
+    }
+    condState = { mode: (r.conditions_mode === 'or') ? 'or' : 'and', conditions: norm };
+
+    fillSourceOptions(el('a-source'), r.a?.source_id);
+    fillSourceOptions(el('b-source'), r.b?.source_id);
+
+    await onASourceChanged(r.a?.message, r.a?.signal);
+
+    if ((r.b_kind || 'const') === 'signal') {
+      el('b-signal').checked = true;
+      setBk('signal');
+      await onBSourceChanged(r.b?.message, r.b?.signal);
+    } else {
+      el('b-const').checked = true;
+      setBk('const');
+      el('b-const-val').value = r.b_const ?? 0;
+      await onBSourceChanged();
+    }
+    setMissingUI(el('rule-op').value);
+    await resetCondFormDefaults();
+    renderCondTable();
+    modalMsg('');
+    ruleModal.show();
+  }
+
+  async function onASourceChanged(selectedMsg, selectedSig) {
+    await fillMsgSigForSource(el('a-source').value, el('a-dbc'), el('a-msg'), el('a-sig'), selectedMsg, selectedSig, el('a-msg-filter').value, el('a-sig-filter').value);
+  }
+
+  async function onBSourceChanged(selectedMsg, selectedSig) {
+    await fillMsgSigForSource(el('b-source').value, el('b-dbc'), el('b-msg'), el('b-sig'), selectedMsg, selectedSig, el('b-msg-filter').value, el('b-sig-filter').value);
+  }
+
+  async function saveRule() {
+    const bKind = document.querySelector('input[name="b-kind"]:checked')?.value || 'const';
+
+    const condPack = {
+      conditions_mode: (String(el('cond-mode').value || 'and') === 'or') ? 'or' : 'and',
+      conditions: Array.isArray(condState.conditions) ? condState.conditions : [],
+    };
+
+    const payload = {
+      id: el('rule-id').value || undefined,
+      name: String(el('rule-name').value || '').trim(),
+      enabled: !!el('rule-enabled').checked,
+      severity: el('rule-severity').value,
+      a: {
+        source_id: el('a-source').value,
+        message: el('a-msg').value,
+        signal: el('a-sig').value,
+      },
+      op: el('rule-op').value,
+      b_kind: bKind,
+      b_const: bKind === 'const' ? Number(el('b-const-val').value) : undefined,
+      b: bKind === 'signal' ? {
+        source_id: el('b-source').value,
+        message: el('b-msg').value,
+        signal: el('b-sig').value,
+      } : undefined,
+      threshold: Number(el('rule-threshold').value),
+      debounce_s: Number(el('rule-debounce').value),
+      missing_timeout_s: Number(el('rule-missing-timeout').value),
+      conditions_mode: condPack.conditions_mode,
+      conditions: condPack.conditions,
+      actions: [ { kind: 'log_csv' }, { kind: 'emit_ws' } ],
+    };
+
+    modalMsg('Saving…');
+    const j = await api('/api/comparison/rules', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    modalMsg('Saved.');
+    setTimeout(() => modalMsg(''), 1000);
+    ruleModal.hide();
+    await refreshAll();
+  }
+
+  async function delRule(id) {
+    if (!confirm('Delete rule ' + id + '?')) return;
+    await api('/api/comparison/rules/' + encodeURIComponent(id), { method:'DELETE' });
+    await refreshAll();
+  }
+
+  async function toggleRule(id, enabled) {
+    await api('/api/comparison/rules/' + encodeURIComponent(id), { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ enabled: !!enabled }) });
+    await refreshAll();
+  }
+
+  el('btn-refresh').addEventListener('click', () => refreshAll().catch(e => msg(String(e.message||e))));
+  el('btn-add').addEventListener('click', () => openAdd().catch(e => msg(String(e.message||e))));
+  el('ai-rule-refresh').addEventListener('click', () => refreshAiRule().catch(e => { el('ai-rule-msg').textContent = String(e.message||e); }));
+  el('ai-rule-save').addEventListener('click', () => saveAiRule().catch(e => { el('ai-rule-msg').textContent = String(e.message||e); }));
+  el('btn-save').addEventListener('click', () => saveRule().catch(e => modalMsg(String(e.message||e))));
+  el('a-source').addEventListener('change', () => onASourceChanged().catch(e => modalMsg(String(e.message||e))));
+  el('a-dbc').addEventListener('change', () => onASourceChanged().catch(e => modalMsg(String(e.message||e))));
+  el('a-msg').addEventListener('change', () => onASourceChanged(el('a-msg').value).catch(e => modalMsg(String(e.message||e))));
+  el('a-msg-filter').addEventListener('input', async () => {
+    try {
+      await onASourceChanged(el('a-msg').value, el('a-sig').value);
+      autoSwitchMsgFilterToGlobalSignalSearch(el('a-msg-filter'), el('a-msg'), el('a-sig-global'), el('a-sig-global-hint'));
+    } catch (e) {
+      modalMsg(String(e.message || e));
+    }
+  });
+  el('a-sig-filter').addEventListener('input', () => onASourceChanged(el('a-msg').value, el('a-sig').value).catch(e => modalMsg(String(e.message||e))));
+  el('b-source').addEventListener('change', () => onBSourceChanged().catch(e => modalMsg(String(e.message||e))));
+  el('b-dbc').addEventListener('change', () => onBSourceChanged().catch(e => modalMsg(String(e.message||e))));
+  el('b-msg').addEventListener('change', () => onBSourceChanged(el('b-msg').value).catch(e => modalMsg(String(e.message||e))));
+  el('b-msg-filter').addEventListener('input', async () => {
+    try {
+      await onBSourceChanged(el('b-msg').value, el('b-sig').value);
+      autoSwitchMsgFilterToGlobalSignalSearch(el('b-msg-filter'), el('b-msg'), el('b-sig-global'), el('b-sig-global-hint'));
+    } catch (e) {
+      modalMsg(String(e.message || e));
+    }
+  });
+  el('b-sig-filter').addEventListener('input', () => onBSourceChanged(el('b-msg').value, el('b-sig').value).catch(e => modalMsg(String(e.message||e))));
+
+  setupGlobalSignalSearch({
+    sourceEl: el('a-source'),
+    dbEl: el('a-dbc'),
+    msgEl: el('a-msg'),
+    sigEl: el('a-sig'),
+    msgFilterEl: el('a-msg-filter'),
+    sigFilterEl: el('a-sig-filter'),
+    inputEl: el('a-sig-global'),
+    resultsEl: el('a-sig-global-results'),
+    hintEl: el('a-sig-global-hint'),
+  });
+  setupGlobalSignalSearch({
+    sourceEl: el('b-source'),
+    dbEl: el('b-dbc'),
+    msgEl: el('b-msg'),
+    sigEl: el('b-sig'),
+    msgFilterEl: el('b-msg-filter'),
+    sigFilterEl: el('b-sig-filter'),
+    inputEl: el('b-sig-global'),
+    resultsEl: el('b-sig-global-results'),
+    hintEl: el('b-sig-global-hint'),
+  });
+
+  for (const id of ['b-const','b-signal']) {
+    el(id).addEventListener('change', () => setBk(document.querySelector('input[name="b-kind"]:checked')?.value || 'const'));
+  }
+
+  el('rule-op').addEventListener('change', () => setMissingUI(el('rule-op').value));
+
+  el('cond-mode').addEventListener('change', () => {
+    condState.mode = (String(el('cond-mode').value || 'and') === 'or') ? 'or' : 'and';
+    renderCondTable();
+  });
+
+  el('cond-a-source').addEventListener('change', () => {
+    fillMsgSigForSource(el('cond-a-source').value, el('cond-a-dbc'), el('cond-a-msg'), el('cond-a-sig'), undefined, undefined, el('cond-a-msg-filter').value, el('cond-a-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-a-dbc').addEventListener('change', () => {
+    fillMsgSigForSource(el('cond-a-source').value, el('cond-a-dbc'), el('cond-a-msg'), el('cond-a-sig'), undefined, undefined, el('cond-a-msg-filter').value, el('cond-a-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-a-msg').addEventListener('change', () => {
+    fillMsgSigForSource(el('cond-a-source').value, el('cond-a-dbc'), el('cond-a-msg'), el('cond-a-sig'), el('cond-a-msg').value, undefined, el('cond-a-msg-filter').value, el('cond-a-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-a-msg-filter').addEventListener('input', async () => {
+    try {
+      await fillMsgSigForSource(
+        el('cond-a-source').value,
+        el('cond-a-dbc'),
+        el('cond-a-msg'),
+        el('cond-a-sig'),
+        el('cond-a-msg').value,
+        el('cond-a-sig').value,
+        el('cond-a-msg-filter').value,
+        el('cond-a-sig-filter').value
+      );
+      autoSwitchMsgFilterToGlobalSignalSearch(el('cond-a-msg-filter'), el('cond-a-msg'), el('cond-a-sig-global'), el('cond-a-sig-global-hint'));
+    } catch (e) {
+      condMsg(String(e.message || e));
+    }
+  });
+  el('cond-a-sig-filter').addEventListener('input', () => {
+    fillMsgSigForSource(el('cond-a-source').value, el('cond-a-dbc'), el('cond-a-msg'), el('cond-a-sig'), el('cond-a-msg').value, el('cond-a-sig').value, el('cond-a-msg-filter').value, el('cond-a-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-b-source').addEventListener('change', () => {
+    fillMsgSigForSource(el('cond-b-source').value, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), undefined, undefined, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-b-dbc').addEventListener('change', () => {
+    fillMsgSigForSource(el('cond-b-source').value, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), undefined, undefined, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-b-msg').addEventListener('change', () => {
+    fillMsgSigForSource(el('cond-b-source').value, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), el('cond-b-msg').value, undefined, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+  el('cond-b-msg-filter').addEventListener('input', async () => {
+    try {
+      await fillMsgSigForSource(
+        el('cond-b-source').value,
+        el('cond-b-dbc'),
+        el('cond-b-msg'),
+        el('cond-b-sig'),
+        el('cond-b-msg').value,
+        el('cond-b-sig').value,
+        el('cond-b-msg-filter').value,
+        el('cond-b-sig-filter').value
+      );
+      autoSwitchMsgFilterToGlobalSignalSearch(el('cond-b-msg-filter'), el('cond-b-msg'), el('cond-b-sig-global'), el('cond-b-sig-global-hint'));
+    } catch (e) {
+      condMsg(String(e.message || e));
+    }
+  });
+  el('cond-b-sig-filter').addEventListener('input', () => {
+    fillMsgSigForSource(el('cond-b-source').value, el('cond-b-dbc'), el('cond-b-msg'), el('cond-b-sig'), el('cond-b-msg').value, el('cond-b-sig').value, el('cond-b-msg-filter').value, el('cond-b-sig-filter').value)
+      .catch(e => condMsg(String(e.message || e)));
+  });
+
+  setupGlobalSignalSearch({
+    sourceEl: el('cond-a-source'),
+    dbEl: el('cond-a-dbc'),
+    msgEl: el('cond-a-msg'),
+    sigEl: el('cond-a-sig'),
+    msgFilterEl: el('cond-a-msg-filter'),
+    sigFilterEl: el('cond-a-sig-filter'),
+    inputEl: el('cond-a-sig-global'),
+    resultsEl: el('cond-a-sig-global-results'),
+    hintEl: el('cond-a-sig-global-hint'),
+  });
+  setupGlobalSignalSearch({
+    sourceEl: el('cond-b-source'),
+    dbEl: el('cond-b-dbc'),
+    msgEl: el('cond-b-msg'),
+    sigEl: el('cond-b-sig'),
+    msgFilterEl: el('cond-b-msg-filter'),
+    sigFilterEl: el('cond-b-sig-filter'),
+    inputEl: el('cond-b-sig-global'),
+    resultsEl: el('cond-b-sig-global-results'),
+    hintEl: el('cond-b-sig-global-hint'),
+  });
+
+  for (const id of ['cond-b-const','cond-b-signal']) {
+    el(id).addEventListener('change', () => setCondBk(document.querySelector('input[name="cond-b-kind"]:checked')?.value || 'const'));
+  }
+
+  el('cond-op').addEventListener('change', () => setCondMissingUI(el('cond-op').value));
+
+  el('cond-add').addEventListener('click', async () => {
+    try {
+      const c = readCondFormOrThrow();
+      condState.conditions = Array.isArray(condState.conditions) ? condState.conditions : [];
+      condState.conditions.push(c);
+      renderCondTable();
+      await resetCondFormDefaults();
+      condMsg('Added.');
+      setTimeout(() => condMsg(''), 800);
+    } catch (e) {
+      condMsg(String(e.message || e));
+    }
+  });
+
+  el('cond-update').addEventListener('click', async () => {
+    try {
+      if (condEditIndex === null || condEditIndex === undefined) return;
+      const c = readCondFormOrThrow();
+      condState.conditions = Array.isArray(condState.conditions) ? condState.conditions : [];
+      condState.conditions[condEditIndex] = c;
+      renderCondTable();
+      await resetCondFormDefaults();
+      condMsg('Updated.');
+      setTimeout(() => condMsg(''), 800);
+    } catch (e) {
+      condMsg(String(e.message || e));
+    }
+  });
+
+  el('cond-cancel').addEventListener('click', () => {
+    resetCondFormDefaults().catch(e => condMsg(String(e.message || e)));
+  });
+
+  el('cond-clear').addEventListener('click', () => {
+    condState.conditions = [];
+    renderCondTable();
+    resetCondFormDefaults().catch(e => condMsg(String(e.message || e)));
+  });
+
+  el('cond-tbody').addEventListener('click', (ev) => {
+    const t = ev.target;
+    const act = t && t.getAttribute && t.getAttribute('data-cond-act');
+    const idxStr = t && t.getAttribute && t.getAttribute('data-cond-idx');
+    if (!act || idxStr === null || idxStr === undefined) return;
+    const idx = Number(idxStr);
+    if (!Number.isFinite(idx)) return;
+    if (act === 'edit') {
+      loadCondIntoForm(idx).catch(e => condMsg(String(e.message || e)));
+    }
+    if (act === 'del') {
+      condState.conditions = Array.isArray(condState.conditions) ? condState.conditions : [];
+      condState.conditions.splice(idx, 1);
+      renderCondTable();
+    }
+  });
+
+  el('rules-tbody').addEventListener('click', (ev) => {
+    const t = ev.target;
+    const act = t && t.getAttribute && t.getAttribute('data-act');
+    const id = t && t.getAttribute && t.getAttribute('data-id');
+    if (!act || !id) return;
+    if (act === 'edit') openEdit(id).catch(e => msg(String(e.message||e)));
+    if (act === 'del') delRule(id).catch(e => msg(String(e.message||e)));
+  });
+
+  el('rules-tbody').addEventListener('change', (ev) => {
+    const t = ev.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    if (t.getAttribute('data-act') !== 'toggle') return;
+    toggleRule(t.getAttribute('data-id'), t.checked).catch(e => msg(String(e.message||e)));
+  });
+
+  refreshAll().catch(e => msg(String(e.message||e)));
+})();
+</script>
+
+<script src="/static/js/navbar.js?v=20260207a"></script>
+
+</body>
+</html>

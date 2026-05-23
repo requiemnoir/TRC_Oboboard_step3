@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirror Logger</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0d0f;
+      --panel:   #131316;
+      --border:  #222228;
+      --accent:  #3b7eff;
+      --green:   #22c55e;
+      --red:     #ef4444;
+      --yellow:  #f59e0b;
+      --text:    #e2e2e8;
+      --muted:   #6b6b7a;
+      --font:    'SF Mono', 'Consolas', 'Menlo', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    header h1 {
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .dot.on  { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .dot.warn{ background: var(--yellow); }
+    .dot.err { background: var(--red); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .panel-title {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--muted); }
+    .stat-val   { color: var(--text); font-weight: 600; }
+    .stat-val.ok  { color: var(--green); }
+    .stat-val.err { color: var(--red); }
+    .stat-val.warn{ color: var(--yellow); }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: none;
+      font-family: var(--font);
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    button:active { transform: scale(0.97); }
+    button:disabled { opacity: 0.35; cursor: default; }
+
+    .btn-start  { background: var(--green); color: #0a0a0b; }
+    .btn-stop   { background: var(--red);   color: #fff; }
+    .btn-mirror { background: var(--accent); color: #fff; }
+    .btn-sec    { background: var(--border); color: var(--text); }
+
+    .btn-link {
+      background: transparent;
+      color: var(--accent);
+      padding: 0;
+      border: none;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .toolbar input {
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      min-width: 280px;
+      font-family: var(--font);
+      font-size: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .actions.wrap {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .toolbar-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toolbar-note.warn {
+      color: var(--yellow);
+    }
+
+    .session-row > td {
+      background: rgba(255,255,255,0.02);
+      vertical-align: top;
+    }
+
+    .files-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 280px;
+    }
+
+    .file-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .file-meta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .file-name {
+      word-break: break-all;
+    }
+
+    .sessions-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .sessions-table th {
+      text-align: left;
+      padding: 6px 8px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-weight: 400;
+    }
+    .sessions-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sessions-table tr:last-child td { border-bottom: none; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    #toast {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 12px;
+      display: none;
+      z-index: 100;
+      max-width: 340px;
+    }
+
+    .elapsed { color: var(--muted); font-size: 11px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="dot" id="status-dot"></div>
+  <h1>MIRROR LOGGER</h1>
+  <span class="muted elapsed" id="elapsed-label">—</span>
+</header>
+
+<div class="btn-row">
+  <button class="btn-start"  id="btn-start"  onclick="sessionStart()">▶ AVVIA</button>
+  <button class="btn-stop"   id="btn-stop"   onclick="sessionStop()" disabled>■ FERMA</button>
+  <button class="btn-mirror" id="btn-mirror-on"  onclick="mirrorActivate()">⟡ ATTIVA MIRROR</button>
+  <button class="btn-sec"    id="btn-mirror-off" onclick="mirrorDeactivate()">⊘ DISATTIVA</button>
+</div>
+
+<div class="toolbar">
+  <input id="token-input" type="password" placeholder="Token API (X-Auth-Token)" autocomplete="off">
+  <button class="btn-sec" onclick="saveToken()">SALVA TOKEN</button>
+  <button class="btn-sec" onclick="deleteAllLogs()">CANCELLA TUTTI I LOG</button>
+  <span class="toolbar-note" id="token-note">Se l'API e' protetta, inserisci qui il token API.</span>
+</div>
+
+<div class="grid">
+  <!-- Logger stats -->
+  <div class="panel">
+    <div class="panel-title">Sessione logging</div>
+    <div class="stat-row"><span class="stat-label">Stato</span><span class="stat-val" id="s-active">—</span></div>
+    <div class="stat-row"><span class="stat-label">Session ID</span><span class="stat-val" id="s-sid">—</span></div>
+    <div class="stat-row"><span class="stat-label">Frame totali</span><span class="stat-val" id="s-frames">—</span></div>
+    <div class="stat-row"><span class="stat-label">Frame/s</span><span class="stat-val" id="s-fps">—</span></div>
+    <div class="stat-row"><span class="stat-label">Drop ratio</span><span class="stat-val" id="s-drop">—</span></div>
+    <div class="stat-row"><span class="stat-label">Parte corrente</span><span class="stat-val" id="s-part">—</span></div>
+    <div class="stat-row"><span class="stat-label">Queue</span><span class="stat-val" id="s-queue">—</span></div>
+  </div>
+
+  <!-- Capture + Mirror stats -->
+  <div class="panel">
+    <div class="panel-title">Cattura &amp; Mirror</div>
+    <div class="stat-row"><span class="stat-label">Pkt/s</span><span class="stat-val" id="c-pps">—</span></div>
+    <div class="stat-row"><span class="stat-label">Kbps</span><span class="stat-val" id="c-kbps">—</span></div>
+    <div class="stat-row"><span class="stat-label">Frame catturati</span><span class="stat-val" id="c-frames">—</span></div>
+    <div class="stat-row"><span class="stat-label">Errori</span><span class="stat-val" id="c-errors">—</span></div>
+    <div class="stat-row"><span class="stat-label">DoIP connesso</span><span class="stat-val" id="m-conn">—</span></div>
+    <div class="stat-row"><span class="stat-label">Mirror attivato</span><span class="stat-val" id="m-act">—</span></div>
+    <div class="stat-row"><span class="stat-label">Ultimo errore</span><span class="stat-val" id="m-err">—</span></div>
+  </div>
+</div>
+
+<!-- Sessions list -->
+<div class="panel">
+  <div class="panel-title">Sessioni registrate</div>
+  <table class="sessions-table">
+    <thead>
+      <tr>
+        <th>Sessione</th>
+        <th>File</th>
+        <th>Totale</th>
+        <th>Aggiornata</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody id="sessions-body">
+      <tr><td colspan="5" style="color:var(--muted);padding:12px 8px">Caricamento…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  let _startTs = null;
+  let _elapsedTimer = null;
+  let _authBlocked = false;
+
+  function getToken() {
+    return localStorage.getItem('mirror_logger_token') || '';
+  }
+
+  function authHeaders(extra={}) {
+    const headers = {...extra};
+    const token = getToken();
+    if (token) headers['X-Auth-Token'] = token;
+    return headers;
+  }
+
+  function saveToken() {
+    const value = document.getElementById('token-input').value.trim();
+    if (value) {
+      localStorage.setItem('mirror_logger_token', value);
+      _authBlocked = false;
+      setTokenNote('Token salvato. Polling API riattivato.', false);
+      toast('Token salvato nel browser');
+      fetchStatus();
+      fetchSessions();
+      return;
+    }
+    localStorage.removeItem('mirror_logger_token');
+    _authBlocked = false;
+    setTokenNote("Token rimosso. Se l'API e' protetta, inseriscilo di nuovo.", true);
+    toast('Token rimosso');
+  }
+
+  function setTokenNote(msg, warn=false) {
+    const el = document.getElementById('token-note');
+    el.textContent = msg;
+    el.className = 'toolbar-note' + (warn ? ' warn' : '');
+  }
+
+  function fmt(n, decimals=0) {
+    if (n == null || n === '') return '—';
+    return Number(n).toLocaleString('it-IT', {maximumFractionDigits: decimals});
+  }
+
+  function fmtSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1048576).toFixed(1) + ' MB';
+  }
+
+  function fmtDate(ts) {
+    return new Date(ts*1000).toLocaleString('it-IT');
+  }
+
+  function dot(cls) {
+    const d = document.getElementById('status-dot');
+    d.className = 'dot ' + (cls || '');
+  }
+
+  function sv(id, val, cls='') {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = val; el.className = 'stat-val ' + cls; }
+  }
+
+  function toast(msg, duration=3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display='none', duration);
+  }
+
+  async function apiPost(url, body={}) {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: authHeaders({'Content-Type':'application/json'}),
+      body: JSON.stringify(body),
+    });
+    return r.json();
+  }
+
+  async function apiDelete(url) {
+    const r = await fetch(url, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    return r.json();
+  }
+
+  async function apiGet(url) {
+    return fetch(url, {headers: authHeaders()});
+  }
+
+  async function downloadWithAuth(url, fallbackName='download.bin') {
+    const r = await fetch(url, {headers: authHeaders()});
+    if (r.status === 401) {
+      _authBlocked = true;
+      setTokenNote("Token richiesto: inseriscilo qui sopra per abilitare API e download.", true);
+      toast('Token richiesto per il download');
+      return;
+    }
+    if (!r.ok) {
+      let msg = `HTTP ${r.status}`;
+      try {
+        const data = await r.json();
+        if (data && data.error) msg = data.error;
+      } catch (_err) {}
+      toast('Errore download: ' + msg);
+      return;
+    }
+
+    const blob = await r.blob();
+    const cd = r.headers.get('Content-Disposition') || '';
+    const match = cd.match(/filename="?([^";]+)"?/i);
+    const name = match ? match[1] : fallbackName;
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(href), 1000);
+  }
+
+  async function sessionStart() {
+    const r = await apiPost('/api/start');
+    if (r.ok) { toast('Sessione avviata: ' + r.session_id); _startTs = Date.now(); startElapsed(); }
+    else toast('Errore: ' + r.error);
+  }
+
+  async function sessionStop() {
+    const r = await apiPost('/api/stop');
+    if (r.ok) { toast('Sessione terminata. Frame: ' + (r.stats?.frame_count ?? '—')); stopElapsed(); fetchSessions(); }
+    else toast('Errore: ' + r.error);
+  }
+
+  async function mirrorActivate() {
+    toast('Attivazione mirror…');
+    const r = await apiPost('/api/mirror/activate');
+    if (r.ok) toast('Mirror attivato');
+    else toast('Errore mirror: ' + r.error);
+  }
+
+  async function mirrorDeactivate() {
+    const r = await apiPost('/api/mirror/deactivate');
+    if (r.ok) toast('Mirror disattivato');
+  }
+
+  function startElapsed() {
+    stopElapsed();
+    _elapsedTimer = setInterval(() => {
+      if (!_startTs) return;
+      const s = Math.floor((Date.now() - _startTs) / 1000);
+      const h = String(Math.floor(s/3600)).padStart(2,'0');
+      const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      document.getElementById('elapsed-label').textContent = `${h}:${m}:${ss}`;
+    }, 1000);
+  }
+
+  function stopElapsed() {
+    if (_elapsedTimer) clearInterval(_elapsedTimer);
+    _elapsedTimer = null;
+    document.getElementById('elapsed-label').textContent = '—';
+    _startTs = null;
+  }
+
+  async function fetchStatus() {
+    if (_authBlocked) return;
+    try {
+      const r = await apiGet('/api/status');
+      if (r.status === 401) {
+        _authBlocked = true;
+        dot('warn');
+        sv('s-active', 'TOKEN', 'warn');
+        setTokenNote("Token richiesto: inseriscilo qui sopra per abilitare le API.", true);
+        return;
+      }
+      setTokenNote('Token valido. Gestione log disponibile.', false);
+      const d = await r.json();
+      const l = d.logger  || {};
+      const c = d.capture || {};
+      const m = d.mirror  || {};
+
+      const active = !!l.active;
+      dot(active ? 'on' : '');
+      sv('s-active', active ? 'ATTIVO' : 'FERMO', active ? 'ok' : 'err');
+      sv('s-sid', l.session_id || '—');
+      sv('s-frames', fmt(l.frame_count));
+      sv('s-fps', fmt(l.fps, 1));
+      const dr = parseFloat(l.drop_ratio||0);
+      sv('s-drop', (dr*100).toFixed(2) + '%', dr > 0.01 ? 'warn' : 'ok');
+      sv('s-part', l.part_index != null ? 'p' + String(l.part_index).padStart(4,'0') : '—');
+      sv('s-queue', fmt(l.queue_size));
+
+      sv('c-pps',    fmt(c.pps,1));
+      sv('c-kbps',   fmt(c.kbps,1));
+      sv('c-frames', fmt(c.frames));
+      sv('c-errors', fmt(c.errors), (c.errors||0) > 0 ? 'err' : '');
+
+      sv('m-conn', m.connected ? 'SÌ' : 'NO', m.connected ? 'ok' : 'err');
+      sv('m-act',  m.activated ? 'SÌ' : 'NO', m.activated ? 'ok' : 'warn');
+      sv('m-err', m.last_error || '—');
+
+      // Bottoni
+      document.getElementById('btn-start').disabled = active;
+      document.getElementById('btn-stop').disabled  = !active;
+
+      if (active && !_startTs) { _startTs = Date.now() - ((l.elapsed_s||0)*1000); startElapsed(); }
+      if (!active && _startTs) stopElapsed();
+    } catch(e) { dot('err'); }
+  }
+
+  async function fetchSessions() {
+    if (_authBlocked) return;
+    try {
+      const r = await apiGet('/api/sessions');
+      if (r.status === 401) {
+        _authBlocked = true;
+        document.getElementById('sessions-body').innerHTML = '<tr><td colspan="5" style="color:var(--yellow);padding:12px 8px">API protetta: inserisci il token qui sopra per caricare le sessioni.</td></tr>';
+        setTokenNote("Token richiesto: inseriscilo qui sopra per caricare le sessioni.", true);
+        return;
+      }
+      const d = await r.json();
+      const tbody = document.getElementById('sessions-body');
+      if (!d.sessions || d.sessions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:12px 8px">Nessun file registrato</td></tr>';
+        return;
+      }
+      setTokenNote('Token valido. Gestione log disponibile.', false);
+      tbody.innerHTML = d.sessions.map(s => `
+        <tr class="session-row">
+          <td><strong>${s.session_id}</strong><br><span style="color:var(--muted)">${fmt(s.part_count)} parti${s.has_pcap ? ' + PCAP' : ''}</span></td>
+          <td>${renderFiles(s.files || [])}</td>
+          <td>${fmtSize(s.total_size || 0)}</td>
+          <td>${fmtDate(s.mtime)}</td>
+          <td><div class="actions wrap"><button class="btn-link" onclick="downloadBundle(${JSON.stringify(s.session_id)})">zip sessione</button><button class="btn-link" onclick="deleteSession(${JSON.stringify(s.session_id)})">cancella sessione</button></div></td>
+        </tr>
+      `).join('');
+    } catch(e) {}
+  }
+
+  function renderFiles(files) {
+    if (!files.length) return '<span style="color:var(--muted)">—</span>';
+    return `<div class="files-list">${files.map(f => `
+      <div class="file-chip">
+        <div class="file-meta">
+          <span class="file-name">${f.name}</span>
+          <span style="color:var(--muted)">${(f.type || 'log').toUpperCase()}</span>
+          <span style="color:var(--muted)">${fmtSize(f.size || 0)}</span>
+        </div>
+        <div class="actions">
+          <button class="btn-link" onclick="downloadLog(${JSON.stringify(f.name)})">scarica</button>
+          <button class="btn-link" onclick="deleteLog(${JSON.stringify(f.name)})">cancella</button>
+        </div>
+      </div>
+    `).join('')}</div>`;
+  }
+
+  async function downloadLog(name) {
+    await downloadWithAuth(`/api/logs/${encodeURIComponent(name)}`, name);
+  }
+
+  async function downloadBundle(sessionId) {
+    await downloadWithAuth(`/api/sessions/${encodeURIComponent(sessionId)}/bundle.zip`, `session_${sessionId}.zip`);
+  }
+
+  async function deleteLog(name) {
+    if (!window.confirm(`Cancellare definitivamente ${name}?`)) return;
+    const r = await apiDelete(`/api/logs/${encodeURIComponent(name)}`);
+    if (r.ok) {
+      toast('Log cancellato: ' + name);
+      fetchSessions();
+      return;
+    }
+    toast('Errore delete: ' + (r.error || 'operazione fallita'));
+  }
+
+  async function deleteSession(sessionId) {
+    if (!window.confirm(`Cancellare tutta la sessione ${sessionId}?`)) return;
+    const r = await apiDelete(`/api/sessions/${encodeURIComponent(sessionId)}`);
+    if (r.ok) {
+      toast('Sessione cancellata: ' + sessionId);
+      fetchSessions();
+      return;
+    }
+    toast('Errore delete sessione: ' + (r.error || 'operazione fallita'));
+  }
+
+  async function deleteAllLogs() {
+    if (!window.confirm('Cancellare tutti i log non attivi?')) return;
+    const r = await apiDelete('/api/sessions');
+    if (r.ok) {
+      toast(`Log cancellati: ${r.deleted_count || 0}`);
+      fetchSessions();
+      return;
+    }
+    toast('Errore delete totale: ' + (r.error || 'operazione fallita'));
+  }
+
+  // Poll ogni 5 secondi
+  setInterval(fetchStatus, 5000);
+  setInterval(fetchSessions, 5000);
+
+  document.getElementById('token-input').value = getToken();
+  if (getToken()) setTokenNote('Token trovato nel browser. Verifica API in corso...', false);
+  fetchStatus();
+  fetchSessions();
+</script>
+</body>
+</html>

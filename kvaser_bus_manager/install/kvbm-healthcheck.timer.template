@@ -1,0 +1,12 @@
+[Unit]
+Description=Run KVBM healthcheck periodically
+
+[Timer]
+OnBootSec=45s
+OnUnitActiveSec=15s
+RandomizedDelaySec=2s
+AccuracySec=1s
+Unit=kvbm-healthcheck.service
+
+[Install]
+WantedBy=timers.target

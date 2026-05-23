@@ -1,0 +1,824 @@
+{
+  "ecu_count": 51,
+  "ecus": [
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1892,
+        "resp_id": 1998
+      },
+      "doip": {
+        "logical_ecu_address": 16484,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Actuator For Exterior Noise UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ActuaForExterNoiseUDS",
+      "source_odx": "BV_ActuaForExterNoiseUDS_002001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1879,
+        "resp_id": 1985
+      },
+      "doip": {
+        "logical_ecu_address": 16471,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Adaptive Cruise Control UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_AdaptCruisContrUDS",
+      "source_odx": "BV_AdaptCruisContrUDS_005002_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1813,
+        "resp_id": 1919
+      },
+      "doip": {
+        "logical_ecu_address": 16405,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Airbag UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_AirbaUDS",
+      "source_odx": "BV_AirbaUDS_011200_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396765,
+        "resp_id": 402527837
+      },
+      "doip": {
+        "logical_ecu_address": 18013,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Air Conditioning Compressor Sub UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_AirCondiComprSubUDS",
+      "source_odx": "BV_AirCondiComprSubUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1860,
+        "resp_id": 1966
+      },
+      "doip": {
+        "logical_ecu_address": 16452,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Battery Charger Control Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_BatteChargContrModulUDS",
+      "source_odx": "BV_BatteChargContrModulUDS_003003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 2021,
+        "resp_id": 2029
+      },
+      "doip": {
+        "logical_ecu_address": 16507,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Battery Energy Control Module UDS",
+      "protocol_snref": "PR_OBDOnCAN",
+      "short_name": "DLC_BV_BatteEnergContrModulUDS",
+      "source_odx": "BV_BatteEnergContrModulUDS_006010_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396727,
+        "resp_id": 402527799
+      },
+      "doip": {
+        "logical_ecu_address": 17463,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Battery Monitoring Control Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_BatteMonitContrModulUDS",
+      "source_odx": "BV_BatteMonitContrModulUDS_002001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1811,
+        "resp_id": 1917
+      },
+      "doip": {
+        "logical_ecu_address": 16403,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Brakes 1 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_Brake1UDS",
+      "source_odx": "BV_Brake1UDS_009005_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1806,
+        "resp_id": 1912
+      },
+      "doip": {
+        "logical_ecu_address": 16398,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Central Electrics UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_CentrElectUDS",
+      "source_odx": "BV_CentrElectUDS_004005_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391179,
+        "resp_id": 402522251
+      },
+      "doip": {
+        "logical_ecu_address": 16523,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Central Module Comfort System UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_CentrModulComfoSysteUDS",
+      "source_odx": "BV_CentrModulComfoSysteUDS_001005_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391168,
+        "resp_id": 402522240
+      },
+      "doip": {
+        "logical_ecu_address": 16512,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Chassis Control UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ChassContrUDS",
+      "source_odx": "BV_ChassContrUDS_001005_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396673,
+        "resp_id": 402527745
+      },
+      "doip": {
+        "logical_ecu_address": 17921,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Control Unit For Wiper Motor UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ContrUnitForWiperMotorUDS",
+      "source_odx": "BV_ContrUnitForWiperMotorUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391178,
+        "resp_id": 402522250
+      },
+      "doip": {
+        "logical_ecu_address": 16522,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Control Unit Lane Change Assistant 2 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ContrUnitLaneChangAssis2UDS",
+      "source_odx": "BV_ContrUnitLaneChangAssis2UDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1812,
+        "resp_id": 1918
+      },
+      "doip": {
+        "logical_ecu_address": 16404,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Dash Board UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DashBoardUDS",
+      "source_odx": "BV_DashBoardUDS_008001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391223,
+        "resp_id": 402522295
+      },
+      "doip": {
+        "logical_ecu_address": 16567,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "DC/DC Converter Control Module HV UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DCDCConveContrModulHVUDS",
+      "source_odx": "BV_DCDCConveContrModulHVUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1866,
+        "resp_id": 1972
+      },
+      "doip": {
+        "logical_ecu_address": 16458,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Door Electronics Driver Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DoorElectDriveSideUDS",
+      "source_odx": "BV_DoorElectDriveSideUDS_007003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1867,
+        "resp_id": 1973
+      },
+      "doip": {
+        "logical_ecu_address": 16459,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Door Electronics Passenger Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DoorElectPasseSideUDS",
+      "source_odx": "BV_DoorElectPasseSideUDS_007003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391213,
+        "resp_id": 402522285
+      },
+      "doip": {
+        "logical_ecu_address": 16557,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Door Latch Module Driver Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DoorLatchModulDriveSideUDS",
+      "source_odx": "BV_DoorLatchModulDriveSideUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391215,
+        "resp_id": 402522287
+      },
+      "doip": {
+        "logical_ecu_address": 16559,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Door Latch Module Passenger Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DoorLatchModulPasseSideUDS",
+      "source_odx": "BV_DoorLatchModulPasseSideUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391224,
+        "resp_id": 402522296
+      },
+      "doip": {
+        "logical_ecu_address": 16568,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Drive Motor Control Module 2 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DriveMotorContrModul2UDS",
+      "source_odx": "BV_DriveMotorContrModul2UDS_003024_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391164,
+        "resp_id": 402522236
+      },
+      "doip": {
+        "logical_ecu_address": 16508,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Drive Motor Control Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_DriveMotorContrModulUDS",
+      "source_odx": "BV_DriveMotorContrModulUDS_003025_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396745,
+        "resp_id": 402527817
+      },
+      "doip": {
+        "logical_ecu_address": 17993,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Electrically Adjustable Steering Column UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ElectAdjusSteerColumUDS",
+      "source_odx": "BV_ElectAdjusSteerColumUDS_003001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1837,
+        "resp_id": 1943
+      },
+      "doip": {
+        "logical_ecu_address": 16429,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Electronic Roof Control UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ElectRoofContrUDS",
+      "source_odx": "BV_ElectRoofContrUDS_004001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 2016,
+        "resp_id": 2024
+      },
+      "doip": {
+        "logical_ecu_address": 16502,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Engine Control Module 1 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_EnginContrModul1UDS",
+      "source_odx": "BV_EnginContrModul1UDS_002133_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391160,
+        "resp_id": 402522232
+      },
+      "doip": {
+        "logical_ecu_address": 16504,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Engine Control Module 2 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_EnginContrModul2UDS",
+      "source_odx": "BV_EnginContrModul2UDS_003127_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396699,
+        "resp_id": 402527771
+      },
+      "doip": {
+        "logical_ecu_address": 17947,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Fresh Air Blower Front UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_FreshAirBloweFrontUDS",
+      "source_odx": "BV_FreshAirBloweFrontUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391197,
+        "resp_id": 402522269
+      },
+      "doip": {
+        "logical_ecu_address": 16541,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Front Corner Radar 1 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_FrontCorneRadar1UDS",
+      "source_odx": "BV_FrontCorneRadar1UDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391198,
+        "resp_id": 402522270
+      },
+      "doip": {
+        "logical_ecu_address": 16542,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Front Corner Radar 2 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_FrontCorneRadar2UDS",
+      "source_odx": "BV_FrontCorneRadar2UDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1871,
+        "resp_id": 1977
+      },
+      "doip": {
+        "logical_ecu_address": 16463,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Front Sensors Driver Assistance System UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_FrontSensoDriveAssisSysteUDS",
+      "source_odx": "BV_FrontSensoDriveAssisSysteUDS_005006_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396676,
+        "resp_id": 402527748
+      },
+      "doip": {
+        "logical_ecu_address": 17924,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Garage Door Opener Control Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_GaragDoorOpeneContrModulUDS",
+      "source_odx": "BV_GaragDoorOpeneContrModulUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1808,
+        "resp_id": 1914
+      },
+      "doip": {
+        "logical_ecu_address": 16400,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Gateway UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_GatewUDS",
+      "source_odx": "BV_GatewUDS_200008_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1880,
+        "resp_id": 1986
+      },
+      "doip": {
+        "logical_ecu_address": 16472,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Image Processing Electronics UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ImageProceElectUDS",
+      "source_odx": "BV_ImageProceElectUDS_003001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1907,
+        "resp_id": 2013
+      },
+      "doip": {
+        "logical_ecu_address": 16499,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Information Control Unit 1 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_InforContrUnit1UDS",
+      "source_odx": "BV_InforContrUnit1UDS_011070_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396702,
+        "resp_id": 402527774
+      },
+      "doip": {
+        "logical_ecu_address": 17950,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Interior Light Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_InterLightModulUDS",
+      "source_odx": "BV_InterLightModulUDS_001002_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1870,
+        "resp_id": 1976
+      },
+      "doip": {
+        "logical_ecu_address": 16462,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Lane Change Assistant UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_LaneChangAssisUDS",
+      "source_odx": "BV_LaneChangAssisUDS_001003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391190,
+        "resp_id": 402522262
+      },
+      "doip": {
+        "logical_ecu_address": 16534,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Light Control Left 2 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_LightContrLeft2UDS",
+      "source_odx": "BV_LightContrLeft2UDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391191,
+        "resp_id": 402522263
+      },
+      "doip": {
+        "logical_ecu_address": 16535,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Light Control Right 2 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_LightContrRight2UDS",
+      "source_odx": "BV_LightContrRight2UDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396721,
+        "resp_id": 402527793
+      },
+      "doip": {
+        "logical_ecu_address": 17969,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Multi Function Steering Wheel Control Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_MultiFunctSteerWheelContrModulUDS",
+      "source_odx": "BV_MultiFunctSteerWheelContrModulUDS_003002_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402396674,
+        "resp_id": 402527746
+      },
+      "doip": {
+        "logical_ecu_address": 17922,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Rain Light Recognition Sensor UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_RainLightRecogSensoUDS",
+      "source_odx": "BV_RainLightRecogSensoUDS_001001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1868,
+        "resp_id": 1974
+      },
+      "doip": {
+        "logical_ecu_address": 16460,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Seat Adjustment Driver Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SeatAdjusDriveSideUDS",
+      "source_odx": "BV_SeatAdjusDriveSideUDS_002003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1869,
+        "resp_id": 1975
+      },
+      "doip": {
+        "logical_ecu_address": 16461,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Seat Adjustment Passenger Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SeatAdjusPasseSideUDS",
+      "source_odx": "BV_SeatAdjusPasseSideUDS_002003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391175,
+        "resp_id": 402522247
+      },
+      "doip": {
+        "logical_ecu_address": 16519,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Seat Adjustment Rear Driver Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SeatAdjusRearDriveSideUDS",
+      "source_odx": "BV_SeatAdjusRearDriveSideUDS_002003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": true,
+        "phys_req_id": 402391176,
+        "resp_id": 402522248
+      },
+      "doip": {
+        "logical_ecu_address": 16520,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Seat Adjustment Rear Passenger Side UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SeatAdjusRearPasseSideUDS",
+      "source_odx": "BV_SeatAdjusRearPasseSideUDS_002003_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1903,
+        "resp_id": 2009
+      },
+      "doip": {
+        "logical_ecu_address": 16495,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Sound System UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SoundSysteUDS",
+      "source_odx": "BV_SoundSysteUDS_011044_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1810,
+        "resp_id": 1916
+      },
+      "doip": {
+        "logical_ecu_address": 16402,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Steering Assistance UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SteerAssisUDS",
+      "source_odx": "BV_SteerAssisUDS_008001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1804,
+        "resp_id": 1910
+      },
+      "doip": {
+        "logical_ecu_address": 16396,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Steering Column Electronics UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SteerColumElectUDS",
+      "source_odx": "BV_SteerColumElectUDS_009001_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1841,
+        "resp_id": 1947
+      },
+      "doip": {
+        "logical_ecu_address": 16433,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Steering Column Locking UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_SteerColumLockiUDS",
+      "source_odx": "BV_SteerColumLockiUDS_005102_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1895,
+        "resp_id": 2001
+      },
+      "doip": {
+        "logical_ecu_address": 16487,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Telematics Communication Unit UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_TelemCommuUnitUDS",
+      "source_odx": "BV_TelemCommuUnitUDS_003005_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1858,
+        "resp_id": 1964
+      },
+      "doip": {
+        "logical_ecu_address": 16450,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Thermal Management UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_ThermManagUDS",
+      "source_odx": "BV_ThermManagUDS_002006_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 1803,
+        "resp_id": 1909
+      },
+      "doip": {
+        "logical_ecu_address": 16395,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Tire Pressure Monitoring 1 UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_TirePressMonit1UDS",
+      "source_odx": "BV_TirePressMonit1UDS_005002_d.odx"
+    },
+    {
+      "can": {
+        "is_extended_id": false,
+        "phys_req_id": 2017,
+        "resp_id": 2025
+      },
+      "doip": {
+        "logical_ecu_address": 16503,
+        "logical_gateway_address": null,
+        "logical_tester_address": null
+      },
+      "long_name": "Transmission Control Module UDS",
+      "protocol_snref": "PR_UDSOnCAN",
+      "short_name": "DLC_BV_TransContrModulUDS",
+      "source_odx": "BV_TransContrModulUDS_003028_d.odx"
+    }
+  ],
+  "elapsed_ms": 259,
+  "files_scanned": 51,
+  "ok": true
+}

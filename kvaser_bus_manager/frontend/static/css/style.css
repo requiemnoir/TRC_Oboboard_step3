@@ -1,0 +1,323 @@
+/*
+  Global (non-Sentinel) look & feel.
+  NOTE: The immersive Sentinel page uses its own body class and background layers.
+*/
+body:not(.sentinel-body) {
+    /* Dark gradient overlay + shared background image */
+    background-color: #0b0b0b;
+    background-image:
+        radial-gradient(1200px 700px at 20% 10%, rgba(26, 26, 26, 0.74) 0%, rgba(18, 18, 18, 0.72) 55%, rgba(11, 11, 11, 0.77) 100%),
+        url("/static/img/the_sentinel_background.png");
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, cover;
+    background-position: center, center;
+    background-attachment: fixed, fixed;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --kv-accent: var(--bs-warning, #ffc107);
+    --kv-panel: #1e1e1e;
+    --kv-panel-2: #151515;
+    --kv-border: #2d2d2d;
+}
+
+.card {
+    /* Slight transparency so background subtly shows through */
+    background: linear-gradient(
+        180deg,
+        rgba(30, 30, 30, 0.82) 0%,
+        rgba(21, 21, 21, 0.78) 100%
+    );
+    border: 1px solid var(--kv-border);
+    border-radius: 10px;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--kv-border);
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1080;
+    overflow: visible;
+}
+
+.navbar .container-fluid,
+.navbar .navbar-collapse,
+.navbar .dropdown {
+    overflow: visible;
+}
+
+.navbar .dropdown-menu {
+    z-index: 1090;
+}
+
+/* Slight transparency so the background shows through */
+.navbar.bg-dark {
+    background-color: rgba(13, 13, 13, 0.66) !important;
+    border-bottom-color: rgba(108, 117, 125, 0.55) !important; /* bootstrap secondary */
+}
+
+/* Optional glass effect (supported browsers only) */
+@supports ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+    .navbar.bg-dark {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .card {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+}
+
+.navbar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--kv-accent) 35%, transparent 100%);
+    opacity: 0.8;
+}
+
+/* Navbar branding (matches header in screenshot) */
+.kv-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.kv-brand-accent {
+    color: var(--kv-accent);
+}
+
+.kv-brand-main {
+    color: #f3f3f3;
+}
+
+.kv-sub {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.70rem;
+    letter-spacing: 0.8px;
+}
+
+.sentinel-edition {
+    margin-left: 6px;
+    padding-left: 14px;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sentinel-edition-text {
+    color: #ff2b2b;
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.table-dark {
+    --bs-table-bg: #1e1e1e;
+    --bs-table-striped-bg: #2c2c2c;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #1e1e1e; 
+}
+::-webkit-scrollbar-thumb {
+    background: #555; 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #888; 
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.navbar .nav-link.btn-link {
+    text-decoration: none;
+    padding-left: var(--bs-navbar-nav-link-padding-x);
+    padding-right: var(--bs-navbar-nav-link-padding-x);
+    color: var(--bs-navbar-color);
+}
+
+.navbar .nav-link.btn-link:hover,
+.navbar .nav-link.btn-link:focus,
+.navbar .nav-link.btn-link.active {
+    color: var(--bs-navbar-hover-color, rgba(255, 255, 255, 0.85));
+}
+
+.navbar::after {
+    pointer-events: none;
+}
+
+#mode-select {
+    position: relative;
+    z-index: 1095;
+    pointer-events: auto;
+    cursor: pointer;
+    appearance: auto;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    background-image: none;
+    padding-right: 0.75rem;
+}
+
+label[for="mode-select"] {
+    position: relative;
+    z-index: 1095;
+}
+
+/* Lamborghini-ish sharp highlights */
+.btn,
+.form-select,
+.form-control {
+    border-radius: 10px;
+}
+
+/* MF4 file-selection lists — full-width readable names */
+.mf4-file-list {
+    font-family: 'Cascadia Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem;
+    letter-spacing: -0.02em;
+}
+.mf4-file-list option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 3px 6px;
+}
+
+/* ── MF4 expandable file picker ── */
+.mf4-file-picker {
+    position: relative;
+    width: 100%;
+}
+.mf4-file-picker-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-family: 'Cascadia Mono', 'Fira Code', 'Consolas', monospace;
+    color: #e0e0e0;
+    background: rgba(30, 30, 30, 0.85);
+    border: 1px solid var(--kv-border, #2d2d2d);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s;
+}
+.mf4-file-picker-toggle:hover,
+.mf4-file-picker-toggle:focus {
+    border-color: var(--kv-accent, #ffc107);
+    outline: none;
+}
+.mf4-file-picker-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+}
+.mf4-file-picker-arrow {
+    margin-left: 8px;
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+}
+.mf4-file-picker.open .mf4-file-picker-arrow {
+    transform: rotate(180deg);
+}
+.mf4-file-picker-dropdown {
+    display: none;
+    position: absolute;
+    z-index: 1100;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #1a1a1a;
+    border: 1px solid var(--kv-accent, #ffc107);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    max-height: 260px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.mf4-file-picker.open .mf4-file-picker-dropdown {
+    display: block;
+}
+.mf4-file-picker-list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    min-width: max-content;
+}
+.mf4-file-picker-list li {
+    padding: 6px 14px;
+    font-family: 'Cascadia Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.84rem;
+    color: #ccc;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.1s, color 0.1s;
+}
+.mf4-file-picker-list li:hover {
+    background: rgba(255, 193, 7, 0.15);
+    color: #fff;
+}
+.mf4-file-picker-list li.active {
+    background: rgba(255, 193, 7, 0.25);
+    color: var(--kv-accent, #ffc107);
+    font-weight: 600;
+}
+.mf4-file-picker-list li.empty-placeholder {
+    color: #666;
+    font-style: italic;
+    cursor: default;
+}
+.mf4-file-picker-list li.empty-placeholder:hover {
+    background: transparent;
+    color: #666;
+}
+
+.channel-row {
+    position: relative;
+    overflow: hidden;
+}
+
+.channel-row::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -60px;
+    width: 160px;
+    height: 120px;
+    transform: rotate(25deg);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 193, 7, 0.12) 50%, transparent 100%);
+    pointer-events: none;
+}
+
+.webcam-stream {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}

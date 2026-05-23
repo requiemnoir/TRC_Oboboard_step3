@@ -1,0 +1,27 @@
+var annotated_dup =
+[
+    [ "bitrate_t", "structbitrate__t.htm", "structbitrate__t" ],
+    [ "bitrates_t", "structbitrates__t.htm", "structbitrates__t" ],
+    [ "canBusStatistics_s", "structcan_bus_statistics__s.htm", "structcan_bus_statistics__s" ],
+    [ "canNotifyData", "structcan_notify_data.htm", "structcan_notify_data" ],
+    [ "canUserIoPortData", "structcan_user_io_port_data.htm", "structcan_user_io_port_data" ],
+    [ "KvaDbProtocolProperties", "struct_kva_db_protocol_properties.htm", "struct_kva_db_protocol_properties" ],
+    [ "kvAnalyzerInfo_t", "structkv_analyzer_info__t.htm", "structkv_analyzer_info__t" ],
+    [ "kvBusParamLimits", "structkv_bus_param_limits.htm", "structkv_bus_param_limits" ],
+    [ "kvBusParamsTq", "structkv_bus_params_tq.htm", "structkv_bus_params_tq" ],
+    [ "kvClockInfo", "structkv_clock_info.htm", "structkv_clock_info" ],
+    [ "kvDiagSample", "structkv_diag_sample.htm", "structkv_diag_sample" ],
+    [ "kvIoModuleAnalog", "structkv_io_module_analog.htm", "structkv_io_module_analog" ],
+    [ "kvIoModuleDigital", "structkv_io_module_digital.htm", "structkv_io_module_digital" ],
+    [ "kvIoModuleInternal", "structkv_io_module_internal.htm", "structkv_io_module_internal" ],
+    [ "kvIoModuleRelay", "structkv_io_module_relay.htm", "structkv_io_module_relay" ],
+    [ "kvmLogEventEx", "structkvm_log_event_ex.htm", "structkvm_log_event_ex" ],
+    [ "kvmLogMsgEx", "structkvm_log_msg_ex.htm", "structkvm_log_msg_ex" ],
+    [ "kvmLogRtcClockEx", "structkvm_log_rtc_clock_ex.htm", "structkvm_log_rtc_clock_ex" ],
+    [ "kvmLogTriggerEx", "structkvm_log_trigger_ex.htm", "structkvm_log_trigger_ex" ],
+    [ "kvmLogVersionEx", "structkvm_log_version_ex.htm", "structkvm_log_version_ex" ],
+    [ "KvParseHandle", "struct_kv_parse_handle.htm", "struct_kv_parse_handle" ],
+    [ "kvTimeDomainData_s", "structkv_time_domain_data__s.htm", "structkv_time_domain_data__s" ],
+    [ "LinMessageInfo", "struct_lin_message_info.htm", "struct_lin_message_info" ],
+    [ "tag_token", "structtag__token.htm", "structtag__token" ]
+];

@@ -1,0 +1,103 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+**/.cache/
+
+# Native build outputs can shadow Python sources and are not source assets
+*.so
+*.cpython-*-darwin.so
+
+# Virtualenvs
+.venv/
+venv/
+**/.venv/
+**/venv/
+*/.venv/
+*/venv/
+*/.venv-*/
+
+# Local clones / temp
+Rasp_pi4_kvaser_tmp/
+
+# Logs / captures / generated outputs
+logs/
+*/logs/
+*.log
+# API token locale (generato da install.sh)
+mirror_logger/config/.token
+# Config utente locale (generata al primo run / via UI)
+mirror_logger/config/user.json
+*.pcap
+*.pcapng
+
+# MF4 / measurement files
+*.mf4
+*.mf4.merge_error.txt
+*.mf5
+*.mf5.merge_error.txt
+
+# Large binary artifacts (keep out of git by default)
+*.pt
+
+# Optional: allow specific pinned model weights to be versioned
+!kvaser_bus_manager/yolov8n.pt
+
+# PDX projects (can be large)
+
+
+# Vehicle databases (DBC/FIBEX) are required for reproduction
+# NOTE: These may contain proprietary data; only commit if you have rights.
+# (no ignore rules here)
+
+# LFS pointer files whose real large objects are not present locally.
+# Keep them out of this GitHub import unless the real LFS objects are restored.
+kvaser_bus_manager/databases/dbc/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
+kvaser_bus_manager/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
+kvaser_bus_manager/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+kvaser_bus_manager/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+mf4_standalone_decoder/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+mf4_standalone_decoder/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+Senza nome/kvaser_bus_manager/databases/dbc/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
+Senza nome/kvaser_bus_manager/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
+Senza nome/kvaser_bus_manager/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+Senza nome/kvaser_bus_manager/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+Senza nome/mf4_standalone_decoder/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+Senza nome/mf4_standalone_decoder/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+
+# OS / editor
+.DS_Store
+._*
+.vscode/
+
+# Local broken Git backups created during repository recovery
+.git_broken_backup_*/
+.git_broken_backup_name
+
+# Local runtime config (generated on first run)
+# Tracked to make the system reproducible as-is.
+# If you want to keep local-only settings, re-add this ignore and commit only app_config.example.json.
+# Keep runtime config local by default (the app bootstraps it from app_config.example.json).
+**/config/app_config.json
+
+# Repro snapshots / backups (large)
+repro_state/backup_*.tar.gz
+repro_state/*.tar.gz
+
+# Embedded git backups
+**/.git_embedded_backup/
+**/.git_embedded_backup_*/
+Prompt_To_Do.txt
+
+# Kvaser kernel-module build artifacts (vendored under install/kvaser_drivers_src/)
+install/kvaser_drivers_src/linuxcan/**/*.o
+install/kvaser_drivers_src/linuxcan/**/*.ko
+install/kvaser_drivers_src/linuxcan/**/*.mod
+install/kvaser_drivers_src/linuxcan/**/*.mod.c
+install/kvaser_drivers_src/linuxcan/**/*.cmd
+install/kvaser_drivers_src/linuxcan/**/.*.cmd
+install/kvaser_drivers_src/linuxcan/**/Module.symvers
+install/kvaser_drivers_src/linuxcan/**/modules.order
+install/kvaser_drivers_src/linuxcan/**/.tmp_versions/

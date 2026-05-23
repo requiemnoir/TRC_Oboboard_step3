@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-3" href="/" aria-label="EV-Q Onboard Manager">
+      <div class="d-flex flex-column lh-1">
+        <div class="kv-brand">
+          <span class="kv-brand-accent">EV-Q</span>
+          <span class="kv-brand-main">ONBOARD MANAGER</span>
+        </div>
+        <div class="kv-sub">
+          <span class="kv-sub-sep">TRC PROJECT</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="sentinel-edition d-none d-xl-flex align-items-center" aria-label="The Sentinel edition">
+      <span class="sentinel-edition-text">THE SENTINEL EDITION</span>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kvNavbar" aria-controls="kvNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="kvNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Monitoraggio</a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="/violations">Violations</a></li>
+            <li><a class="dropdown-item" href="/timeline">Timeline</a></li>
+            <li><a class="dropdown-item" href="/ai">AI</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/experimental">The Sentinel</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configurazione</a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="/sources">Sources</a></li>
+            <li><a class="dropdown-item" href="/comparison">Rules</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/doip">DoIP</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cataloghi</a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="/dbc_catalog">Catalogo DBC</a></li>
+            <li><a class="dropdown-item" href="/fibex_catalog">Catalogo FIBEX</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Strumenti</a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="/copilot">Copilot</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <label for="mode-select" class="text-muted small mb-0">Mode</label>
+        <select id="mode-select" class="form-select form-select-sm bg-dark text-warning border-secondary" style="width: 160px;">
+          <option value="logger" selected>Logger</option>
+          <option value="scantools">ScanTools</option>
+          <option value="mf4">MF4 Viewer</option>
+          <option value="settings">Impostazioni</option>
+        </select>
+
+        <div class="d-flex align-items-center gap-1" id="sys-indicators" style="min-width: 200px;">
+          <span id="stat-cpu-temp" class="badge text-bg-secondary" title="CPU temperature">CPU —°C</span>
+          <span id="stat-cpu" class="badge text-bg-secondary" title="CPU usage">CPU —%</span>
+          <span id="stat-ram" class="badge text-bg-secondary" title="RAM usage">RAM —%</span>
+        </div>
+
+        <span class="navbar-text" id="connection-status">Disconnected</span>
+      </div>
+    </div>
+  </div>
+</nav>

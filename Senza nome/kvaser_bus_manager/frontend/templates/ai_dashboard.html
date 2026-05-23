@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV-Q Onboard Manager — AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+{% include '_navbar.html' %}
+
+<div class="container-fluid mt-4" style="max-width: 1400px;">
+  <div class="row g-3">
+
+    <div class="col-12">
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>Live Anomaly Detection</span>
+          <div class="d-flex gap-2 align-items-center flex-wrap">
+            <span id="ws" class="badge text-bg-secondary">WS: —</span>
+            <button id="btn-refresh" class="btn btn-sm btn-outline-secondary">Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-lg-5">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="fw-semibold">Status</div>
+                  <div class="small text-muted">Event: <span class="text-warning">anomaly</span></div>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="ai-enabled">
+                  <label class="form-check-label" for="ai-enabled">Enabled</label>
+                </div>
+              </div>
+
+              <div class="row g-2 mt-2">
+                <div class="col-12">
+                  <label class="form-label small text-muted">Training / scoring mode</label>
+                  <select id="ai-mode" class="form-select form-select-sm">
+                    <option value="vector" selected>Vector (multi-signal)</option>
+                    <option value="compare">Confronto (A vs B)</option>
+                  </select>
+                  <div class="small text-muted">Confronto: il modello viene addestrato sul delta tra due segnali (A−B oppure %).</div>
+                </div>
+                <div class="col-6">
+                  <label class="form-label small text-muted">Threshold (mean |z|)</label>
+                  <input id="ai-threshold" type="number" step="0.1" min="0.1" max="100" class="form-control form-control-sm" />
+                </div>
+                <div class="col-6">
+                  <label class="form-label small text-muted">Sample every (ms)</label>
+                  <input id="ai-sample-ms" type="number" step="1" min="5" max="1000" class="form-control form-control-sm" />
+                </div>
+                <div class="col-6">
+                  <label class="form-label small text-muted">Min complete ratio</label>
+                  <input id="ai-min-ratio" type="number" step="0.05" min="0.1" max="1" class="form-control form-control-sm" />
+                </div>
+                <div class="col-6">
+                  <label class="form-label small text-muted">Model trained</label>
+                  <div id="ai-trained" class="form-control form-control-sm bg-dark">—</div>
+                </div>
+
+                <div class="col-12">
+                  <div class="card border-secondary bg-dark">
+                    <div class="card-body py-2">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <div class="fw-semibold">Anomaly → Violation</div>
+                          <div class="small text-muted">Se attivo, ogni anomalia crea una riga in <span class="text-warning">Violations</span>.</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" role="switch" id="ai-viol-enabled">
+                          <label class="form-check-label" for="ai-viol-enabled">Create violation</label>
+                        </div>
+                      </div>
+                      <div class="row g-2 mt-1">
+                        <div class="col-6">
+                          <label class="form-label small text-muted">Severity</label>
+                          <select id="ai-viol-sev" class="form-select form-select-sm">
+                            <option value="info">info</option>
+                            <option value="warning" selected>warning</option>
+                            <option value="critical">critical</option>
+                          </select>
+                        </div>
+                        <div class="col-6">
+                          <label class="form-label small text-muted">Debounce (s)</label>
+                          <input id="ai-viol-debounce" type="number" step="0.1" min="0" max="60" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-6">
+                          <label class="form-label small text-muted">Rule ID</label>
+                          <input id="ai-viol-rule-id" class="form-control form-control-sm" placeholder="ai_anomaly" />
+                        </div>
+                        <div class="col-6">
+                          <label class="form-label small text-muted">Rule name</label>
+                          <input id="ai-viol-rule-name" class="form-control form-control-sm" placeholder="AI anomaly" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-2 mt-3 flex-wrap">
+                <button id="btn-save" class="btn btn-sm btn-outline-warning">Save config</button>
+                <button id="btn-train" class="btn btn-sm btn-outline-info">Train (live)</button>
+                <input id="train-duration" class="form-control form-control-sm bg-dark border-secondary" style="width:140px" type="number" step="1" min="1" max="600" value="120" title="Training duration (seconds)" />
+                <span id="train-msg" class="small text-muted"></span>
+              </div>
+
+              <hr class="border-secondary" />
+
+              <div id="panel-vector">
+                <div class="fw-semibold mb-2">Signals (from Sources/DBC)</div>
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Source</label>
+                    <select id="src" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Message</label>
+                    <select id="msg" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Signal</label>
+                    <input id="sig-global" class="form-control form-control-sm bg-dark border-secondary mb-1" placeholder="Search signal (auto message)…" />
+                    <select id="sig-global-results" class="form-select form-select-sm bg-dark border-secondary mb-1" size="6" style="display:none;"></select>
+                    <div id="sig-global-hint" class="small text-muted" style="display:none;"></div>
+                    <select id="sig" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-12 d-flex gap-2">
+                    <button id="btn-add" class="btn btn-sm btn-outline-warning">+ Add signal</button>
+                    <button id="btn-clear" class="btn btn-sm btn-outline-secondary">Clear</button>
+                  </div>
+                </div>
+                <div class="table-responsive mt-2" style="max-height: 220px; overflow:auto;">
+                  <table class="table table-dark table-striped table-sm align-middle">
+                    <thead>
+                      <tr><th>source</th><th>message</th><th>signal</th><th></th></tr>
+                    </thead>
+                    <tbody id="sig-tb"></tbody>
+                  </table>
+                </div>
+                <div class="small text-muted">Tip: train on a “normal” drive segment; then enable continuous anomaly scoring.</div>
+              </div>
+
+              <div id="panel-compare" style="display:none;">
+                <div class="fw-semibold mb-2">Confronto (seleziona A e B)</div>
+                <div class="row g-2">
+                  <div class="col-12">
+                    <label class="form-label small text-muted">Compare op</label>
+                    <select id="cmp-op" class="form-select form-select-sm">
+                      <option value="delta" selected>Delta (A − B)</option>
+                      <option value="delta_pct">Delta % ((A − B)/|B| · 100)</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12"><div class="text-muted small">Signal A</div></div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Source A</label>
+                    <select id="srcA" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Message A</label>
+                    <select id="msgA" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Signal A</label>
+                    <input id="sigA-global" class="form-control form-control-sm bg-dark border-secondary mb-1" placeholder="Search signal (auto message)…" />
+                    <select id="sigA-global-results" class="form-select form-select-sm bg-dark border-secondary mb-1" size="6" style="display:none;"></select>
+                    <div id="sigA-global-hint" class="small text-muted" style="display:none;"></div>
+                    <select id="sigA" class="form-select form-select-sm"></select>
+                  </div>
+
+                  <div class="col-12"><div class="text-muted small">Signal B</div></div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Source B</label>
+                    <select id="srcB" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Message B</label>
+                    <select id="msgB" class="form-select form-select-sm"></select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small text-muted">Signal B</label>
+                    <input id="sigB-global" class="form-control form-control-sm bg-dark border-secondary mb-1" placeholder="Search signal (auto message)…" />
+                    <select id="sigB-global-results" class="form-select form-select-sm bg-dark border-secondary mb-1" size="6" style="display:none;"></select>
+                    <div id="sigB-global-hint" class="small text-muted" style="display:none;"></div>
+                    <select id="sigB" class="form-select form-select-sm"></select>
+                  </div>
+                </div>
+                <div class="small text-muted mt-2">Training in confronto: il modello impara la distribuzione del delta tra A e B durante i 120s.</div>
+              </div>
+            </div>
+
+            <div class="col-lg-7">
+              <div class="card border-secondary">
+                <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+                  <span>Anomaly feed</span>
+                  <div class="d-flex gap-2 align-items-center">
+                    <span id="last-score" class="badge text-bg-secondary">score —</span>
+                    <button id="btn-load-anom" class="btn btn-sm btn-outline-secondary">Load history</button>
+                  </div>
+                </div>
+                <div class="card-body" style="max-height: 520px; overflow:auto;">
+                  <div id="anom" class="small"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>Rule Suggestions (from session logs)</span>
+          <span class="small text-muted">Build min/max rules from decoded CSV payloads</span>
+        </div>
+        <div class="card-body">
+          <div class="row g-2 align-items-end">
+            <div class="col-md-5">
+              <label class="form-label small text-muted">Session</label>
+              <select id="sess" class="form-select form-select-sm"></select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label small text-muted">Min count</label>
+              <input id="min-count" type="number" min="10" step="10" value="200" class="form-control form-control-sm" />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label small text-muted">Margin frac</label>
+              <input id="margin-frac" type="number" min="0" max="1" step="0.01" value="0.05" class="form-control form-control-sm" />
+            </div>
+            <div class="col-md-3 d-grid">
+              <button id="btn-suggest" class="btn btn-sm btn-outline-warning">Suggest rules</button>
+            </div>
+          </div>
+          <div id="sugg-msg" class="small text-muted mt-2"></div>
+
+          <div class="table-responsive mt-3" style="max-height: 420px; overflow:auto;">
+            <table class="table table-dark table-striped table-sm align-middle">
+              <thead>
+                <tr>
+                  <th style="width:36px"></th>
+                  <th>name</th>
+                  <th>op</th>
+                  <th>b_const</th>
+                  <th>thr</th>
+                  <th>count</th>
+                </tr>
+              </thead>
+              <tbody id="sugg-tb"></tbody>
+            </table>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="btn-apply" class="btn btn-sm btn-outline-info" disabled>Apply selected to Rules</button>
+            <button id="btn-select-all" class="btn btn-sm btn-outline-secondary" disabled>Select all</button>
+            <button id="btn-select-none" class="btn btn-sm btn-outline-secondary" disabled>Select none</button>
+          </div>
+          <div class="small text-muted mt-2">
+            If suggestions are empty: ensure your session CSV has decoded payloads (set `LOG_DECODED_MODE=full` for CSV, or use MF4 decoded channels).
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  const el = (id) => document.getElementById(id);
+  const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmtTs = (ms) => { try { return new Date(Number(ms)).toLocaleString(); } catch { return String(ms); } };
+
+  let cfg = null;
+  let sources = [];
+  let dbcCache = new Map();
+  let signalIndexCache = new Map(); // dbc_name -> [{msg,sig,msgL,sigL,msgC,sigC}]
+  let suggestions = [];
+
+  function wildcardMatch(text, pattern) {
+    const s = String(text || '').toLowerCase();
+    const p = String(pattern || '').trim().toLowerCase();
+    if (!p) return true;
+    if (!p.includes('*')) return s.includes(p);
+    const parts = p.split('*').filter(x => x.length);
+    if (!parts.length) return true;
+    let pos = 0;
+    for (const part of parts) {
+      const idx = s.indexOf(part, pos);
+      if (idx < 0) return false;
+      pos = idx + part.length;
+    }
+    return true;
+  }
+
+  function splitMsgSigQuery(q) {
+    const raw = String(q || '').trim();
+    if (!raw) return { msgQ: '', sigQ: '' };
+    const i = raw.indexOf('.');
+    if (i > 0 && i < raw.length - 1) {
+      return { msgQ: raw.slice(0, i).trim(), sigQ: raw.slice(i + 1).trim() };
+    }
+    return { msgQ: '', sigQ: raw };
+  }
+
+  function buildSignalIndexFromDescribe(desc) {
+    const out = [];
+    const messages = desc?.messages || [];
+    for (const m of messages) {
+      const msg = String(m?.name || '');
+      if (!msg) continue;
+      const msgC = String(m?.comment || '').replace(/\s+/g, ' ').trim();
+      const sigs = m?.signals || [];
+      for (const s of sigs) {
+        const sig = String(s?.name || '');
+        if (!sig) continue;
+        const sigC = String(s?.comment || '').replace(/\s+/g, ' ').trim();
+        out.push({
+          msg,
+          sig,
+          msgL: msg.toLowerCase(),
+          sigL: sig.toLowerCase(),
+          msgC: msgC.toLowerCase(),
+          sigC: sigC.toLowerCase(),
+        });
+      }
+    }
+    return out;
+  }
+
+  async function getSignalIndexForSourceId(srcId) {
+    const src = sources.find(x => x.id === srcId);
+    const dbc = src?.dbc_name || '';
+    if (!dbc) return { dbc: '', index: [] };
+
+    let idx = signalIndexCache.get(dbc);
+    if (idx) return { dbc, index: idx };
+
+    const desc = dbcCache.get(dbc) || await api('/api/dbc/describe?dbc_name=' + encodeURIComponent(dbc) + '&include_comments=1');
+    dbcCache.set(dbc, desc);
+    idx = buildSignalIndexFromDescribe(desc);
+    signalIndexCache.set(dbc, idx);
+    return { dbc, index: idx };
+  }
+
+  function setupGlobalSignalSearch(cfg) {
+    const srcEl = el(cfg.srcId);
+    const msgEl = el(cfg.msgId);
+    const sigEl = el(cfg.sigId);
+    const inEl = el(cfg.inputId);
+    const resEl = el(cfg.resultsId);
+    const hintEl = el(cfg.hintId);
+    if (!srcEl || !msgEl || !sigEl || !inEl || !resEl || !hintEl) return;
+
+    const clear = () => {
+      resEl.innerHTML = '';
+      resEl.style.display = 'none';
+      hintEl.textContent = '';
+      hintEl.style.display = 'none';
+    };
+
+    let timer = null;
+    const run = async () => {
+      const qRaw = String(inEl.value || '').trim();
+      if (!qRaw) {
+        clear();
+        return;
+      }
+
+      const { msgQ, sigQ } = splitMsgSigQuery(qRaw);
+      const mq = String(msgQ || '').trim().toLowerCase();
+      const sq = String(sigQ || '').trim().toLowerCase();
+
+      const srcId = String(srcEl.value || '');
+      const { dbc, index } = await getSignalIndexForSourceId(srcId);
+      if (!dbc || !index.length) {
+        clear();
+        hintEl.textContent = 'Select a source with a DBC first.';
+        hintEl.style.display = '';
+        return;
+      }
+
+      const hits = [];
+      for (const h of index) {
+        const okMsg = mq ? (wildcardMatch(h.msgL, mq) || wildcardMatch(h.msgC, mq)) : true;
+        const okSig = sq ? (wildcardMatch(h.sigL, sq) || wildcardMatch(h.sigC, sq)) : true;
+        if (okMsg && okSig) hits.push(h);
+        if (hits.length >= 150) break;
+      }
+
+      resEl.innerHTML = '';
+      for (const h of hits) {
+        const opt = document.createElement('option');
+        opt.textContent = `${h.sig} — ${h.msg}`;
+        opt.dataset.msg = h.msg;
+        opt.dataset.sig = h.sig;
+        resEl.appendChild(opt);
+      }
+      resEl.style.display = hits.length ? '' : 'none';
+      hintEl.textContent = hits.length ? `Showing ${hits.length} matches (tip: msg.sig to narrow).` : 'No matches.';
+      hintEl.style.display = '';
+    };
+
+    inEl.addEventListener('input', () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(run, 180);
+    });
+
+    resEl.addEventListener('change', async () => {
+      const opt = resEl.selectedOptions && resEl.selectedOptions[0];
+      const msgName = opt?.dataset?.msg || '';
+      const sigName = opt?.dataset?.sig || '';
+      if (!msgName || !sigName) return;
+
+      // Ensure message list is populated for this source.
+      if (!Array.from(msgEl.options || []).some(o => o.value === msgName)) {
+        await loadDbcForSourceSelect(cfg.srcId, cfg.msgId, cfg.sigId);
+      }
+      msgEl.value = msgName;
+      await loadSignalsForMessageSelect(cfg.srcId, cfg.msgId, cfg.sigId);
+      sigEl.value = sigName;
+
+      hintEl.textContent = `Selected: ${msgName}.${sigName}`;
+      hintEl.style.display = '';
+    });
+
+    // Clear results when changing source or message (keeps UI consistent)
+    srcEl.addEventListener('change', clear);
+    msgEl.addEventListener('change', clear);
+
+    // expose clear (optional)
+    return { clear };
+  }
+
+  async function api(url, opts) {
+    const r = await fetch(url, opts || {});
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || j.message || ('HTTP ' + r.status));
+    return j;
+  }
+
+  function setMsg(id, t) { el(id).textContent = t || ''; }
+
+  function renderSignals() {
+    const tb = el('sig-tb');
+    tb.innerHTML = '';
+    const sigs = (cfg?.config?.signals || []);
+    for (let i = 0; i < sigs.length; i++) {
+      const s = sigs[i];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="text-muted">${escapeHtml(s.source_id||'')}</td>
+        <td>${escapeHtml(s.message||'')}</td>
+        <td>${escapeHtml(s.signal||'')}</td>
+        <td class="text-end"><button class="btn btn-sm btn-outline-danger" data-i="${i}">Remove</button></td>
+      `;
+      tr.querySelector('button').addEventListener('click', () => {
+        sigs.splice(i, 1);
+        cfg.config.signals = sigs;
+        renderSignals();
+      });
+      tb.appendChild(tr);
+    }
+  }
+
+  function renderAnomaly(evt, prepend=true) {
+    const box = el('anom');
+    const top = (evt.top || []).slice(0, 5).map(t => `${escapeHtml(t.key)} |z|=${Number(t.abs_z||0).toFixed(2)}`).join('<br>');
+    const line = document.createElement('div');
+    line.className = 'border-bottom border-secondary py-2';
+    line.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span class="badge text-bg-danger">anomaly</span>
+          <span class="text-muted ms-2">${escapeHtml(fmtTs(evt.ts_ms))}</span>
+          <span class="ms-2 text-warning">${escapeHtml(evt.source_id||'')}</span>
+        </div>
+        <div>
+          <span class="badge text-bg-secondary">score ${Number(evt.score||0).toFixed(2)}</span>
+          <span class="badge text-bg-secondary">thr ${Number(evt.threshold||0).toFixed(2)}</span>
+        </div>
+      </div>
+      <div class="small text-muted mt-1">${top || ''}</div>
+    `;
+    if (prepend) box.prepend(line); else box.appendChild(line);
+    while (box.childElementCount > 120) box.removeChild(box.lastElementChild);
+  }
+
+  async function loadSources() {
+    const j = await api('/api/sources');
+    sources = j.sources || [];
+
+    const fill = (id) => {
+      const sel = el(id);
+      if (!sel) return;
+      sel.innerHTML = '';
+      for (const s of sources) {
+        const o = document.createElement('option');
+        o.value = s.id;
+        o.textContent = `${s.name || s.id} (${s.type || ''})`;
+        o.dataset.dbc = s.dbc_name || '';
+        sel.appendChild(o);
+      }
+      if (!sel.value && sel.options.length) sel.value = sel.options[0].value;
+    };
+
+    fill('src');
+    fill('srcA');
+    fill('srcB');
+  }
+
+  async function loadDbcForSourceSelect(srcIdEl, msgIdEl, sigIdEl) {
+    const sel = el(srcIdEl);
+    if (!sel) return;
+    const srcId = sel.value;
+    const src = sources.find(x => x.id === srcId);
+    const dbc = src?.dbc_name || '';
+    const msgSel = el(msgIdEl);
+    const sigSel = el(sigIdEl);
+    if (msgSel) msgSel.innerHTML = '';
+    if (sigSel) sigSel.innerHTML = '';
+    if (!dbc || !msgSel) return;
+
+    let desc = dbcCache.get(dbc);
+    if (!desc) {
+      desc = await api('/api/dbc/describe?dbc_name=' + encodeURIComponent(dbc) + '&include_comments=1');
+      dbcCache.set(dbc, desc);
+    }
+    const messages = desc.messages || [];
+    for (const m of messages) {
+      const o = document.createElement('option');
+      o.value = m.name;
+      const cmt = String(m.comment || '').replace(/\s+/g, ' ').trim();
+      const short = cmt ? (cmt.length > 60 ? (cmt.slice(0, 59) + '…') : cmt) : '';
+      o.textContent = short ? `${m.name} — ${short}` : m.name;
+      if (cmt) o.title = cmt;
+      msgSel.appendChild(o);
+    }
+    if (msgSel.options.length) msgSel.value = msgSel.options[0].value;
+    await loadSignalsForMessageSelect(srcIdEl, msgIdEl, sigIdEl);
+  }
+
+  async function loadSignalsForMessageSelect(srcIdEl, msgIdEl, sigIdEl) {
+    const sel = el(srcIdEl);
+    const msgSel = el(msgIdEl);
+    const sigSel = el(sigIdEl);
+    if (!sel || !msgSel || !sigSel) return;
+    const srcId = sel.value;
+    const src = sources.find(x => x.id === srcId);
+    const dbc = src?.dbc_name || '';
+    const msg = msgSel.value;
+    sigSel.innerHTML = '';
+    if (!dbc || !msg) return;
+
+    const desc = dbcCache.get(dbc) || await api('/api/dbc/describe?dbc_name=' + encodeURIComponent(dbc) + '&include_comments=1');
+    dbcCache.set(dbc, desc);
+    const m = (desc.messages || []).find(x => x.name === msg);
+    const sigs = m?.signals || [];
+    for (const s of sigs) {
+      const o = document.createElement('option');
+      o.value = s.name;
+      const cmt = String(s.comment || '').replace(/\s+/g, ' ').trim();
+      const short = cmt ? (cmt.length > 60 ? (cmt.slice(0, 59) + '…') : cmt) : '';
+      o.textContent = short ? `${s.name} — ${short}` : s.name;
+      if (cmt) o.title = cmt;
+      o.dataset.unit = s.unit || '';
+      sigSel.appendChild(o);
+    }
+    if (sigSel.options.length) sigSel.value = sigSel.options[0].value;
+  }
+
+  function setModeUi(mode) {
+    const m = String(mode || 'vector');
+    el('panel-vector').style.display = (m === 'vector') ? '' : 'none';
+    el('panel-compare').style.display = (m === 'compare') ? '' : 'none';
+  }
+
+  async function loadConfig() {
+    cfg = await api('/api/ai/config');
+    const c = cfg.config || {};
+    const mode = c.mode || 'vector';
+    el('ai-mode').value = mode;
+    setModeUi(mode);
+    el('ai-enabled').checked = !!c.enabled;
+    el('ai-threshold').value = c.threshold ?? 6.0;
+    el('ai-sample-ms').value = c.sample_every_ms ?? 20;
+    el('ai-min-ratio').value = c.min_complete_ratio ?? 0.9;
+
+    // anomaly -> violation bridge
+    el('ai-viol-enabled').checked = !!c.violation_enabled;
+    el('ai-viol-sev').value = (c.violation_severity || 'warning');
+    el('ai-viol-debounce').value = (c.violation_debounce_s ?? 2.0);
+    el('ai-viol-rule-id').value = (c.violation_rule_id || 'ai_anomaly');
+    el('ai-viol-rule-name').value = (c.violation_rule_name || 'AI anomaly');
+
+    // Compare config
+    el('cmp-op').value = c.compare_op || 'delta';
+
+    const st = await api('/api/ai/status');
+    const trained = st.model_trained ? (`yes (${st.mode || 'vector'}) @ ` + fmtTs(st.model_trained_at_ms)) : 'no';
+    el('ai-trained').textContent = trained;
+
+    renderSignals();
+
+    // Best-effort set A/B selections
+    try {
+      const a = c.compare_a || {};
+      const b = c.compare_b || {};
+      if (a.source_id) el('srcA').value = a.source_id;
+      if (b.source_id) el('srcB').value = b.source_id;
+      await loadDbcForSourceSelect('srcA', 'msgA', 'sigA');
+      await loadDbcForSourceSelect('srcB', 'msgB', 'sigB');
+      if (a.message) el('msgA').value = a.message;
+      await loadSignalsForMessageSelect('srcA', 'msgA', 'sigA');
+      if (a.signal) el('sigA').value = a.signal;
+
+      if (b.message) el('msgB').value = b.message;
+      await loadSignalsForMessageSelect('srcB', 'msgB', 'sigB');
+      if (b.signal) el('sigB').value = b.signal;
+    } catch {}
+  }
+
+  async function saveConfig() {
+    const mode = String(el('ai-mode').value || 'vector');
+    const patch = {
+      mode,
+      enabled: !!el('ai-enabled').checked,
+      threshold: Number(el('ai-threshold').value || 6.0),
+      sample_every_ms: Number(el('ai-sample-ms').value || 20),
+      min_complete_ratio: Number(el('ai-min-ratio').value || 0.9),
+      signals: (mode === 'vector') ? (cfg?.config?.signals || []) : (cfg?.config?.signals || []),
+      compare_op: String(el('cmp-op').value || 'delta'),
+      compare_a: {
+        source_id: String(el('srcA').value || ''),
+        message: String(el('msgA').value || ''),
+        signal: String(el('sigA').value || ''),
+      },
+      compare_b: {
+        source_id: String(el('srcB').value || ''),
+        message: String(el('msgB').value || ''),
+        signal: String(el('sigB').value || ''),
+      },
+
+      // anomaly -> violation bridge
+      violation_enabled: !!el('ai-viol-enabled').checked,
+      violation_severity: String(el('ai-viol-sev').value || 'warning'),
+      violation_debounce_s: Number(el('ai-viol-debounce').value || 2.0),
+      violation_rule_id: String(el('ai-viol-rule-id').value || 'ai_anomaly'),
+      violation_rule_name: String(el('ai-viol-rule-name').value || 'AI anomaly'),
+
+      emit_ws: true,
+      log_db: true,
+    };
+    cfg = await api('/api/ai/config', { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(patch) });
+    setMsg('train-msg', 'Saved.');
+    await loadConfig();
+  }
+
+  async function trainLive() {
+    setMsg('train-msg', 'Training…');
+    const dur = Number(el('train-duration').value || 10);
+    await api('/api/ai/train_live', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ duration_s: dur, max_samples: 5000 }) });
+
+    // Poll a bit
+    const t0 = Date.now();
+    while (Date.now() - t0 < (dur * 1000 + 2000)) {
+      const st = await api('/api/ai/status');
+      const tr = st.train || {};
+      if (tr.state === 'done') break;
+      if (tr.state === 'error') { setMsg('train-msg', 'Train error: ' + (tr.error || '')); return; }
+      setMsg('train-msg', `Training… samples ${tr.samples || 0}`);
+      await new Promise(r => setTimeout(r, 800));
+    }
+    setMsg('train-msg', 'Training complete.');
+    await loadConfig();
+  }
+
+  async function loadAnomalyHistory() {
+    const j = await api('/api/ai/anomalies?limit=200&desc=true');
+    el('anom').innerHTML = '';
+    for (const it of (j.items || [])) renderAnomaly(it, false);
+  }
+
+  async function loadSessions() {
+    const j = await api('/api/sessions');
+    const sel = el('sess');
+    sel.innerHTML = '';
+    for (const s of (j.sessions || [])) {
+      const o = document.createElement('option');
+      o.value = s.base;
+      o.textContent = s.base;
+      sel.appendChild(o);
+    }
+  }
+
+  function renderSuggestions(list) {
+    suggestions = list || [];
+    const tb = el('sugg-tb');
+    tb.innerHTML = '';
+    for (let i = 0; i < suggestions.length; i++) {
+      const r = suggestions[i];
+      const reason = r._ai_reason || {};
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="checkbox" class="form-check-input" data-i="${i}" checked></td>
+        <td>
+          <div class="fw-semibold">${escapeHtml(r.name || r.id || '')}</div>
+          <div class="text-muted small">${escapeHtml((r.a?.source_id||'') + ':' + (r.a?.message||'') + '.' + (r.a?.signal||''))}</div>
+        </td>
+        <td>${escapeHtml(r.op || '')}</td>
+        <td>${escapeHtml(r.b_const ?? '')}</td>
+        <td>${escapeHtml(r.threshold ?? '')}</td>
+        <td class="text-muted">${escapeHtml(reason.count ?? '')}</td>
+      `;
+      tb.appendChild(tr);
+    }
+    const has = suggestions.length > 0;
+    el('btn-apply').disabled = !has;
+    el('btn-select-all').disabled = !has;
+    el('btn-select-none').disabled = !has;
+  }
+
+  function getSelectedSuggestions() {
+    const picks = [];
+    for (const cb of el('sugg-tb').querySelectorAll('input[type=checkbox][data-i]')) {
+      if (!cb.checked) continue;
+      const i = Number(cb.dataset.i);
+      if (!Number.isFinite(i)) continue;
+      picks.push(suggestions[i]);
+    }
+    return picks;
+  }
+
+  async function suggestRules() {
+    setMsg('sugg-msg', 'Building suggestions…');
+    const base = el('sess').value;
+    const minCount = Number(el('min-count').value || 200);
+    const marginFrac = Number(el('margin-frac').value || 0.05);
+    try {
+      const j = await api('/api/ai/suggest_rules', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ base, min_count: minCount, margin_fraction: marginFrac }) });
+      if (!j.ok) throw new Error(j.error || 'suggest failed');
+      renderSuggestions(j.suggestions || []);
+      setMsg('sugg-msg', `Decoded rows: ${j.decoded_rows || 0}. Suggestions: ${(j.suggestions||[]).length}.`);
+    } catch (e) {
+      renderSuggestions([]);
+      setMsg('sugg-msg', 'Suggest failed: ' + String(e.message || e));
+    }
+  }
+
+  async function applySuggestions() {
+    const picks = getSelectedSuggestions();
+    if (!picks.length) { setMsg('sugg-msg', 'No rules selected.'); return; }
+    setMsg('sugg-msg', 'Applying…');
+    try {
+      const j = await api('/api/ai/apply_suggestions', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ rules: picks }) });
+      setMsg('sugg-msg', `Applied ${j.applied || 0}.` + ((j.errors||[]).length ? (' Errors: ' + (j.errors||[]).slice(0,3).join(' | ')) : ''));
+    } catch (e) {
+      setMsg('sugg-msg', 'Apply failed: ' + String(e.message || e));
+    }
+  }
+
+  // Bind UI
+  el('btn-refresh').addEventListener('click', async () => {
+    await loadConfig();
+  });
+  el('btn-save').addEventListener('click', saveConfig);
+  el('btn-train').addEventListener('click', trainLive);
+  el('btn-load-anom').addEventListener('click', loadAnomalyHistory);
+
+  el('ai-mode').addEventListener('change', () => {
+    setModeUi(el('ai-mode').value);
+  });
+
+  el('src').addEventListener('change', () => loadDbcForSourceSelect('src', 'msg', 'sig'));
+  el('msg').addEventListener('change', () => loadSignalsForMessageSelect('src', 'msg', 'sig'));
+
+  el('srcA').addEventListener('change', () => loadDbcForSourceSelect('srcA', 'msgA', 'sigA'));
+  el('msgA').addEventListener('change', () => loadSignalsForMessageSelect('srcA', 'msgA', 'sigA'));
+  el('srcB').addEventListener('change', () => loadDbcForSourceSelect('srcB', 'msgB', 'sigB'));
+  el('msgB').addEventListener('change', () => loadSignalsForMessageSelect('srcB', 'msgB', 'sigB'));
+
+  // Global signal search (auto message)
+  setupGlobalSignalSearch({
+    srcId: 'src', msgId: 'msg', sigId: 'sig',
+    inputId: 'sig-global', resultsId: 'sig-global-results', hintId: 'sig-global-hint'
+  });
+  setupGlobalSignalSearch({
+    srcId: 'srcA', msgId: 'msgA', sigId: 'sigA',
+    inputId: 'sigA-global', resultsId: 'sigA-global-results', hintId: 'sigA-global-hint'
+  });
+  setupGlobalSignalSearch({
+    srcId: 'srcB', msgId: 'msgB', sigId: 'sigB',
+    inputId: 'sigB-global', resultsId: 'sigB-global-results', hintId: 'sigB-global-hint'
+  });
+
+  el('btn-add').addEventListener('click', () => {
+    const srcId = el('src').value;
+    const msg = el('msg').value;
+    const sig = el('sig').value;
+    if (!srcId || !msg || !sig) return;
+    const sigs = (cfg?.config?.signals || []);
+    const exists = sigs.some(s => s.source_id === srcId && s.message === msg && s.signal === sig);
+    if (!exists) sigs.push({ source_id: srcId, message: msg, signal: sig });
+    cfg.config.signals = sigs;
+    renderSignals();
+  });
+  el('btn-clear').addEventListener('click', () => {
+    if (!cfg?.config) return;
+    cfg.config.signals = [];
+    renderSignals();
+  });
+
+  el('btn-suggest').addEventListener('click', suggestRules);
+  el('btn-apply').addEventListener('click', applySuggestions);
+  el('btn-select-all').addEventListener('click', () => {
+    for (const cb of el('sugg-tb').querySelectorAll('input[type=checkbox]')) cb.checked = true;
+  });
+  el('btn-select-none').addEventListener('click', () => {
+    for (const cb of el('sugg-tb').querySelectorAll('input[type=checkbox]')) cb.checked = false;
+  });
+
+  // Websocket
+  try {
+    const socket = io();
+    socket.on('connect', () => { el('ws').textContent = 'WS: connected'; el('ws').className = 'badge text-bg-success'; });
+    socket.on('disconnect', () => { el('ws').textContent = 'WS: disconnected'; el('ws').className = 'badge text-bg-secondary'; });
+    socket.on('anomaly', (evt) => {
+      renderAnomaly(evt || {}, true);
+      el('last-score').textContent = 'score ' + Number(evt?.score || 0).toFixed(2);
+      el('last-score').className = 'badge text-bg-danger';
+    });
+  } catch {
+    el('ws').textContent = 'WS: error';
+    el('ws').className = 'badge text-bg-danger';
+  }
+
+  // Init
+  (async () => {
+    await loadSources();
+    await loadDbcForSourceSelect('src', 'msg', 'sig');
+    await loadDbcForSourceSelect('srcA', 'msgA', 'sigA');
+    await loadDbcForSourceSelect('srcB', 'msgB', 'sigB');
+    await loadConfig();
+    await loadSessions();
+  })().catch(e => {
+    setMsg('train-msg', String(e.message || e));
+  });
+})();
+</script>
+
+<script src="/static/js/navbar.js?v=20260207a"></script>
+
+</body>
+</html>

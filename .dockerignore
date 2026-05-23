@@ -1,0 +1,20 @@
+**/.git
+**/.venv
+**/venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.DS_Store
+**/logs
+**/*.mf4
+**/*.pcap
+**/*.pcapng
+Senza nome/
+kvaser_bus_manager/backups/
+kvaser_bus_manager/updates/
+kvaser_bus_manager/.venv/
+kvaser_bus_manager/projects/
+kvaser_bus_manager/yolov8n.pt
+kvaser_bus_manager/install/kvaser_drivers_src/
+mirror_logger/.venv/
+repro_state/*.tar.gz

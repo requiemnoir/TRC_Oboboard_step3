@@ -1,0 +1,10 @@
+ASAP2_VERSION 1 60
+/begin PROJECT TestProject "Test A2L"
+/begin MODULE TestModule ""
+  /begin MEASUREMENT TestSignal
+    "Test measurement"
+    FLOAT32_IEEE NO_COMPU_METHOD 0.0 0.0 0.0 100.0
+    ECU_ADDRESS 0x20001000
+  /end MEASUREMENT
+/end MODULE
+/end PROJECT

@@ -1,0 +1,309 @@
+/* Sentinel Specific Styles */
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+
+:root {
+    --neon-blue: #00f3ff;
+    --neon-red: #ff003c;
+    --dark-bg: #050505;
+    --glass-bg: rgba(20, 20, 20, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.sentinel-body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark-bg);
+    overflow: hidden;
+    height: 100vh;
+    font-family: 'Rajdhani', sans-serif;
+    color: #fff;
+}
+
+/* Background Image Container */
+.sentinel-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Use the generated image path here. For now, using a placeholder/variable that backend will serve */
+    background-image: url("../img/the_sentinel_background.png");
+    background-size: 100% 100%;
+    background-position: center;
+    z-index: -10;
+    /* Slight zoom animation */
+    animation: bg-breathe 20s infinite alternate ease-in-out;
+}
+
+@keyframes bg-breathe {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+/* Snow Layer */
+.snow-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+CiAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMSIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=');
+    animation: snow-fall 10s linear infinite;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+@keyframes snow-fall {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 100px 500px;
+    }
+}
+
+/* Spotlight Effect */
+.spotlight {
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    width: 200px;
+    height: 1000px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-50%) rotate(-15deg);
+    filter: blur(50px);
+    opacity: 0.3;
+    animation: searchlight 8s infinite alternate ease-in-out;
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes searchlight {
+    0% {
+        transform: translateX(-60%) rotate(-20deg);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateX(-40%) rotate(-10deg);
+        opacity: 0.4;
+    }
+}
+
+/* Main Content Overlay */
+.content-overlay {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Glitch Text Effect */
+.glitch-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: 10px;
+    color: var(--neon-blue);
+    position: relative;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px var(--neon-blue);
+    margin-bottom: 2rem;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(11px, 9999px, 81px, 0);
+        transform: skew(0.65deg);
+    }
+
+    5% {
+        clip: rect(69px, 9999px, 14px, 0);
+        transform: skew(0.53deg);
+    }
+
+    /* ... more keyframes can be added for complex glitch ... */
+    100% {
+        clip: rect(21px, 9999px, 5px, 0);
+        transform: skew(0.2deg);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(65px, 9999px, 97px, 0);
+        transform: skew(0.5deg);
+    }
+
+    5% {
+        clip: rect(3px, 9999px, 98px, 0);
+        transform: skew(0.1deg);
+    }
+
+    /* ... */
+    100% {
+        clip: rect(36px, 9999px, 3px, 0);
+        transform: skew(0.8deg);
+    }
+}
+
+/* Glass Panel Styles */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    max-width: 500px;
+    width: 90%;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Mock Radar Scan */
+.radar-scan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+    animation: scan 3s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+.status-row .label {
+    color: #aaa;
+    font-weight: 300;
+}
+
+.status-row .value {
+    color: var(--neon-blue);
+    font-weight: 700;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Utility Classes */
+.glass-effect {
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.sentinel-btn {
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 10px 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.sentinel-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-blue);
+}
+
+.sentinel-btn.warning {
+    border-color: var(--neon-red);
+    color: var(--neon-red);
+}
+
+.sentinel-btn.warning:hover {
+    background: var(--neon-red);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-red);
+}

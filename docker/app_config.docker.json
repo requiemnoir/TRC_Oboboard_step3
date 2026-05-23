@@ -1,0 +1,31 @@
+{
+  "system_mode": "simulation",
+  "formats_default": ["mf4"],
+  "logger_channels": [],
+  "log_decoded_mode": "none",
+  "mf4_include_decoded": false,
+  "mf4_chunk_size_mb": 50,
+  "mf4_flush_interval_mb": 5,
+  "storage": {
+    "output_dir": "logs"
+  },
+  "logs_retention_enabled": true,
+  "logs_retention_max_age_days": 21,
+  "logs_retention_max_total_mb": 8192,
+  "logs_retention_min_interval_s": 300,
+  "eth_settings": {
+    "interface": "lo",
+    "target_ip": "",
+    "pcap_enabled": false,
+    "doip_enabled": false,
+    "someip_enabled": false,
+    "xcp_enabled": false
+  },
+  "gateway_mirror": {
+    "enabled": false,
+    "autostart": false
+  },
+  "experimental_assistant": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,2070 @@
+{
+  "0x400B": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_TirePressMonit1UDS",
+    "source_odx": "BV_TirePressMonit1UDS_005002_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x400C": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_SteerColumElectUDS",
+    "source_odx": "BV_SteerColumElectUDS_009001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x400E": {
+    "not_inherited": {
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste",
+      "FG_AllUDSDistrSysteVW80127"
+    ],
+    "short_name": "DLC_BV_CentrElectUDS",
+    "source_odx": "BV_CentrElectUDS_004005_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4010": {
+    "not_inherited": {
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste",
+      "FG_AllUDSDistrSysteVW80127"
+    ],
+    "short_name": "DLC_BV_GatewUDS",
+    "source_odx": "BV_GatewUDS_200008_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4012": {
+    "not_inherited": {
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_RequeCurrePowerDiagnData"
+      ]
+    },
+    "parents": [
+      "FG_AllOBDSyste",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SteerAssisUDS",
+    "source_odx": "BV_SteerAssisUDS_008001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4013": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_Brake1UDS",
+    "source_odx": "BV_Brake1UDS_009005_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4014": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_DashBoardUDS",
+    "source_odx": "BV_DashBoardUDS_008001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4015": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_AirbaUDS",
+    "source_odx": "BV_AirbaUDS_011200_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x402D": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_ElectRoofContrUDS",
+    "source_odx": "BV_ElectRoofContrUDS_004001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4031": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SteerColumLockiUDS",
+    "source_odx": "BV_SteerColumLockiUDS_005102_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4042": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_RequeCurrePowerDiagnData"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllUDSDistrSysteVW80127",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_ThermManagUDS",
+    "source_odx": "BV_ThermManagUDS_002006_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4044": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllUDSDistrSysteVW80127",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_BatteChargContrModulUDS",
+    "source_odx": "BV_BatteChargContrModulUDS_003003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x404A": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_DoorElectDriveSideUDS",
+    "source_odx": "BV_DoorElectDriveSideUDS_007003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x404B": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_DoorElectPasseSideUDS",
+    "source_odx": "BV_DoorElectPasseSideUDS_007003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x404C": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SeatAdjusDriveSideUDS",
+    "source_odx": "BV_SeatAdjusDriveSideUDS_002003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x404D": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SeatAdjusPasseSideUDS",
+    "source_odx": "BV_SeatAdjusPasseSideUDS_002003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x404E": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_LaneChangAssisUDS",
+    "source_odx": "BV_LaneChangAssisUDS_001003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x404F": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_FrontSensoDriveAssisSysteUDS",
+    "source_odx": "BV_FrontSensoDriveAssisSysteUDS_005006_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4057": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_AdaptCruisContrUDS",
+    "source_odx": "BV_AdaptCruisContrUDS_005002_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4058": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_ImageProceElectUDS",
+    "source_odx": "BV_ImageProceElectUDS_003001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4064": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_ActuaForExterNoiseUDS",
+    "source_odx": "BV_ActuaForExterNoiseUDS_002001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4067": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_TelemCommuUnitUDS",
+    "source_odx": "BV_TelemCommuUnitUDS_003005_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x406F": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor",
+        "DiagnServi_DiagnSessiContrECUProgrSessi",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_ReadMemorByAddreMCD20001",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RequeUploaMCD20001",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteMemorByAddre",
+        "DiagnServi_WriteMemorByAddreMCD20001"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SoundSysteUDS",
+    "source_odx": "BV_SoundSysteUDS_011044_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4073": {
+    "not_inherited": {
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_ReadMemorByAddreMCD20001",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteMemorByAddre",
+        "DiagnServi_WriteMemorByAddreMCD20001"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSDistrSysteVW80127",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_InforContrUnit1UDS",
+    "source_odx": "BV_InforContrUnit1UDS_011070_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4076": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ECUResetSoftReset"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearDiagnInforWWHOBD",
+        "DiagnServi_ClearResetEmissRelatDiagnInfor",
+        "DiagnServi_ReadDataByIdentWWHOBD"
+      ],
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_RequeCurrePowerDiagnData"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSDistrSysteVW80127",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_EnginContrModul1UDS",
+    "source_odx": "BV_EnginContrModul1UDS_002133_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4077": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ECUResetSoftReset"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_RequeCurrePowerDiagnData"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSDistrSysteVW80127",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_TransContrModulUDS",
+    "source_odx": "BV_TransContrModulUDS_003028_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4078": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ECUResetSoftReset"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_RequeCurrePowerDiagnData"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_EnginContrModul2UDS",
+    "source_odx": "BV_EnginContrModul2UDS_003127_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x407B": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_BatteEnergContrModulUDS",
+    "source_odx": "BV_BatteEnergContrModulUDS_006010_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x407C": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_DriveMotorContrModulUDS",
+    "source_odx": "BV_DriveMotorContrModulUDS_003025_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4080": {
+    "not_inherited": {
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste",
+      "FG_AllUDSDistrSysteVW80127"
+    ],
+    "short_name": "DLC_BV_ChassContrUDS",
+    "source_odx": "BV_ChassContrUDS_001005_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4087": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SeatAdjusRearDriveSideUDS",
+    "source_odx": "BV_SeatAdjusRearDriveSideUDS_002003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4088": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_SeatAdjusRearPasseSideUDS",
+    "source_odx": "BV_SeatAdjusRearPasseSideUDS_002003_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x408A": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_ContrUnitLaneChangAssis2UDS",
+    "source_odx": "BV_ContrUnitLaneChangAssis2UDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x408B": {
+    "not_inherited": {
+      "FG_AllUDSDistrSysteVW80127": [
+        "DiagnServi_ReadDataByIdentECUIdent"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste",
+      "FG_AllUDSDistrSysteVW80127"
+    ],
+    "short_name": "DLC_BV_CentrModulComfoSysteUDS",
+    "source_odx": "BV_CentrModulComfoSysteUDS_001005_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4096": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_LightContrLeft2UDS",
+    "source_odx": "BV_LightContrLeft2UDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4097": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_LightContrRight2UDS",
+    "source_odx": "BV_LightContrRight2UDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x409D": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_FrontCorneRadar1UDS",
+    "source_odx": "BV_FrontCorneRadar1UDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x409E": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentTheftProteData"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_FrontCorneRadar2UDS",
+    "source_odx": "BV_FrontCorneRadar2UDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x40AD": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_DoorLatchModulDriveSideUDS",
+    "source_odx": "BV_DoorLatchModulDriveSideUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x40AF": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_DoorLatchModulPasseSideUDS",
+    "source_odx": "BV_DoorLatchModulPasseSideUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x40B7": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_DCDCConveContrModulHVUDS",
+    "source_odx": "BV_DCDCConveContrModulHVUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x40B8": {
+    "not_inherited": {
+      "FG_AllEmissRelatUDSSyste": [
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ],
+      "FG_AllOBDSyste": [
+        "DiagnServi_ClearResetEmissRelatDiagnInfor"
+      ],
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_RequeCurrePowerDiagnData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllEmissRelatUDSSyste",
+      "FG_AllOBDSyste",
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_DriveMotorContrModul2UDS",
+    "source_odx": "BV_DriveMotorContrModul2UDS_003024_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4437": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_BatteMonitContrModulUDS",
+    "source_odx": "BV_BatteMonitContrModulUDS_002001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4601": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_ContrUnitForWiperMotorUDS",
+    "source_odx": "BV_ContrUnitForWiperMotorUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4602": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_RainLightRecogSensoUDS",
+    "source_odx": "BV_RainLightRecogSensoUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4604": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_GaragDoorOpeneContrModulUDS",
+    "source_odx": "BV_GaragDoorOpeneContrModulUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x461B": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_FreshAirBloweFrontUDS",
+    "source_odx": "BV_FreshAirBloweFrontUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x461E": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_InterLightModulUDS",
+    "source_odx": "BV_InterLightModulUDS_001002_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4631": {
+    "not_inherited": {},
+    "parents": [],
+    "short_name": "DLC_BV_MultiFunctSteerWheelContrModulUDS",
+    "source_odx": "BV_MultiFunctSteerWheelContrModulUDS_003002_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x4649": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_ElectAdjusSteerColumUDS",
+    "source_odx": "BV_ElectAdjusSteerColumUDS_003001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  },
+  "0x465D": {
+    "not_inherited": {
+      "FG_AllUDSSyste": [
+        "DiagnServi_ClearDiagnInfor",
+        "DiagnServi_DiagnSessiContrDevelSessi",
+        "DiagnServi_DiagnSessiContrVWEndOfLineSessi",
+        "DiagnServi_ECUResetKeyOffOnReset",
+        "DiagnServi_ECUResetSoftReset",
+        "DiagnServi_InputOutpuContrByIdentActuaTestFreezCurreState",
+        "DiagnServi_InputOutpuContrByIdentActuaTestReturContrToECU",
+        "DiagnServi_InputOutpuContrByIdentActuaTestShortTermAdjus",
+        "DiagnServi_ReadDTCInforReporDTCByActivStatu",
+        "DiagnServi_ReadDTCInforReporDTCByActivTestNotComplStatu",
+        "DiagnServi_ReadDTCInforReporDTCByConfiAndPendiStatu",
+        "DiagnServi_ReadDTCInforReporDTCByStatuMask",
+        "DiagnServi_ReadDTCInforReporDTCExtenDataRecorByDTCNumbe",
+        "DiagnServi_ReadDTCInforReporEmissRelatOBDDTCByStatuMask",
+        "DiagnServi_ReadDataByIdentActuaTestStatu",
+        "DiagnServi_ReadDataByIdentBasicSettiStatu",
+        "DiagnServi_ReadDataByIdentCalibData",
+        "DiagnServi_ReadDataByIdentIdentSlaveSyste",
+        "DiagnServi_ReadDataByIdentMeasuValue",
+        "DiagnServi_ReadDataByIdentMeasuValueActuaTest",
+        "DiagnServi_ReadDataByIdentMeasuValueBasicSetti",
+        "DiagnServi_ReadDataByIdentTheftProteData",
+        "DiagnServi_ReadDataByIdentVWLogicSoftwBlockVersi",
+        "DiagnServi_ReadDataByIdentVWSlaveCodinValue",
+        "DiagnServi_ReadDataByIdentVWSlaveFAZITIdentStrin",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveHardwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSeriaNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSoftwVersiNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSparePartNumbe",
+        "DiagnServi_ReadDataByIdentVWSlaveSysteName",
+        "DiagnServi_ReadDataByIdentVariaCodin",
+        "DiagnServi_ReadMemorByAddre",
+        "DiagnServi_RequeUploa",
+        "DiagnServi_RoutiContrRequeRoutiResulBasicSetti",
+        "DiagnServi_RoutiContrRequeRoutiResulDataSet",
+        "DiagnServi_RoutiContrStartBasicSetti",
+        "DiagnServi_RoutiContrStartRoutiDataSet",
+        "DiagnServi_RoutiContrStopBasicSetti",
+        "DiagnServi_SecurAccesRequeSeedLogin",
+        "DiagnServi_SecurAccesRequeSeedSysteSpeci",
+        "DiagnServi_SecurAccesSendKeyLogin",
+        "DiagnServi_SecurAccesSendKeySysteSpeci",
+        "DiagnServi_WriteDataByIdentCalibData",
+        "DiagnServi_WriteDataByIdentGenerServi",
+        "DiagnServi_WriteDataByIdentTheftProteData",
+        "DiagnServi_WriteDataByIdentVWSlaveCodinValue",
+        "DiagnServi_WriteDataByIdentVariaCodin",
+        "DiagnServi_WriteDataByIdentVariaCodinTextu",
+        "DiagnServi_WriteMemorByAddre",
+        "SinglJob_ChangDiagnSessi",
+        "SinglJob_DataSet",
+        "SinglJob_PostDataSet",
+        "SinglJob_PreDataSet",
+        "SinglJob_ReadAllDTCFreezFrame",
+        "SinglJob_ReadAllDTCFreezFrameFilte",
+        "SinglJob_ReadAllStandDTCFreezFrame",
+        "SinglJob_ReadAllStandDTCFreezFrameFilte",
+        "SinglJob_ReadDTCJob",
+        "SinglJob_ReadDTCJobFilte",
+        "SinglJob_ReadSubsyIdent",
+        "SinglJob_StandECUCodinRead",
+        "SinglJob_StandECUCodinWrite",
+        "SinglJob_SubsyCodinRead",
+        "SinglJob_SubsyCodinWrite"
+      ]
+    },
+    "parents": [
+      "FG_AllUDSSyste"
+    ],
+    "short_name": "DLC_BV_AirCondiComprSubUDS",
+    "source_odx": "BV_AirCondiComprSubUDS_001001_d.odx",
+    "variants": [
+      {
+        "group_hex": "FFFFFF",
+        "label": "UDS Clear All (FFFFFF, fallback)",
+        "session": 3,
+        "sid": 20
+      },
+      {
+        "group_hex": "FFFF33",
+        "label": "WWH-OBD Clear Emissions (FFFF33, fallback)",
+        "session": 3,
+        "sid": 20
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+[Unit]
+Description=Kvaser Bus Manager (standalone)
+After=network-online.target
+Wants=network-online.target
+# Disable systemd start rate-limiting so Restart=always keeps retrying
+StartLimitIntervalSec=0
+StartLimitBurst=0
+
+[Service]
+Type=simple
+User={{USER}}
+WorkingDirectory={{WORKDIR}}
+# Ensure pre-start IPv6 fix doesn't block forever; script is short but give some room.
+TimeoutStartSec=60
+ExecStartPre=+/usr/bin/env bash {{WORKDIR}}/install/ensure_eth0_ipv6_ll.sh eth0
+ExecStart={{WORKDIR}}/install/run_kvaser_bus_manager.sh
+Restart=always
+RestartSec=2
+
+# Allow raw packet capture (scapy sniff) as non-root.
+AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
+CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
+
+# Standalone / in-vehicle mode
+Environment=PYTHONUNBUFFERED=1
+Environment=KBSM_AUTOSTART=1
+Environment=KBSM_RESTORE_ARMED=1
+Environment=COPILOT_PROVIDER=ollama
+Environment=COPILOT_BASE_URL=http://172.30.96.143:11434
+Environment=COPILOT_MODEL=lb634-diag:latest
+
+# If you need camera index etc, add them here:
+# Environment=CAMERA_INDEX=0
+
+[Install]
+WantedBy=multi-user.target

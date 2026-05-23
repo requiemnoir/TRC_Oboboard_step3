@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV-Q Onboard Manager — Copilot</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+{% include '_navbar.html' %}
+
+<div class="container-fluid mt-4" style="max-width: 1400px;">
+  <div class="row g-3">
+
+    <div class="col-lg-4">
+      <div class="card border-secondary mb-3">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>Status</span>
+          <button id="btn-refresh" class="btn btn-sm btn-outline-secondary" type="button">Refresh</button>
+        </div>
+        <div class="card-body">
+          <div id="status-box" class="small text-muted">Loading…</div>
+          <hr class="border-secondary" />
+          <div class="small text-muted mb-2">Suggerimenti rapidi</div>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Spiegami in 5 passi come creare una regola con condizioni AND/OR usando /comparison.">Regole AND/OR</button>
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Perché non vedo violazioni? Dammi una checklist di debug.">Debug violazioni</button>
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Come uso MF4 Replay per testare regole senza il veicolo?">MF4 Replay</button>
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Come configuro l'interfaccia CAN (Kvaser) e verifico che i canali siano visibili?">Setup CAN</button>
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Dove carico un DBC e come lo associo a una sorgente?">Caricare DBC</button>
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Come abilito DoIP e faccio discovery del gateway in /doip?">Abilitare DoIP</button>
+            <button class="btn btn-sm btn-outline-warning quick" data-q="Riassumi lo stato attuale: sorgenti, regole abilitate, violazioni 24h e AI.">Riassunto stato</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>Snapshot</span>
+          <button id="btn-snapshot" class="btn btn-sm btn-outline-secondary" type="button">Load</button>
+        </div>
+        <div class="card-body p-2">
+          <pre id="snapshot-pre" class="m-0 p-2" style="max-height: 420px; overflow:auto; background:#0b0f14; border: 1px solid #2b3036; border-radius: 6px;">(not loaded)</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card border-secondary">
+        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
+          <span>Copilot Chat</span>
+          <div class="small text-muted">Read-only assistant</div>
+        </div>
+        <div class="card-body">
+          <div id="chat" style="height: 520px; overflow:auto; background:#0b0f14; border: 1px solid #2b3036; border-radius: 8px; padding: 12px;"></div>
+
+          <div class="input-group mt-3">
+            <input id="msg" type="text" class="form-control" placeholder="Chiedi qualcosa (es: 'come creo una regola che scatta solo in marcia D?')" />
+            <button id="btn-send" class="btn btn-warning text-dark" type="button">Send</button>
+          </div>
+          <div class="d-flex justify-content-between mt-2">
+            <div class="small text-muted" id="chat-hint">Tip: usa i pulsanti 'Suggerimenti rapidi'.</div>
+            <button id="btn-clear" class="btn btn-sm btn-outline-secondary" type="button">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function escapeHtml(s) {
+    return (s || '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  }
+
+  function tryExtractDraftActions(text) {
+    const t = String(text || '');
+    const mConfirm = t.match(/\bconferma\s+(draft_[0-9a-f]{10})\b/i);
+    const mCancel = t.match(/\bannulla\s+(draft_[0-9a-f]{10})\b/i);
+    const draftId = (mConfirm && mConfirm[1]) || (mCancel && mCancel[1]) || null;
+    if (!draftId) return null;
+    return {
+      draftId,
+      confirmCmd: `conferma ${draftId}`,
+      cancelCmd: `annulla ${draftId}`,
+    };
+  }
+
+  function addMsg(role, text, opts) {
+    const chat = document.getElementById('chat');
+    const wrap = document.createElement('div');
+    wrap.className = 'mb-2';
+
+    const badge = role === 'user'
+      ? '<span class="badge text-bg-warning text-dark">You</span>'
+      : '<span class="badge text-bg-secondary">Copilot</span>';
+
+    const header = document.createElement('div');
+    header.innerHTML = `${badge} <span class="small text-muted">${new Date().toLocaleTimeString()}</span>`;
+
+    const body = document.createElement('div');
+    body.className = 'mt-1';
+    body.style.whiteSpace = 'pre-wrap';
+    body.innerHTML = escapeHtml(text);
+
+    wrap.appendChild(header);
+    wrap.appendChild(body);
+
+    const actions = (opts && Array.isArray(opts.actions)) ? opts.actions : [];
+    if (actions.length) {
+      const row = document.createElement('div');
+      row.className = 'mt-2 d-flex gap-2 flex-wrap';
+      for (const a of actions) {
+        if (!a || !a.label || !a.cmd) continue;
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = a.kind === 'danger' ? 'btn btn-sm btn-outline-danger' : 'btn btn-sm btn-outline-warning';
+        b.textContent = String(a.label);
+        b.addEventListener('click', () => sendMsg(String(a.cmd)));
+        row.appendChild(b);
+      }
+      wrap.appendChild(row);
+    }
+
+    chat.appendChild(wrap);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  async function refreshStatus() {
+    const box = document.getElementById('status-box');
+    box.textContent = 'Loading…';
+    try {
+      const r = await fetch('/api/copilot/status');
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || 'status failed');
+      const st = j.status || {};
+      const ok = !!st.ok;
+      box.innerHTML = `Provider: <span class="text-warning">${escapeHtml(st.provider || '')}</span><br/>` +
+        `Base URL: <span class="text-muted">${escapeHtml(st.base_url || '')}</span><br/>` +
+        `Model: <span class="text-warning">${escapeHtml(st.model || '')}</span><br/>` +
+        `Reachable: ${ok ? '<span class="text-success">YES</span>' : '<span class="text-danger">NO</span>'}<br/>` +
+        `Latency: <span class="text-muted">${escapeHtml(String(st.latency_ms || 0))} ms</span>` +
+        (st.version ? `<br/>Version: <span class="text-muted">${escapeHtml(String(st.version))}</span>` : '') +
+        (!ok && st.error ? `<br/>Error: <span class="text-danger">${escapeHtml(String(st.error))}</span>` : '');
+    } catch (e) {
+      box.innerHTML = `<span class="text-danger">Status error:</span> ${escapeHtml(String(e))}`;
+    }
+  }
+
+  async function loadSnapshot() {
+    const pre = document.getElementById('snapshot-pre');
+    pre.textContent = 'Loading…';
+    try {
+      const r = await fetch('/api/copilot/snapshot');
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || 'snapshot failed');
+      pre.textContent = JSON.stringify(j.snapshot || {}, null, 2);
+    } catch (e) {
+      pre.textContent = 'Snapshot error: ' + String(e);
+    }
+  }
+
+  async function sendMsg(q) {
+    const msg = (q !== undefined) ? String(q) : String(document.getElementById('msg').value || '');
+    const text = msg.trim();
+    if (!text) return;
+
+    document.getElementById('msg').value = '';
+    addMsg('user', text);
+
+    try {
+      const r = await fetch('/api/copilot/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const j = await r.json();
+      if (!j.ok) {
+        addMsg('assistant', `ERRORE: ${j.error || 'request failed'}${j.provider ? ` (provider=${j.provider})` : ''}`);
+        return;
+      }
+      const content = j.content || '(empty)';
+      const da = tryExtractDraftActions(content);
+      const actions = [];
+      if (da && da.draftId) {
+        actions.push({ label: 'Conferma bozza', cmd: da.confirmCmd, kind: 'primary' });
+        actions.push({ label: 'Annulla', cmd: da.cancelCmd, kind: 'danger' });
+      }
+      addMsg('assistant', content, actions.length ? { actions } : undefined);
+    } catch (e) {
+      addMsg('assistant', 'ERRORE: ' + String(e));
+    }
+  }
+
+  document.getElementById('btn-refresh').addEventListener('click', refreshStatus);
+  document.getElementById('btn-snapshot').addEventListener('click', loadSnapshot);
+  document.getElementById('btn-send').addEventListener('click', () => sendMsg());
+  document.getElementById('btn-clear').addEventListener('click', () => { document.getElementById('chat').innerHTML = ''; });
+  document.getElementById('msg').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMsg();
+  });
+
+  document.querySelectorAll('button.quick').forEach(btn => {
+    btn.addEventListener('click', () => sendMsg(btn.getAttribute('data-q') || ''));
+  });
+
+  // auto-load status
+  refreshStatus();
+</script>
+
+<script src="/static/js/navbar.js?v=20260207a"></script>
+
+</body>
+</html>
