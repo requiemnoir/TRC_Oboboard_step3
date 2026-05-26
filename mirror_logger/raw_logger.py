@@ -298,34 +298,73 @@ class RawLogger:
 
     def _worker(self) -> None:
         BATCH = 1024
+        consecutive_errors = 0
+        MAX_CONSECUTIVE_ERRORS = 50   # ~50s di problemi sequenziali → abort
+
         while True:
             try:
-                first = self._queue.get(timeout=1.0)
-            except Empty:
-                if self._stop_event.is_set():
+                try:
+                    first = self._queue.get(timeout=1.0)
+                except Empty:
+                    if self._stop_event.is_set():
+                        break
+                    self._maybe_intermediate_flush(force=False)
+                    self._maybe_flush_chunk(force=False)
+                    consecutive_errors = 0
+                    continue
+
+                if first is None:
                     break
+
+                self._append(first)
+                for _ in range(BATCH - 1):
+                    try:
+                        nxt = self._queue.get_nowait()
+                    except Empty:
+                        break
+                    if nxt is None:
+                        self._stop_event.set()
+                        break
+                    self._append(nxt)
+
                 self._maybe_intermediate_flush(force=False)
                 self._maybe_flush_chunk(force=False)
-                continue
+                # Hot-path OK → reset error counter
+                consecutive_errors = 0
 
-            if first is None:
-                break
-
-            self._append(first)
-            for _ in range(BATCH - 1):
+            except Exception as e:
+                # Auto-recovery: invece di morire silenziosamente, contiamo
+                # gli errori. Cause possibili: asammdf sollevato OSError per
+                # disco pieno, IOError per filesystem read-only, MemoryError
+                # in caso di queue troppo grande, ecc. Il worker continua
+                # e proverà di nuovo al prossimo ciclo. Se gli errori
+                # persistono per >50 cicli (~50s a queue piena) abortiamo
+                # per evitare loop infinito sintomatico.
+                with self._stats_lock:
+                    self.flush_errors += 1
+                consecutive_errors += 1
+                print(
+                    f'[RawLogger] worker err #{consecutive_errors}/{MAX_CONSECUTIVE_ERRORS}: {e}',
+                    flush=True,
+                )
+                if consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
+                    print(
+                        f'[RawLogger] worker abort dopo {MAX_CONSECUTIVE_ERRORS} '
+                        f'errori consecutivi — sessione corrotta, stop forzato',
+                        flush=True,
+                    )
+                    break
+                # Pausa breve prima di ritentare per non spammare i log
                 try:
-                    nxt = self._queue.get_nowait()
-                except Empty:
-                    break
-                if nxt is None:
-                    self._stop_event.set()
-                    break
-                self._append(nxt)
+                    self._stop_event.wait(0.2)
+                except Exception:
+                    pass
 
-            self._maybe_intermediate_flush(force=False)
-            self._maybe_flush_chunk(force=False)
-
-        self._maybe_flush_chunk(force=True)
+        # Tentativo finale di flush (best-effort)
+        try:
+            self._maybe_flush_chunk(force=True)
+        except Exception as e:
+            print(f'[RawLogger] flush finale err: {e}', flush=True)
 
     def _append(self, f: RawFrame) -> None:
         with self._io_lock:

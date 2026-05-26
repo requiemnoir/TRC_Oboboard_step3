@@ -1797,6 +1797,10 @@ _suppress_until_clear = {
 
 # When user presses Stop, do not allow trigger auto-start again
 # until the user explicitly re-arms that trigger.
+# Protetto da _manual_stop_latch_lock perché Python dict get/check/set su
+# accessi multipli da thread diversi (CAN/Ethernet/YOLO/Custom handlers)
+# non è atomico: il GIL protegge le singole operazioni ma il pattern
+# "if dict.get(k) and not condition: dict[k] = False" no.
 _manual_stop_latch = {
     'yolo': False,
     'motion': False,
@@ -1805,6 +1809,28 @@ _manual_stop_latch = {
     'eth': False,
     'kl15': False,
 }
+_manual_stop_latch_lock = threading.RLock()
+
+
+def _manual_stop_get(kind: str) -> bool:
+    """Atomic read del latch."""
+    with _manual_stop_latch_lock:
+        return bool(_manual_stop_latch.get(kind, False))
+
+
+def _manual_stop_set(kind: str, value: bool) -> None:
+    """Atomic write del latch."""
+    with _manual_stop_latch_lock:
+        _manual_stop_latch[kind] = bool(value)
+
+
+def _manual_stop_consume(kind: str) -> bool:
+    """Atomic: ritorna lo stato e resetta a False se True (one-shot)."""
+    with _manual_stop_latch_lock:
+        cur = bool(_manual_stop_latch.get(kind, False))
+        if cur:
+            _manual_stop_latch[kind] = False
+        return cur
 
 # Track YOLO presence edge at the app level (CameraManager emits present state periodically).
 _yolo_prev_present_app = False
@@ -3162,6 +3188,107 @@ except Exception as _e:
     print(f'[mirror_udp_listener] init err: {_e}', flush=True)
 
 
+@app.get('/api/health/aggregate')
+def api_health_aggregate():
+    """Health unificato KBM + mirror_logger via cross-process HTTP.
+
+    Endpoint pubblico (no auth) pensato per probe Kubernetes/Docker/Grafana:
+    aggrega in una singola response lo stato di entrambi i processi.
+
+    Risposta:
+      {
+        "ok": bool,                          # AND di tutti i servizi
+        "kbm": {
+          "logging_active": bool,
+          "disk_low": bool,
+          "mirror_listener_enabled": bool,
+          "mirror_listener_running": bool,
+          "mirror_listener_pkts": int,
+          "mirror_listener_frames": int,
+        },
+        "mirror_logger": {
+          "reachable": bool,
+          "session_active": bool,
+          "doip_active": bool,
+          "disk_low": bool,
+        },
+        "time_ms": int
+      }
+    """
+    import urllib.error as _urlerr
+    import urllib.request as _urlreq
+
+    out = {
+        'ok': True,
+        'kbm': {},
+        'mirror_logger': {},
+        'time_ms': int(time.time() * 1000),
+    }
+
+    # --- KBM local state ---
+    try:
+        log_dir = getattr(shared_logger, 'log_dir', None) or LOG_FOLDER
+        disk_free_mb = 0.0
+        try:
+            import shutil as _sh
+            disk_free_mb = _sh.disk_usage(log_dir).free / 1_048_576.0
+        except Exception:
+            pass
+        out['kbm'] = {
+            'logging_active': bool(getattr(shared_logger, 'active', False)),
+            'disk_free_mb': round(disk_free_mb, 1),
+            'disk_low': disk_free_mb > 0 and disk_free_mb < 256.0,
+            'mirror_listener_enabled': _mirror_udp_listener is not None,
+            'mirror_listener_running': False,
+            'mirror_listener_pkts': 0,
+            'mirror_listener_frames': 0,
+        }
+        if _mirror_udp_listener is not None:
+            try:
+                s = _mirror_udp_listener.stats()
+                out['kbm']['mirror_listener_running'] = bool(s.get('running'))
+                out['kbm']['mirror_listener_pkts']    = int(s.get('pkts_received', 0))
+                out['kbm']['mirror_listener_frames']  = int(s.get('frames_emitted', 0))
+            except Exception:
+                pass
+        if out['kbm']['disk_low']:
+            out['ok'] = False
+    except Exception as e:
+        out['kbm']['error'] = str(e)
+        out['ok'] = False
+
+    # --- Mirror logger remote state (cross-process HTTP) ---
+    ml_url_base = os.environ.get('MIRROR_LOGGER_BASE_URL', 'http://127.0.0.1:5050').rstrip('/')
+    try:
+        with _urlreq.urlopen(f'{ml_url_base}/api/health', timeout=2.0) as r:
+            data = json.loads(r.read().decode('utf-8'))
+            disk = data.get('disk', {}) if isinstance(data.get('disk'), dict) else {}
+            out['mirror_logger'] = {
+                'reachable':       True,
+                'logging_active':  bool(data.get('logging_active', False)),
+                'disk_low':        bool(disk.get('low', False)),
+                'disk_free_mb':    disk.get('free_mb'),
+            }
+        try:
+            with _urlreq.urlopen(f'{ml_url_base}/api/lock/status', timeout=2.0) as r:
+                lock = json.loads(r.read().decode('utf-8'))
+                out['mirror_logger']['session_active'] = bool(lock.get('session_active'))
+                out['mirror_logger']['doip_active']    = bool(lock.get('doip_active'))
+        except Exception:
+            pass
+        if not out['mirror_logger'].get('reachable'):
+            out['ok'] = False
+        if out['mirror_logger'].get('disk_low'):
+            out['ok'] = False
+    except (_urlerr.URLError, OSError, ValueError, TimeoutError) as e:
+        out['mirror_logger'] = {'reachable': False, 'error': str(e)[:120]}
+        # Reachability del mirror_logger NON è critica (può essere down
+        # mentre il KBM continua a funzionare con canlib). Non flagghiamo
+        # ok=False; il consumer decide.
+
+    return jsonify(out)
+
+
 @app.get('/api/bus/mirror_listener_stats')
 def api_mirror_listener_stats():
     """Statistiche del MirrorUDPListener (bridge live mirror_logger → KBM UI).
@@ -3227,6 +3354,139 @@ try:
     data_source_manager.ensure_default_can_sources()
 except Exception:
     pass
+
+
+# ── Database auto-loader all'avvio (DBC + ARXML + FIBEX) ────────────────
+# Scansiona le tre directory standard e mappa per CONVENZIONE NOME → channel_id:
+#   DBC:
+#     *_CCAN_*.dbc, *_KL_*.dbc       → channel 101 (CAN-1, propulsion)
+#     *_HCAN_*.dbc, *_Komfort*.dbc   → channel 102 (CAN-2, comfort)
+#     *_DiagCAN_*.dbc, *_Diag*.dbc   → channel 103 (CAN-3, diag)
+#     altri (es. Iron Bird, Raw)     → channel 99 (fallback)
+#   ARXML:
+#     caricato globalmente via manager.load_arxml_catalog(). Il catalogo
+#     fa già da fallback per CAN/FlexRay/LIN che non match-ano DBC/FIBEX.
+#   FIBEX (FlexRay):
+#     caricato globalmente via manager.load_fibex(path). Il FibexLoader
+#     gestisce internamente lo slot-ID → signal mapping.
+#
+# Tutti i file vengono filtrati: skip se size < 1 KB (probabile LFS pointer
+# non risolto, contiene solo metadati ~134 byte).
+# Disabilitabile con KBSM_DBC_AUTOLOAD=0 per evitare conflitti se preferisci
+# caricare manualmente via UI / data_source_manager.
+_LFS_POINTER_MAX_BYTES = 1024   # file < 1 KB = quasi sicuramente pointer LFS
+
+_dbc_autoload = str(os.environ.get('KBSM_DBC_AUTOLOAD', '1')).strip().lower() not in {'0', 'false', 'no', 'off'}
+if _dbc_autoload:
+    # --- DBC autoload ---
+    try:
+        _autoload_mappings = []
+        _autoload_summary = {}
+        _autoload_skipped_lfs = []
+        for _fname in sorted(os.listdir(UPLOAD_FOLDER_DBC)):
+            if not _fname.lower().endswith('.dbc'):
+                continue
+            _fpath = os.path.join(UPLOAD_FOLDER_DBC, _fname)
+            if not os.path.isfile(_fpath):
+                continue
+            if os.path.getsize(_fpath) < _LFS_POINTER_MAX_BYTES:
+                _autoload_skipped_lfs.append(_fname)
+                continue
+            _ln = _fname.lower()
+            if any(tok in _ln for tok in ('_ccan', '_kl_', '_propulsion', '_motor')):
+                _ch = 101
+            elif any(tok in _ln for tok in ('_hcan', '_komfort', '_comfort', '_body')):
+                _ch = 102
+            elif any(tok in _ln for tok in ('_diagcan', '_diag', '_obd')):
+                _ch = 103
+            elif any(tok in _ln for tok in ('_ironbird', '_iron')):
+                _ch = 99
+            else:
+                _ch = 99
+            _autoload_mappings.append({'id': _ch, 'dbc': _fpath})
+            _autoload_summary.setdefault(_ch, []).append(_fname)
+        if _autoload_mappings:
+            try:
+                manager.preload_dbcs(_autoload_mappings)
+                print(
+                    '[DBC autoload] caricati: ' +
+                    ' | '.join(f'ch{ch}({len(files)}): {files[0]}{"…" if len(files)>1 else ""}'
+                               for ch, files in sorted(_autoload_summary.items())),
+                    flush=True,
+                )
+            except Exception as _e:
+                print(f'[DBC autoload] preload_dbcs err: {_e}', flush=True)
+        else:
+            print(f'[DBC autoload] nessun .dbc valido in {UPLOAD_FOLDER_DBC}', flush=True)
+        if _autoload_skipped_lfs:
+            print(f'[DBC autoload] skip LFS pointer non risolti: {", ".join(_autoload_skipped_lfs)}', flush=True)
+    except Exception as _e:
+        print(f'[DBC autoload] err: {_e}', flush=True)
+
+    # --- ARXML autoload ---
+    try:
+        _arxml_files = []
+        _arxml_skipped_lfs = []
+        if os.path.isdir(UPLOAD_FOLDER_ARXML):
+            for _fname in sorted(os.listdir(UPLOAD_FOLDER_ARXML)):
+                if not _fname.lower().endswith('.arxml'):
+                    continue
+                _fpath = os.path.join(UPLOAD_FOLDER_ARXML, _fname)
+                if not os.path.isfile(_fpath):
+                    continue
+                if os.path.getsize(_fpath) < _LFS_POINTER_MAX_BYTES:
+                    _arxml_skipped_lfs.append(_fname)
+                    continue
+                _arxml_files.append(_fname)
+        if _arxml_files:
+            try:
+                from arxml_parser import load_catalog_from_directory
+                _cat = load_catalog_from_directory(UPLOAD_FOLDER_ARXML)
+                _n = manager.load_arxml_catalog(_cat)
+                print(
+                    f'[ARXML autoload] caricati {len(_arxml_files)} file '
+                    f'({_n} frame indicizzati): {", ".join(_arxml_files)}',
+                    flush=True,
+                )
+            except Exception as _e:
+                print(f'[ARXML autoload] err: {_e}', flush=True)
+        else:
+            print(f'[ARXML autoload] nessun .arxml valido in {UPLOAD_FOLDER_ARXML}', flush=True)
+        if _arxml_skipped_lfs:
+            print(f'[ARXML autoload] skip LFS pointer non risolti: {", ".join(_arxml_skipped_lfs)}', flush=True)
+    except Exception as _e:
+        print(f'[ARXML autoload] err: {_e}', flush=True)
+
+    # --- FIBEX autoload ---
+    try:
+        _fibex_loaded = []
+        _fibex_skipped_lfs = []
+        if os.path.isdir(UPLOAD_FOLDER_FIBEX):
+            for _fname in sorted(os.listdir(UPLOAD_FOLDER_FIBEX)):
+                # FIBEX è XML; accetta .xml e .arxml (alcuni esportatori usano .arxml)
+                if not _fname.lower().endswith(('.xml', '.arxml')):
+                    continue
+                _fpath = os.path.join(UPLOAD_FOLDER_FIBEX, _fname)
+                if not os.path.isfile(_fpath):
+                    continue
+                if os.path.getsize(_fpath) < _LFS_POINTER_MAX_BYTES:
+                    _fibex_skipped_lfs.append(_fname)
+                    continue
+                try:
+                    manager.load_fibex(_fpath)
+                    _fibex_loaded.append(_fname)
+                except Exception as _e:
+                    print(f'[FIBEX autoload] load {_fname} err: {_e}', flush=True)
+        if _fibex_loaded:
+            print(f'[FIBEX autoload] caricati {len(_fibex_loaded)} file: {", ".join(_fibex_loaded)}', flush=True)
+        else:
+            print(f'[FIBEX autoload] nessun .xml/.arxml valido in {UPLOAD_FOLDER_FIBEX}', flush=True)
+        if _fibex_skipped_lfs:
+            print(f'[FIBEX autoload] skip LFS pointer non risolti: {", ".join(_fibex_skipped_lfs)}', flush=True)
+    except Exception as _e:
+        print(f'[FIBEX autoload] err: {_e}', flush=True)
+else:
+    print('[DB autoload] DISABILITATO (KBSM_DBC_AUTOLOAD=0)', flush=True)
 violation_logger = ViolationLogger(base_dir=_monitor_dir, enable_csv=True)
 comparison_engine = ComparisonEngine(config_store, violation_logger, socketio=socketio)
 

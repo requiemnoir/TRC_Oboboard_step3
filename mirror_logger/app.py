@@ -66,6 +66,7 @@ _AUTH_TOKEN = os.environ.get('MIRROR_LOGGER_TOKEN', '').strip()
 _PUBLIC_API_ROUTES = frozenset({
     '/api/health',
     '/api/lock/status',   # cross-process: consultato da KBM Sentinel/ScanTools
+    '/metrics',           # Prometheus exposition format (convention: no auth)
 })
 
 
@@ -585,6 +586,32 @@ def index():
 @app.get('/api/health')
 def api_health():
     return jsonify(_health_payload(force_refresh=True))
+
+
+@app.get('/metrics')
+def api_metrics_prometheus():
+    """Prometheus text exposition format.
+
+    Endpoint pubblico (convention Prometheus: niente auth, niente token).
+    Espone metriche logger, capture, DoIP, disk, retention. Per uso con
+    Prometheus/Grafana Agent/Datadog OpenMetrics.
+    """
+    from metrics import render_prometheus
+    from reliability import disk_snapshot, is_disk_low
+    try:
+        log_dir = _log_dir()
+        snap = disk_snapshot(log_dir)
+        snap['low'] = is_disk_low(log_dir, min_free_mb=float(_cfg('min_free_disk_mb', 256) or 256))
+    except Exception:
+        snap = {}
+    body = render_prometheus(
+        logger=_logger,
+        capture=_capture,
+        activator=_activator,
+        watchdog=_watchdog,
+        disk_snap=snap,
+    )
+    return app.response_class(body, mimetype='text/plain; version=0.0.4; charset=utf-8')
 
 
 @app.get('/api/lock/status')

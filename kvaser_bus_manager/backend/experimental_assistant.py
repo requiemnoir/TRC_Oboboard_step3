@@ -1232,7 +1232,24 @@ class ExperimentalAssistantService:
         self._eth_listener_installed = False
 
         # Need at least 30s retention for the required -15s/+15s excerpt.
-        self.trace = TraceRingBuffer(keep_ms=45000)
+        # Configurabile via env (SENTINEL_TRACE_KEEP_MS) o config_store
+        # key 'sentinel_trace_keep_ms'. Default 45000 (45s, copre la
+        # finestra -15s/+15s con margine). Aumenta per cattura più ampia
+        # pre/post incident, riduci per minor consumo RAM.
+        _keep_ms = 45000
+        try:
+            cfg_keep = (config_store.get_config_only() or {}).get('sentinel_trace_keep_ms')
+            if cfg_keep is not None:
+                _keep_ms = max(1000, int(cfg_keep))
+        except Exception:
+            pass
+        try:
+            env_keep = os.getenv('SENTINEL_TRACE_KEEP_MS', '').strip()
+            if env_keep:
+                _keep_ms = max(1000, int(env_keep))
+        except Exception:
+            pass
+        self.trace = TraceRingBuffer(keep_ms=_keep_ms)
         self._trace_listener_installed = False
 
         # Cross-process bridge col mirror_logger (modulo dedicato Bus Mirror).

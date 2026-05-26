@@ -861,6 +861,75 @@ Includi sempre:
 
 ---
 
+## 22. UI Live Traffic — throttle 1 Hz + dedupe per ID
+
+Quando il KBM `MirrorUDPListener` riceve traffico ad alto rate (>10k fps),
+il browser **non riesce a renderizzare** tutti i frame in tempo reale: il
+DOM viene saturato e la UI appare vuota anche se backend e logger
+funzionano (drop=0).
+
+**Soluzione applicata**: il `BusManager` ha un meccanismo di **dedupe per
+`(channel, arb_id, type)`** che riduce il flusso verso socket.io a
+~1 batch/sec contenente l'**ultimo valore per ogni ID univoco**.
+
+### Configurazione raccomandata in produzione
+
+Nel `kvbm.service` (systemd unit):
+
+```ini
+[Service]
+Environment=KBSM_UI_BUS_EMIT_INTERVAL_S=1.0       # emit ogni 1 s
+Environment=KBSM_UI_BUS_DEDUPE_LATEST=1            # dedupe per (ch,id,type)
+Environment=KBSM_UI_BUS_EMIT_BATCH_MAX=200000      # niente flush prematuro
+Environment=KBSM_UI_BUS_QUEUE_MAX=200000           # buffer ampio
+Environment=KBSM_UI_PRIORITY_ALL_FLEXRAY=0         # FR seguono il throttle
+```
+
+Effetto:
+- A 36 k fps con 1.130 ID univoci → la UI riceve ~1.130 frame/s in 1 batch
+- Ogni ID compare 1 volta al secondo nella UI Live Traffic con il valore
+  più recente del periodo
+- **Il log MF4 resta al 100%** (la dedupe agisce solo sull'emit socket.io)
+
+### Frontend — `trimLogTable`
+
+Default aggiornato da `50` a **`2000`** righe. Override personalizzato dal
+browser:
+
+```js
+localStorage.setItem('kbsm_log_limit', '5000');
+location.reload();
+```
+
+A 2000 righe la tabella copre ~2 secondi di traffico completo (tutti gli
+ID univoci CAN+FR+LIN visibili), evitando che i FR (più rari) vengano
+espulsi sotto la marea dei CAN.
+
+### Verifica
+
+```bash
+curl -fsS http://localhost:5000/api/bus/stream_stats | jq '.config'
+# atteso:
+# {
+#   "emit_interval_s": 1.0,
+#   "dedupe_latest": true,
+#   "batch_max": 200000,
+#   "queue_max": 200000,
+#   "priority_all_flexray": false,
+#   ...
+# }
+```
+
+### Certificazione fedeltà del payload
+
+**TRC trasporta il `net_type` letto dal payload AUTOSAR senza
+trasformazioni.** Verificato empiricamente: forzando `net_type=0x04`
+nel sender, il log MF4 riporta `bus_type=3` (FlexRay) al 100%. In vettura,
+il `net_type` emesso dal gateway determina univocamente la classificazione
+mostrata nella UI.
+
+---
+
 ## 21. Live-data bridge: il KBM mostra i frame del mirror_logger nella UI
 
 **Cosa**: lo stesso flusso del bus mirror catturato dal `mirror_logger` su
