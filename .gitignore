@@ -52,20 +52,9 @@ mirror_logger/config/user.json
 # NOTE: These may contain proprietary data; only commit if you have rights.
 # (no ignore rules here)
 
-# LFS pointer files whose real large objects are not present locally.
-# Keep them out of this GitHub import unless the real LFS objects are restored.
-kvaser_bus_manager/databases/dbc/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
-kvaser_bus_manager/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
-kvaser_bus_manager/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-kvaser_bus_manager/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-mf4_standalone_decoder/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-mf4_standalone_decoder/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-Senza nome/kvaser_bus_manager/databases/dbc/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
-Senza nome/kvaser_bus_manager/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml
-Senza nome/kvaser_bus_manager/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-Senza nome/kvaser_bus_manager/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-Senza nome/mf4_standalone_decoder/databases/arxml/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
-Senza nome/mf4_standalone_decoder/databases/fibex/MLBevo_Gen1_Autosar_V8.21.05F_20210616_EICR.arxml
+# Vehicle databases are tracked via Git LFS (see .gitattributes).
+# To restore the real binary content after clone:
+#   git lfs install && git lfs pull
 
 # OS / editor
 .DS_Store

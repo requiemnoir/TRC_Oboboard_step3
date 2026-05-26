@@ -1,4 +1,6 @@
 kvaser_bus_manager/databases/dbc/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml filter=lfs diff=lfs merge=lfs -text
 kvaser_bus_manager/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml filter=lfs diff=lfs merge=lfs -text
+mf4_standalone_decoder/databases/dbc/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml filter=lfs diff=lfs merge=lfs -text
+mf4_standalone_decoder/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.24.00F_20220602_SEn.xml filter=lfs diff=lfs merge=lfs -text
 *.arxml filter=lfs diff=lfs merge=lfs -text
 *.mf4 filter=lfs diff=lfs merge=lfs -text
