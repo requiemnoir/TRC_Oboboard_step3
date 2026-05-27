@@ -1,0 +1,48 @@
+[Unit]
+Description=TRC Onboard SLAVE — dedicated AUTOSAR mirror capture daemon
+Documentation=https://github.com/requiemnoir/TRC_Oboboard_step3
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=boss
+Group=boss
+WorkingDirectory=__REPO_DIR__
+EnvironmentFile=-/etc/default/trc-slave
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=__REPO_DIR__
+Environment=TRC_SLAVE_BIND=0.0.0.0
+Environment=TRC_SLAVE_API_PORT=8001
+Environment=TRC_SLAVE_LOG_DIR=/var/log/trc-slave
+Environment=TRC_SLAVE_MF4_DIR=/var/lib/trc-slave/mf4
+Environment=TRC_SLAVE_TOKEN_FILE=/etc/trc-node-token
+Environment=TRC_SLAVE_AUTOSTART=1
+ExecStartPre=/usr/bin/install -d -o boss -g boss -m 0755 /var/log/trc-slave /var/lib/trc-slave/mf4
+ExecStart=__REPO_DIR__/.venv/bin/python -m slave_node.daemon
+Restart=on-failure
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# Pin to cores 2,3 → mirror_logger gets isolated CPU (assumes isolcpus=2,3 in cmdline.txt)
+CPUAffinity=2 3
+Nice=-5
+IOSchedulingClass=best-effort
+IOSchedulingPriority=2
+
+# resource limits
+LimitMEMLOCK=64M
+LimitNOFILE=65536
+
+# hardening (safe for capture-only role)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

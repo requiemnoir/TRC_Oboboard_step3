@@ -927,6 +927,23 @@ app.config['SECRET_KEY'] = 'kvaser_secret!'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 
+# --- master_node: integrate slave-node panel + client when running as MASTER ---
+# Activate by setting TRC_NODE_ROLE=master in the systemd unit (default off so the
+# original standalone Pi 5 setup keeps working unchanged).
+if (os.getenv('TRC_NODE_ROLE', '').strip().lower() == 'master'):
+    try:
+        # Ensure repo root is on sys.path so the master_node and node_protocol
+        # packages (one level up from kvaser_bus_manager/) resolve cleanly.
+        _repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+        if _repo_root not in sys.path:
+            sys.path.insert(0, _repo_root)
+        from master_node import bp_slave_panel  # noqa: E402
+        app.register_blueprint(bp_slave_panel, url_prefix='/slave-node')
+        print('[master_node] slave panel mounted at /slave-node/', flush=True)
+    except Exception as _slave_imp_exc:  # pragma: no cover - logged once at boot
+        print(f'[master_node] WARN: panel not mounted: {_slave_imp_exc!r}', flush=True)
+
+
 @app.after_request
 def _no_cache_static_assets(response):
     try:
