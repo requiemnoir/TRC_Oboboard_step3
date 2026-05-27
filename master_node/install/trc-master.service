@@ -1,0 +1,36 @@
+[Unit]
+Description=TRC Onboard MASTER — UI/Sentinel/Voice/Copilot + slave panel
+Documentation=https://github.com/requiemnoir/TRC_Oboboard_step3
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__RUN_USER__
+Group=__RUN_USER__
+WorkingDirectory=__REPO_DIR__/kvaser_bus_manager
+EnvironmentFile=-/etc/default/trc-master
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=__REPO_DIR__:__REPO_DIR__/kvaser_bus_manager:__REPO_DIR__/kvaser_bus_manager/backend
+Environment=KBSM_HOST=0.0.0.0
+Environment=KBSM_PORT=5000
+Environment=KBSM_TLS=0
+Environment=TRC_NODE_ROLE=master
+Environment=TRC_SLAVE_IP=192.168.50.20
+Environment=TRC_SLAVE_API_PORT=8001
+Environment=TRC_SLAVE_TOKEN_FILE=/etc/trc-node-token
+Environment=TRC_LOG_LEVEL=INFO
+Environment=TRC_UI_LOGIN_ENABLED=0
+ExecStart=__REPO_DIR__/.venv/bin/python backend/app.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# meno aggressivo del slave perché il master coordina tutto
+Nice=0
+LimitNOFILE=65536
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

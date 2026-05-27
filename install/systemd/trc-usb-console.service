@@ -1,0 +1,25 @@
+[Unit]
+Description=TRC Onboard — USB serial console (gadget mode)
+DefaultDependencies=no
+After=local-fs.target sysinit.target
+Before=basic.target
+ConditionKernelCommandLine=modules-load=dwc2
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Load dwc2 + g_serial modules (already requested via /boot/firmware/cmdline.txt
+# and /boot/firmware/config.txt — this service only flips the UART end of it)
+ExecStart=/bin/sh -c 'modprobe dwc2 2>/dev/null; modprobe g_serial 2>/dev/null; true'
+# Spawn a login on the gadget tty (no autostart of console-tty1)
+ExecStart=/sbin/agetty --autologin boss --noclear -8 -L 115200 ttyGS0 vt220
+Restart=on-failure
+RestartSec=3
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/ttyGS0
+TTYReset=yes
+TTYVHangup=yes
+
+[Install]
+WantedBy=multi-user.target

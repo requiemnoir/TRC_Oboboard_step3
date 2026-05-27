@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TRC Master • Slave Node Panel</title>
+  <link rel="stylesheet" href="{{ url_for('slave_panel.static', filename='css/slave_panel.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="title">
+      <h1>🛰️ TRC <span class="role">MASTER</span> · slave-node panel</h1>
+      <div class="subtitle">Pi 5 capture node @ <code>{{ slave_ip }}:{{ slave_port }}</code></div>
+    </div>
+    <div class="meta">
+      <span id="slave-led" class="led off">slave offline</span>
+      <a class="btn-link" href="/" title="back to master UI">← master UI</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid">
+      <div class="card">
+        <h2>Health</h2>
+        <div class="row big"><span>capture</span>
+          <span id="capture-state" class="badge idle">—</span></div>
+        <div class="row"><span>hostname</span><span id="slave-host">—</span></div>
+        <div class="row"><span>uptime</span><span id="slave-uptime">—</span></div>
+        <div class="row"><span>git</span><span id="slave-git">—</span></div>
+        <div class="actions">
+          <button id="btn-start" class="btn primary">START capture</button>
+          <button id="btn-stop" class="btn danger">STOP</button>
+          <button id="btn-snapshot" class="btn">SNAPSHOT</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Throughput</h2>
+        <div class="row big"><span>fps 1s</span><span id="fps-1s">0</span></div>
+        <div class="row"><span>fps 60s avg</span><span id="fps-60s">0</span></div>
+        <div class="row"><span>UDP pkt/s</span><span id="udp-pps">0</span></div>
+        <div class="row"><span>UDP totale</span><span id="udp-total">0</span></div>
+        <div class="row"><span>UDP bytes</span><span id="udp-bytes">0</span></div>
+      </div>
+
+      <div class="card">
+        <h2>Storage</h2>
+        <div class="row big"><span>frame count</span><span id="frame-count">0</span></div>
+        <div class="row"><span>dropped</span><span id="dropped">0</span></div>
+        <div class="row"><span>queue depth</span><span id="queue">0</span></div>
+        <div class="row"><span>parts MF4</span><span id="parts">0</span></div>
+        <div class="row"><span>bytes scritti</span><span id="bytes">0</span></div>
+        <div class="row"><span>free disk</span><span id="disk-free">0 MB</span></div>
+      </div>
+
+      <div class="card error-card hidden" id="error-card">
+        <h2>Last error</h2>
+        <div class="row"><span id="last-error-ts">—</span></div>
+        <pre id="last-error" class="error-msg"></pre>
+      </div>
+    </section>
+
+    <section class="logs-section">
+      <div class="logs-header">
+        <h2>Live log (proxied dal slave)</h2>
+        <div class="log-controls">
+          <label>filter:
+            <select id="log-level">
+              <option value="">all</option>
+              <option value="INFO">INFO</option>
+              <option value="WARN">WARN</option>
+              <option value="ERROR">ERROR</option>
+              <option value="DEBUG">DEBUG</option>
+            </select>
+          </label>
+          <button id="btn-refresh-logs" class="btn small">refresh</button>
+          <button id="btn-pause-logs" class="btn small">⏸ pause</button>
+        </div>
+      </div>
+      <ol id="log-stream" class="log-stream"></ol>
+    </section>
+
+    <section class="cmd-section">
+      <h2>Comandi remoti sul slave</h2>
+      <div class="cmd-form">
+        <input id="cmd-input" type="text" autocomplete="off"
+               placeholder="es. uname -a | uptime | df -h /var/lib/trc-slave/mf4 | ss -uln | journalctl -u trc-slave -n 30">
+        <button id="cmd-run" class="btn primary">RUN sul slave</button>
+      </div>
+      <details>
+        <summary>quick actions</summary>
+        <div class="quick-btns">
+          <button class="btn small quick" data-cmd="uname -a">uname</button>
+          <button class="btn small quick" data-cmd="uptime">uptime</button>
+          <button class="btn small quick" data-cmd="df -h /var/lib/trc-slave/mf4">df mf4</button>
+          <button class="btn small quick" data-cmd="ss -uln | grep 30490">ss :30490</button>
+          <button class="btn small quick" data-cmd="systemctl status trc-slave --no-pager -n 20">svc</button>
+          <button class="btn small quick" data-cmd="journalctl -u trc-slave -n 50 --no-pager">svc log</button>
+          <button class="btn small quick" data-cmd="ls -la /var/lib/trc-slave/mf4 | head -10">ls mf4</button>
+          <button class="btn small quick" data-cmd="free -m">free</button>
+          <button class="btn small quick" data-cmd="ip -br a">ip</button>
+        </div>
+      </details>
+      <pre id="cmd-output" class="cmd-output hidden"></pre>
+    </section>
+
+    <section class="mf4-section">
+      <div class="mf4-header">
+        <h2>MF4 sul slave (scarica via master)</h2>
+        <button id="btn-refresh-mf4" class="btn small">refresh</button>
+      </div>
+      <ul id="mf4-list" class="mf4-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    TRC master_node · slave panel · <span id="last-update">—</span>
+  </footer>
+
+  <script src="{{ url_for('slave_panel.static', filename='js/slave_panel.js') }}"></script>
+</body>
+</html>
