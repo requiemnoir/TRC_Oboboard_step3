@@ -1,100 +1,92 @@
-# TRC_Onboarda_Setinel_V1
+# TRC Onboard — Slave Node (capture only)
 
-Sistema onboard per Raspberry Pi dedicato a:
-- acquisizione bus automotive (CAN/FlexRay/Ethernet),
-- logging (CSV/TXT/JSON + MF4),
-- Web UI (Logger / ScanTools / MF4 Viewer / Impostazioni) con branding **EV-Q Onboard Manager**,
-- ScanTools VAG (CAN + DoIP) con report HTML + export CSV/XML.
+> **Branch `slave`** — sottoinsieme dedicato alla cattura AUTOSAR Bus Mirror.
+> Per il nodo controller (UI + AI + Sentinel) vedi il **branch `master`**.
 
-Include anche **The Sentinel** (ex “Experimental”): monitor live spie/incidenti con export **TRACE & CTX** (ZIP con MF4 + report scan).
+Questo Raspberry Pi 5 è dedicato **esclusivamente** a:
 
-## Installazione (Raspberry nuovo)
+1. Attivare il mirror DoIP sul gateway veicolo (DID 0xF1A0)
+2. Ricevere su UDP :30490 lo stream AUTOSAR Bus Mirror
+3. Scrivere MF4 raw su NVMe locale con guarantee 0% drop
+4. Esporre stato + comandi remoti via HTTP/Socket.IO sul `/api/*` del daemon
+5. (opzionale) Console USB-C di emergenza per debug se l'Ethernet è giù
 
-### 1. Bootstrap base
+Niente UI Flask completa, niente Copilot LLM, niente camera, niente Whisper —
+quelle vivono sul **master Pi**, che si collega a questo nodo via LAN privata.
+
+---
+
+## Bring-up rapido (Pi 5 4 GB)
+
 ```bash
-sudo apt-get update
-sudo apt-get install -y git git-lfs
-
-git clone https://github.com/requiemnoir/TRC_Oboboard_step3.git
+sudo apt install -y git git-lfs
+git clone -b slave https://github.com/requiemnoir/TRC_Oboboard_step3.git
 cd TRC_Oboboard_step3
-git lfs install
-git lfs pull                  # scarica ARXML/FIBEX/XML proprietari (~293 MB)
+git lfs install && git lfs pull
+
+# installer one-shot: token, netplan, venv, systemd unit, start daemon
+sudo bash slave_node/install/install_slave.sh
 ```
 
-### 2. Installa l'applicazione TRC + driver Kvaser
+Output atteso:
+- `/etc/trc-node-token` — bearer token statico (copialo sul master)
+- `eth0` configurato statico **192.168.50.20/24**
+- `trc-slave.service` enabled + started
+- UI locale: `http://192.168.50.20:8001/`
+
+## (Opzionale) Console USB-C di emergenza
+
 ```bash
-./install.sh                  # delega a kvaser_bus_manager/install/install.sh
-```
-Configura: venv Python + dipendenze + driver Kvaser kernel + systemd service.
-
-### 3. (Opzionale) Voce e LLM locale
-```bash
-# Piper TTS (italiano) + Whisper.cpp (STT)
-sudo bash kvaser_bus_manager/install/install_voice.sh
-
-# Ollama + Gemma per copilot LLM (richiede Internet)
-sudo bash kvaser_bus_manager/install/setup_ollama_pi5.sh
+sudo bash install/enable_usb_serial_gadget.sh && sudo reboot
 ```
 
-### 4. Verifica finale
-```bash
-bash kvaser_bus_manager/install/verify_system.sh
-```
-Stampa stato di service, backend, autostart display, kiosk, mirror UDP, Kvaser kernel modules, Piper/Whisper, Ollama+Gemma, DBC/ARXML/FIBEX caricati, log directory.
+Dopo il reboot, collegando un cavo USB-C al laptop:
+- **macOS:** `screen /dev/cu.usbmodem* 115200`
+- **Linux:** `minicom -D /dev/ttyACM0 -b 115200`
 
-### Endpoint utente
-- **UI principale:** `http://<raspberry-ip>:5000`
-- **Display kiosk:** `http://<raspberry-ip>:5000/display` (auto-launch su monitor connesso)
-- **Timeline Viewer:** `http://<raspberry-ip>:5000/timeline`
-- **Metrics Prometheus:** `http://<raspberry-ip>:5000/metrics`
-- **Health aggregate:** `http://<raspberry-ip>:5000/api/health/aggregate`
+Login: `boss` / password sistema.
 
-## Cosa serve avere dopo `git lfs pull`
+## Endpoint slave
 
-Per un sistema completamente funzionante (DBC decoding + FlexRay AUTOSAR):
+| Path | Cosa serve |
+|------|-----------|
+| `http://<slave-ip>:8001/` | UI status locale (debug) |
+| `http://<slave-ip>:8001/api/health` | health JSON |
+| `http://<slave-ip>:8001/api/capture/status` | live stats |
+| `http://<slave-ip>:8001/api/capture/{start,stop,snapshot}` | capture control |
+| `http://<slave-ip>:8001/api/logs?lines=N` | log ring buffer |
+| `http://<slave-ip>:8001/api/cmd/exec` | comando in allow-list (debug) |
+| `http://<slave-ip>:8001/api/mf4/list` | MF4 sul disco locale |
+| `http://<slave-ip>:8001/api/mf4/<file>` | download MF4 |
+| `http://<slave-ip>:8001/metrics` | Prometheus-format |
+| ws `/slave` namespace | push log/frame/snapshot events |
 
-| Categoria | Path | Provenienza |
-|-----------|------|-------------|
-| DBC CCAN/HCAN/DiagCAN | `kvaser_bus_manager/databases/dbc/` | nel repo, ~12 MB |
-| FIBEX FlexRay XML | `kvaser_bus_manager/databases/fibex/` | LFS, ~70 MB |
-| ARXML AUTOSAR | `kvaser_bus_manager/databases/arxml/` | LFS, ~222 MB |
-| App config con gateway_mirror | `kvaser_bus_manager/config/app_config.example.json` | nel repo, da copiare a `app_config.json` |
-| Driver Kvaser linuxcan | `install/kvaser_drivers_src/` | nel repo, source build |
-| Modelli voce (Piper IT + Whisper) | `/opt/piper/`, `/opt/whisper.cpp/` | install_voice.sh li scarica |
-| Modello LLM (Gemma) | `/opt/ollama/models/` | setup_ollama_pi5.sh li scarica |
+Tutte le chiamate richiedono `Authorization: Bearer <token-da-etc-trc-node-token>`
+quando il token file esiste.
 
-## Configurazione gateway DoIP mirror
+---
 
-Per attivare il mirror della gateway veicolo (DID 0xF1A0), modifica
-`kvaser_bus_manager/config/app_config.json` sezione `gateway_mirror`:
+## Setup completo (master + slave)
 
-```json
-{
-  "gateway_mirror": {
-    "enabled": true,
-    "autostart": true,
-    "dest_ip": "192.168.200.1",
-    "dest_port": 30490,
-    "gateway_ip": "fe80::200:ff:fe00:0%eth0",
-    "target_addr": "0x4010",
-    "tester_logical_address": "0x0E00",
-    "target_bus": "ethernet",
-    "can": [],
-    "flexray": ["A"],
-    "lin": []
-  }
-}
-```
+Vedi [`SETUP_DUAL_NODE.md`](SETUP_DUAL_NODE.md) per:
 
-⚠️ **Importante**: lascia `"can": []` (vuoto) e abilita SOLO le reti effettivamente
-popolate sul gateway target. Mettere `can:[1,2,3,4,5,6]` su un gateway che ne ha
-meno fa fallire la DID write e il mirror non parte.
+- Topologia hardware (Pi 5 16 GB master + Pi 5 4 GB slave + switch TP-Link)
+- Procedura bring-up step-by-step
+- Tabella protocollo wire (REST + SocketIO)
+- Failure modes e recovery
+- Comandi quotidiani
+- Test eseguiti in dual-VM
 
-## Reproducibility
+## Branch GitHub
 
-See [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) for pinned dependencies, included runtime assets (DBC/FIBEX/config/model), and how to create an optional full snapshot archive.
-## Documentazione
+- **`main`** — codice base mono-nodo legacy
+- **`master`** — Pi master con UI/Sentinel/Voice/Copilot + pannello /slave-node/
+- **`slave`** — **questo branch**, Pi slave dedicato capture
 
-- Install: [docs/INSTALL.md](docs/INSTALL.md)
-- Manuale: [docs/MANUAL.md](docs/MANUAL.md)
-- Dettagli applicazione: [kvaser_bus_manager/README.md](kvaser_bus_manager/README.md)
+## Test eseguiti
+
+- ✅ Smoke test locale Mac (`SlaveClient` ↔ `slave_daemon` su 127.0.0.1)
+- ✅ Dual-VM Lima Ubuntu 24.04 ARM64: master VM esegue comandi reali
+  sul slave VM via `host.lima.internal:18001` (hostname risposta confermata)
+- ✅ Unit tests `mirror_logger` (4/4) — parser AUTOSAR/CAN-FD/FlexRay/LIN
+- ⚠️ Validazione finale in vettura su Pi 5 reale (DoIP gateway Lambo)
