@@ -35,6 +35,10 @@ mirror_logger/config/.token
 mirror_logger/config/user.json
 *.pcap
 *.pcapng
+# Sample reference traces (small fixtures for replay tests)
+!logs/sample/runtime/*.pcap
+!logs/sample/runtime/*.pcapng
+!logs/sample/runtime/*.bin
 
 # MF4 / measurement files
 *.mf4

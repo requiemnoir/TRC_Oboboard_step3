@@ -1,0 +1,24 @@
+{
+  "duration_s": 60,
+  "senders": 4,
+  "pps_each": 200,
+  "sent_pkts_total": 45954,
+  "sent_bytes_total": 10615374,
+  "recv_pkts_total": 45954,
+  "recv_bytes_total": 10615374,
+  "parsed_frames_total": 597402,
+  "expected_frames_total": 597402,
+  "pkt_loss_pct": 0.0,
+  "frame_loss_pct": 0.0,
+  "frame_types_count": {
+    "CAN": 367632,
+    "CAN-FD": 45954,
+    "FlexRay": 91908,
+    "LIN": 91908
+  },
+  "raw_file": "/home/boss/Documents/lambo-trc-onboard-ehra/logs/mirror_capture/mirror_raw_20260525T092833.bin",
+  "jsonl_file": "/home/boss/Documents/lambo-trc-onboard-ehra/logs/mirror_capture/mirror_frames_20260525T092833.jsonl",
+  "raw_file_size": 11166836,
+  "jsonl_file_size": 103329925,
+  "started_at": "20260525T092833"
+}
