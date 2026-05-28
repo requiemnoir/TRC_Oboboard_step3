@@ -196,6 +196,13 @@ def _start_capture(state: CaptureState, socketio: SocketIO, cfg: Dict[str, Any])
         state.dropped_count = 0
         state.parts = 0
         state.bytes_written = 0
+        # Reset UDP counters at start too — otherwise lifetime totals across
+        # multiple capture restarts confuse the master's delta logic.
+        state.udp_packets_rx = 0
+        state.udp_packets_rx_per_s = 0.0
+        state.udp_bytes_rx = 0
+        state._last_rx_count = 0
+        state._last_rx_ts = time.time()
 
         def on_frame(f: "RawFrame") -> None:
             try:
