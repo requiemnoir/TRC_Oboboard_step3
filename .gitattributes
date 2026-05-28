@@ -11,3 +11,5 @@ kvaser_bus_manager/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.21.01F_2021
 mf4_standalone_decoder/databases/fibex/MLBevo_Gen2_Fx_Cluster_KMatrix_V8.21.01F_20210129_SEn.xml filter=lfs diff=lfs merge=lfs -text
 logs/sample/**/*.db filter=lfs diff=lfs merge=lfs -text
 logs/sample/**/*.zip filter=lfs diff=lfs merge=lfs -text
+logs/sample/**/*.pcap filter=lfs diff=lfs merge=lfs -text
+logs/sample/**/*.bin filter=lfs diff=lfs merge=lfs -text
