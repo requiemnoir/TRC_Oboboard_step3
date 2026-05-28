@@ -1,0 +1,30 @@
+{
+  "base": "session_20260525_105819",
+  "events": [
+    {
+      "details": {
+        "ffmpeg_available": true,
+        "last_error": "no camera frames available",
+        "output": "/home/boss/Documents/lambo-trc-onboard-ehra/logs/session_20260525_105819.mp4",
+        "output_path": "/home/boss/Documents/lambo-trc-onboard-ehra/logs/session_20260525_105819.mp4",
+        "recording": false
+      },
+      "name": "video_recording_failed",
+      "ts_ms": 1779699501177
+    },
+    {
+      "details": {
+        "kind": "mf4_part",
+        "name": "session_20260525_105819_part0000.mf4",
+        "part_index": 0,
+        "path": "/home/boss/Documents/lambo-trc-onboard-ehra/logs/session_20260525_105819_part0000.mf4",
+        "session_base": "session_20260525_105819",
+        "size_bytes": 2397840,
+        "timestamp_ms": 1779699507409
+      },
+      "name": "recording_file_saved",
+      "ts_ms": 1779699507409
+    }
+  ],
+  "video_stop_epoch_ms": 1779699506202
+}

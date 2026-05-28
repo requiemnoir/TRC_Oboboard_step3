@@ -23,9 +23,12 @@ venv/
 Rasp_pi4_kvaser_tmp/
 
 # Logs / captures / generated outputs
-logs/
+logs/*
 */logs/
 *.log
+# Sample reference traces (small, committed for demo/test fixtures)
+!logs/sample/
+!logs/sample/**
 # API token locale (generato da install.sh)
 mirror_logger/config/.token
 # Config utente locale (generata al primo run / via UI)
@@ -36,6 +39,8 @@ mirror_logger/config/user.json
 # MF4 / measurement files
 *.mf4
 *.mf4.merge_error.txt
+# Sample reference MF4 traces are TRACKED (small fixtures for tests)
+!logs/sample/*.mf4
 *.mf5
 *.mf5.merge_error.txt
 
