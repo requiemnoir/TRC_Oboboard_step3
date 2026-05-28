@@ -1,0 +1,11 @@
+{
+  "_comment": "Template — copia in /etc/trc_heartbeat/config.json e personalizza.",
+  "_comment2": "Lo script /usr/local/bin/trc_heartbeat_sender.py legge questo file all'avvio (e ad ogni SIGHUP).",
+
+  "trc_server_url": "http://172.30.96.143:8787",
+  "node_name": "TRC_Urus",
+  "auth_token": "trc-heartbeat-2026",
+  "heartbeat_interval_s": 30,
+  "vpn_gateway": "172.30.96.143",
+  "ping_interval_s": 30
+}

@@ -1,0 +1,29 @@
+# WireGuard VPN template — copia in /etc/wireguard/wg-vehicle.conf e
+# personalizza chiavi/peer. Poi attiva con:
+#   sudo systemctl enable --now wg-quick@wg-vehicle
+#
+# IMPORTANTE: in produzione il sistema usa la LAN privata vettura (172.30.96.0/24)
+# direttamente, SENZA VPN client. Questa è una alternativa opzionale per
+# accesso remoto al TRC server quando la Pi non è collegata fisicamente alla
+# rete vettura (es. da casa, da officina).
+#
+# Genera le chiavi:
+#   wg genkey | tee privatekey | wg pubkey > publickey
+
+[Interface]
+Address = 10.10.10.20/24
+PrivateKey = <REPLACE_WITH_PI_PRIVATE_KEY>
+DNS = 8.8.8.8
+ListenPort = 51820
+# Optional: route only TRC server through tunnel; vehicle LAN stays direct
+# Table = off
+# PostUp = ip route add 172.30.96.0/24 dev wg-vehicle
+# PostDown = ip route del 172.30.96.0/24 dev wg-vehicle
+
+[Peer]
+# TRC server / hub
+PublicKey = <REPLACE_WITH_SERVER_PUBLIC_KEY>
+PresharedKey = <REPLACE_WITH_PSK_OR_REMOVE>
+Endpoint = vpn.your-trc-server.example:51820
+AllowedIPs = 10.10.10.0/24, 172.30.96.0/24
+PersistentKeepalive = 25

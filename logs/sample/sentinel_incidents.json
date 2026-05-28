@@ -1,0 +1,103 @@
+[
+  {
+    "incident_id": "mil_19e5e864bcc",
+    "mil_on_ts_ms": 1779702320076,
+    "kind": "mil",
+    "scan_action": "",
+    "scan_report_filename": "",
+    "trace_mf4_filename": "incident_mil_on_20260525_114520_trace.mf4",
+    "trace_raw_mf4_filename": "incident_mil_on_20260525_114520_trace.mf4",
+    "mirror_snapshot": {},
+    "bundle_filename": "incident_mil_on_20260525_114520_trace_ctx.zip",
+    "incident_report_filename": "incident_mil_on_20260525_114520.html",
+    "final_report_filename": "sentinel_final_report_mil_19e5e864bcc_20260525_114520.html",
+    "primary": null,
+    "dtc_count": 0,
+    "lamps": {
+      "epc": {
+        "message": "Motor_18 + Motor_12 (+2 more) (frame FRAME_33_3_4_B, cycle 3/4, slot 33)",
+        "signal": "MO_EPCL",
+        "value_last_in_window": 0.0
+      },
+      "gearbox": {
+        "message": "Getriebe_11 + Getriebe_12 (+2 more) (frame FRAME_29_1_4, cycle 1/4, slot 29)",
+        "signal": "WBA_GE_Warnung_02",
+        "value_last_in_window": 0.0
+      }
+    },
+    "sentinel": {
+      "enabled": false,
+      "analyses_count": 0,
+      "analyses": [],
+      "meta": {}
+    }
+  },
+  {
+    "incident_id": "epc_19e634ac96a",
+    "kind": "epc",
+    "lamp_on_ts_ms": 1779782306154,
+    "channel": 201,
+    "scan_action": "vag_doip_scan_report",
+    "scan_report_filename": "vag_doip_scan_report_20260525_115056.html",
+    "trace_mf4_filename": "incident_epc_on_20260526_095826_trace.mf4",
+    "trace_raw_mf4_filename": "incident_epc_on_20260526_095826_trace.mf4",
+    "mirror_snapshot": {},
+    "bundle_filename": "incident_epc_on_20260526_095826_trace_ctx.zip",
+    "incident_report_filename": "incident_epc_on_20260526_095826.html",
+    "final_report_filename": "sentinel_final_report_epc_19e634ac96a_20260526_095826.html",
+    "primary": null,
+    "dtc_count": 0,
+    "lamps": {
+      "epc": {
+        "message": "Motor_18 + Motor_12 (+2 more) (frame FRAME_33_3_4_B, cycle 3/4, slot 33)",
+        "signal": "MO_EPCL",
+        "value_last_in_window": null
+      },
+      "gearbox": {
+        "message": "Getriebe_11 + Getriebe_12 (+2 more) (frame FRAME_29_1_4, cycle 1/4, slot 29)",
+        "signal": "WBA_GE_Warnung_02",
+        "value_last_in_window": 0.0
+      }
+    },
+    "sentinel": {
+      "enabled": false,
+      "analyses_count": 0,
+      "analyses": [],
+      "meta": {}
+    }
+  },
+  {
+    "incident_id": "epc_19e63b16943",
+    "kind": "epc",
+    "lamp_on_ts_ms": 1779789031747,
+    "channel": 201,
+    "scan_action": "vag_doip_scan_report",
+    "scan_report_filename": "vag_doip_scan_report_20260526_100308.html",
+    "trace_mf4_filename": "incident_epc_on_20260526_115031_trace.mf4",
+    "trace_raw_mf4_filename": "incident_epc_on_20260526_115031_trace.mf4",
+    "mirror_snapshot": {},
+    "bundle_filename": "incident_epc_on_20260526_115031_trace_ctx.zip",
+    "incident_report_filename": "incident_epc_on_20260526_115031.html",
+    "final_report_filename": "sentinel_final_report_epc_19e63b16943_20260526_115031.html",
+    "primary": null,
+    "dtc_count": 0,
+    "lamps": {
+      "epc": {
+        "message": "Motor_18 + Motor_12 (+2 more) (frame FRAME_33_3_4_B, cycle 3/4, slot 33)",
+        "signal": "MO_EPCL",
+        "value_last_in_window": null
+      },
+      "gearbox": {
+        "message": "Getriebe_11 + Getriebe_12 (+2 more) (frame FRAME_29_1_4, cycle 1/4, slot 29)",
+        "signal": "WBA_GE_Warnung_02",
+        "value_last_in_window": 0.0
+      }
+    },
+    "sentinel": {
+      "enabled": false,
+      "analyses_count": 0,
+      "analyses": [],
+      "meta": {}
+    }
+  }
+]
